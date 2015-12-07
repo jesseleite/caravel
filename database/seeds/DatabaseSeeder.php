@@ -16,6 +16,9 @@ class DatabaseSeeder extends Seeder
 
         // $this->call(UserTableSeeder::class);
 
+        // Temporary Seeds?
+            factory(App\Product::class, 24)->create();
+
         Model::reguard();
     }
 }

@@ -150,6 +150,9 @@ return [
          */
         Barryvdh\Debugbar\ServiceProvider::class,
 
+        // ??
+        ThisVessel\Caravel\CaravelServiceProvider::class,
+
     ],
 
     /*
