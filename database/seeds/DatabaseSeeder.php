@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
 
         // Temporary Seeds?
             factory(App\Product::class, 24)->create();
+            factory(App\Models\Newsletter::class, 5)->create();
 
         Model::reguard();
     }

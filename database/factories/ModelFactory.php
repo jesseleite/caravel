@@ -28,3 +28,10 @@ $factory->define(App\Product::class, function (Faker\Generator $faker) {
         'another_test_string' => null,
     ];
 });
+
+$factory->define(App\Models\Newsletter::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->sentence,
+        'pdf' => 'seed.pdf',
+    ];
+});

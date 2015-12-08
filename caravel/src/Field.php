@@ -4,17 +4,21 @@ namespace ThisVessel\Caravel;
 
 class Field
 {
-    protected $table;
-    protected $field;
+    public $name;
     public $label;
-    protected $options;
+    public $type;
+    public $required;
+    protected $userOptions;
+    protected $databaseType;
 
-    public function __construct($table, $field, $options = null)
+    public function __construct($name, $type, $options = null)
     {
-        $this->table = $table;
-        $this->field = $field;
-        $this->label = ucfirst($field);
-        $this->setOptions($options);
+        $this->name = $name;
+        $this->label = ucfirst($name);
+        $this->databaseType = $type;
+        $this->userOptions = $this->parseOptions($options);
+        $this->setType($type);
+        $this->setRequired();
     }
 
     public function parseOptions($options)
@@ -55,23 +59,28 @@ class Field
         return $options;
     }
 
-    public function setOptions($options)
+    public function setType($type)
     {
-        $this->options = $this->parseOptions($options);
+        if (isset($this->userOptions['type'])) {
+            $this->type = $this->userOptions['type'];
+        } elseif (str_contains($type, 'text')) {
+            $this->type = 'textarea';
+        } else {
+            $this->type = 'input';
+        }
     }
 
-    public function option($key)
+    public function setRequired()
     {
-        return $this->options[$key];
+        if (! isset($this->userOptions['required'])) {
+            $this->required = false;
+        } else {
+            $this->required = true;
+        }
     }
 
     public function __toString()
     {
-        return $this->field;
+        return $this->name;
     }
-
-    // public function __get($attribute)
-    // {
-    //     return $this->$options[$attribute];
-    // }
 }

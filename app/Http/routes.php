@@ -15,17 +15,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::group(['prefix' => config('caravel.route_prefix')], function () {
-    foreach (config('caravel.resources') as $resource => $model) {
-        Route::get($resource, function () use ($resource, $model){
-            $data['resource'] = $resource;
-            $data['model'] = $model;
-            $data['items'] = $model::all();
-            return view('caravel::list', $data);
-        });
-    }
-});
-
 // Adminer
 Route::any('adminer', '\Miroc\LaravelAdminer\AdminerController@index');
+
+// Caravel Admin
+Route::group(['prefix' => config('caravel.route_prefix')], function () {
+    Route::get('dashboard', '\ThisVessel\Caravel\Controllers\DashboardController@page');
+    Route::resource('{resource}', '\ThisVessel\Caravel\Controllers\ResourceController');
+});

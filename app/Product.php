@@ -2,11 +2,13 @@
 
 namespace App;
 
-use ThisVessel\Caravel\Field;
 use Illuminate\Database\Eloquent\Model;
+use ThisVessel\Caravel\Traits\Crudable;
 
 class Product extends Model
 {
+    use Crudable;
+
     protected $fillable = [
         'title',
         'description',
@@ -14,21 +16,8 @@ class Product extends Model
     ];
 
     protected $crud = [
-        'title' => 'type:text',
-        'description' => 'type:textarea',
-        'price' => 'type:markdown|required|search:id1,id2',
+        'title' => 'required',
+        'description' => 'required',
+        // 'price' => 'type:markdown|required',
     ];
-
-    public static function getCrudFields()
-    {
-        $model = (new static);
-        $fields = [];
-
-        foreach ($model->getFillable() as $field) {
-            $options = isset($model->crud[$field]) ? $model->crud[$field] : null;
-            $fields[] = new Field($model->getTable(), $field, $options);
-        }
-
-        return $fields;
-    }
 }

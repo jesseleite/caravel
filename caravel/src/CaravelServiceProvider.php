@@ -16,7 +16,7 @@ class CaravelServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/Views', 'caravel');
 
         $this->publishes([
-            __DIR__.'/Config/caravel.php' => config_path('caravel.php'),
+            __DIR__.'/../config/caravel.php' => config_path('caravel.php'),
         ], 'config');
     }
 
@@ -27,6 +27,8 @@ class CaravelServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/caravel.php', 'caravel'
+        );
     }
 }
