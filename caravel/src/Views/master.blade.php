@@ -12,6 +12,7 @@
         }
         .page-header {
             margin-bottom: 30px;
+            margin-left: 16px;
         }
         .nav {
             margin-bottom: 30px;

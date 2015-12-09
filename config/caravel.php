@@ -3,8 +3,8 @@
 return [
 
     'resources' => [
-        'prods' => App\Product::class,
-        'news'  => App\Models\Newsletter::class,
+        'products' => App\Product::class,
+        'newsletters'  => App\Models\Newsletter::class,
     ],
 
     'route_prefix' => 'admin',
