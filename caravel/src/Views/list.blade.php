@@ -43,6 +43,9 @@
     <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirm Deletion</h4>
+            </div>
             <div class="modal-body">
                   Are you sure you would like to delete this resource?
             </div>
@@ -51,7 +54,7 @@
               <form id="confirm-delete" method="post">
                   {{ csrf_field() }}
                 <input type="hidden" name="_method" value="DELETE">
-                <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                <button type="submit" class="btn btn-danger">Confirm</button>
               </form>
             </div>
         </div>
