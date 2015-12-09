@@ -11,33 +11,43 @@
         </div>
     @endif
     <div class="row">
-        <div class="col-md-12">
-            <table id="caravel-list-resource" class="table">
-                <thead>
-                    <tr>
-                        @foreach ($fields as $field)
-                            <th>{{ $field->label }}</th>
-                        @endforeach
-                        <th class="actions">
-                            <a href="{{ $baseUri }}/create" class="btn btn-sm btn-primary-outline pull-right"><i class="fa fa-file-o"></i></a>
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($items as $item)
+        @if ($items->count() > 0)
+            <div class="col-md-12">
+                <table id="caravel-list-resource" class="table">
+                    <thead>
                         <tr>
                             @foreach ($fields as $field)
-                                <td>{{ str_limit($item->$field, 25) }}</td>
+                                <th>{{ $field->label }}</th>
                             @endforeach
-                            <td class="actions">
-                                <a href="{{ $baseUri }}/{{ $item->id }}/edit" class="btn btn-warning-outline btn-sm" role="button"><i class="fa fa-pencil"></i></a>
-                                <a href="{{ $baseUri }}/{{ $item->id }}" class="btn btn-danger-outline btn-sm delete" role="button" data-toggle="modal" data-target=".bd-example-modal-sm"><i class="fa fa-trash-o"></i></a>
-                            </td>
+                            <th class="actions">
+                                <a href="{{ $baseUri }}/create" class="btn btn-sm btn-primary-outline pull-right"><i class="fa fa-file-o"></i></a>
+                            </th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </thead>
+                    <tbody>
+                        @foreach ($items as $item)
+                            <tr>
+                                @foreach ($fields as $field)
+                                    <td>{{ str_limit($item->$field, 25) }}</td>
+                                @endforeach
+                                <td class="actions">
+                                    <a href="{{ $baseUri }}/{{ $item->id }}/edit" class="btn btn-warning-outline btn-sm" role="button"><i class="fa fa-pencil"></i></a>
+                                    <a href="{{ $baseUri }}/{{ $item->id }}" class="btn btn-danger-outline btn-sm delete" role="button" data-toggle="modal" data-target=".bd-example-modal-sm"><i class="fa fa-trash-o"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @else
+            <div class="col-md-12">
+                <div class="card card-block">
+                    <h3 class="card-title">Nothing to see here!</h3>
+                    <p class="card-text">Ready to get started?  It's easy!  Create your first {{ str_singular($resource) }} now...</p>
+                    <a href="{{ $baseUri }}/create" class="btn btn-primary-outline"><i class="fa fa-file-o"></i> Create {{ ucfirst(str_singular($resource)) }}</a>
+                </div>
+            </div>
+        @endif
     </div>
 
     <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
