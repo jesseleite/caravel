@@ -2,10 +2,12 @@
 
 namespace ThisVessel\Caravel;
 
-use DB;
+use ThisVessel\Caravel\Traits\DbalFieldTypes;
 
 class Resource
 {
+    use DbalFieldTypes;
+
     public $key;
     public $routePrefix;
     public $baseUri;
@@ -48,14 +50,7 @@ class Resource
     protected function setFields()
     {
         $model = $this->modelObject;
-
-        $database = config('database.connections.mysql.database');
-        $schema  = $model->getConnection()->getDoctrineSchemaManager($model->getTable());
-        $columns = $schema->listTableColumns($model->getTable(), $database);
-
-        foreach ($columns as $column) {
-            $types[$column->getName()] = $column->getType();
-        }
+        $types = $this->getTypesFromDbal($model);
 
         foreach ($model->getFillable() as $name) {
             $type = $types[$name];
