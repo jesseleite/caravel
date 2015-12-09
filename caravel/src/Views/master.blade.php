@@ -26,6 +26,9 @@
         td.actions > a {
             /*margin-bottom: 7px; Fix this when collapsed for small screens. */
         }
+        #confirm-delete {
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -52,5 +55,8 @@
             </div>
         </div>
     </div>
+
+    @yield('scripts')
+
 </body>
 </html>

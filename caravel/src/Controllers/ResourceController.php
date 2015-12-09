@@ -4,24 +4,27 @@ namespace ThisVessel\Caravel\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use ThisVessel\Caravel\Traits\ResourceRouting;
+use ThisVessel\Caravel\Traits\SetsResource;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class ResourceController extends Controller
 {
-    use ValidatesRequests, ResourceRouting;
+    use ValidatesRequests, SetsResource;
+
+    public function __construct()
+    {
+        $this->setResource();
+    }
 
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($resource)
+    public function index()
     {
-        $this->isValidResourceType($resource);
-
-        $model = $this->getModel($resource);
-        $data = $this->prepareCommonData($resource);
+        $model = $this->resource->modelClass;
+        $data = $this->resource->commonViewData();
         $data['items'] = $model::all()->reverse();
 
         return view('caravel::list', $data);
@@ -32,13 +35,11 @@ class ResourceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($resource)
+    public function create()
     {
-        $this->isValidResourceType($resource);
+        $data = $this->resource->commonViewData();
 
-        $data = $this->prepareCommonData($resource);
-
-        return view('caravel::create', $data);
+        return view('caravel::form', $data);
     }
 
     /**
@@ -47,16 +48,14 @@ class ResourceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($resource, Request $request)
+    public function store(Request $request)
     {
-        $this->isValidResourceType($resource);
+        $this->validate($request, $this->resource->validationRules());
 
-        $this->validate($request, $this->getValidationRules($resource));
-
-        $model = $this->getModel($resource);
+        $model = $this->resource->modelClass;
         $model::create($request->all());
 
-        return redirect($this->routeIndex($resource));
+        return redirect($this->resource->baseUri);
     }
 
     /**
@@ -65,9 +64,9 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($resource, $id)
+    public function show($id)
     {
-        $this->isValidResourceType($resource);
+        //
     }
 
     /**
@@ -76,9 +75,14 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($resource, $id)
+    public function edit($id)
     {
-        $this->isValidResourceType($resource);
+        $data = $this->resource->commonViewData();
+
+        $data['action'] = $this->resource->baseUri . '/' . $id;
+        $data['model']  = $this->resource->find($id);
+
+        return view('caravel::form', $data);
     }
 
     /**
@@ -88,9 +92,15 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update($resource, Request $request, $id)
+    public function update(Request $request, $id)
     {
-        $this->isValidResourceType($resource);
+        $this->validate($request, $this->resource->validationRules());
+
+        $model = $this->resource->find($id);
+        // dd($request->all());
+        $model->update($request->all());
+
+        return redirect($this->resource->baseUri);
     }
 
     /**
@@ -99,49 +109,11 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($resource, $id)
+    public function destroy($id)
     {
-        $this->isValidResourceType($resource);
-    }
+        $model = $this->resource->modelClass;
+        $model::destroy($id);
 
-    public function isValidResourceType($resource)
-    {
-        if (! isset(config('caravel.resources')[$resource])) {
-            return abort(404);
-        }
-    }
-
-    public function prepareCommonData($resource)
-    {
-
-        return [
-            'prefix'   => $this->routePrefix(),
-            'resource' => $resource,
-            'fields'   => $this->getFields($resource),
-        ];
-    }
-
-    public function getModel($resource)
-    {
-        return config('caravel.resources')[$resource];
-    }
-
-    public function getFields($resource)
-    {
-        $model = $this->getModel($resource);
-
-        return (new $model)->getCrudFields();
-    }
-
-    public function getValidationRules($resource)
-    {
-        $rules = [];
-
-        foreach ($this->getFields($resource) as $field) {
-            if ($field->required) {
-                $rules[$field->name] = 'required';
-            }
-        }
-        return $rules;
+        return redirect($this->resource->baseUri);
     }
 }

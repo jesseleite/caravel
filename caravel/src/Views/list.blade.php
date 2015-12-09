@@ -1,7 +1,6 @@
 @extends('caravel::master')
 
 @section('container')
-
     <div class="row">
         <div class="col-md-12">
             <table id="caravel-list-resource" class="table">
@@ -11,7 +10,7 @@
                             <th>{{ $field->label }}</th>
                         @endforeach
                         <th class="actions">
-                            <a href="{{ $prefix }}/{{ $resource }}/create" class="btn btn-sm btn-primary-outline pull-right"><i class="fa fa-file-o"></i></a>
+                            <a href="{{ $baseUri }}/create" class="btn btn-sm btn-primary-outline pull-right"><i class="fa fa-file-o"></i></a>
                         </th>
                     </tr>
                 </thead>
@@ -22,8 +21,8 @@
                                 <td>{{ str_limit($item->$field, 25) }}</td>
                             @endforeach
                             <td class="actions">
-                                <a href="{{ $prefix }}/{{ $resource }}/{{ $item->id }}/edit" class="btn btn-warning-outline btn-sm" ole="button"><i class="fa fa-pencil"></i></a>
-                                <a href="{{ $prefix }}/{{ $resource }}/{{ $item->id }}/delete" class="btn btn-danger-outline btn-sm" ole="button"><i class="fa fa-trash-o"></i></a>
+                                <a href="{{ $baseUri }}/{{ $item->id }}/edit" class="btn btn-warning-outline btn-sm" role="button"><i class="fa fa-pencil"></i></a>
+                                <a href="{{ $baseUri }}/{{ $item->id }}" class="btn btn-danger-outline btn-sm delete" role="button" data-toggle="modal" data-target=".bd-example-modal-sm"><i class="fa fa-trash-o"></i></a>
                             </td>
                         </tr>
                     @endforeach
@@ -32,7 +31,40 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.min.js"></script>
+    <div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body">
+                  Are you sure you would like to delete this resource?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <form id="confirm-delete" method="post">
+                  {{ csrf_field() }}
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="btn btn-danger">Confirm Delete</button>
+              </form>
+            </div>
+        </div>
+      </div>
+    </div>
+@endsection
+
+@section('scripts')
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.delete').click(function(e) {
+                e.preventDefault();
+                console.log(this.href);
+                $('form#confirm-delete').attr('action', this.href);
+                // window.location.href = '/admin/dashboard';
+            });
+        });
+    </script>
+
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.min.js"></script>
     <script>
         new Vue({
             el: '#caravel-list-resource',
@@ -40,6 +72,5 @@
                 console.log('list loaded');
             }
         });
-    </script>
-
+    </script> --}}
 @endsection

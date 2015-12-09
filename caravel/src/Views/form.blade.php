@@ -4,13 +4,22 @@
 
     <div class="row">
         <div class="col-md-12">
-            <form action="{{ $prefix }}/{{ $resource }}" method="POST" class="caravel-form">
-                {{ csrf_field() }}
+            {!! BootForm::open()->action($action)->addClass('caravel-form') !!}
+                @if (isset($model))
+                    {!! BootForm::bind($model) !!}
+                    {!! BootForm::hidden('_method')->value('PUT') !!}
+                @endif
+                @foreach ($fields as $field)
+                    @include('caravel::fields.' . $field->type, ['field' => $field])
+                @endforeach
+                {!! BootForm::submit('Save')->addClass('btn-primary m-t') !!}
+            {!! BootForm::close() !!}
+            {{-- <form action="{{ $prefix }}/{{ $resource }}" method="POST" class="caravel-form">
                 @foreach ($fields as $field)
                     @include('caravel::fields.' . $field->type, ['field' => $field])
                 @endforeach
                 <button type="submit" class="btn btn-primary m-t">Save</button>
-            </form>
+            </form> --}}
         </div>
     </div>
 
