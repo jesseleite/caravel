@@ -7,75 +7,103 @@ class Field
     public $name;
     public $label;
     public $type;
-    public $required;
-    protected $userOptions;
-    protected $databaseType;
+    public $required = false;
+    public $help = null;
+    public $rules = null;
+    protected $options = null;
 
     public function __construct($name, $type, $options = null)
     {
+        $this->setName($name);
+        $this->setTypeFromDbal($type);
+        $this->setOptions($options);
+        $this->setLabel();
+        $this->setHelp();
+    }
+
+    public function setName($name)
+    {
         $this->name = $name;
-        $this->label = ucfirst($name);
-        $this->databaseType = $type;
-        $this->userOptions = $this->parseOptions($options);
-        $this->setType($type);
-        $this->setRequired();
     }
 
-    public function parseOptions($options)
+    public function setTypeFromDbal($type)
     {
-        // If empty, return array.
-        if (empty($options)) {
-            return [];
-        }
-
-        // If array, return as is.
-        if (is_array($options)) {
-            return $options;
-        }
-
-        // If string, explode on pipe separators into array.
-        if (is_string($options)) {
-            $options  = explode('|', $options);
-        }
-
-        // Set option key and value.
-        foreach ($options as $option) {
-            $options = array_diff($options, [$option]);
-            if (strpos($option, ':')) {
-                $option = explode(':', $option);
-                $options[$option[0]] = $option[1];
-            } else {
-                $options[$option] = true;
-            }
-        }
-
-        // If option has multiple values, convert to array and nest.
-        foreach ($options as $key => $option) {
-            if (strpos($option, ',')) {
-                $options[$key] = explode(',', $option);
-            }
-        }
-
-        return $options;
-    }
-
-    public function setType($type)
-    {
-        if (isset($this->userOptions['type'])) {
-            $this->type = $this->userOptions['type'];
-        } elseif (str_contains($type, 'text')) {
+        if (str_contains($type, 'text')) {
             $this->type = 'textarea';
         } else {
             $this->type = 'input';
         }
     }
 
-    public function setRequired()
+    public function setOptions($options)
     {
-        if (! isset($this->userOptions['required'])) {
-            $this->required = false;
-        } else {
-            $this->required = true;
+        $this->options = $options;
+
+        if (is_string($options)) {
+            $this->separateModifiersFromValidationRules($options);
+        }
+
+        if (isset($options['type'])) {
+            $this->setType($options['type']);
+        }
+
+        if (isset($options['rules'])) {
+            $this->setRules($options['rules']);
+        }
+    }
+
+    public function separateModifiersFromValidationRules($options)
+    {
+        $options = explode('|', $options);
+        $rules   = [];
+
+        foreach ($options as $option) {
+
+            // If type modifier provided, set on object.
+            if (str_contains($option, 'type:')) {
+                $type = explode(':', $option);
+                $this->setType($type[1]);
+            }
+
+            // If required modifier provided, set on object and save as validation rule.
+            elseif ($option == 'required') {
+                $this->setRequired(true);
+                $rules[] = $option;
+            }
+
+            // Else pass all other options as validation rules.
+            else {
+                $rules[] = $option;
+            }
+        }
+
+        $this->setRules(implode('|', $rules));
+    }
+
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    public function setRequired($required)
+    {
+        $this->required = $required;
+    }
+
+    public function setRules($rules)
+    {
+        $this->rules = $rules;
+    }
+
+    public function setLabel()
+    {
+        $this->label = isset($this->options['label']) ? $this->options['label'] : ucfirst($this->name);
+    }
+
+    public function setHelp()
+    {
+        if (isset($this->options['help'])) {
+            $this->help = $this->options['help'];
         }
     }
 

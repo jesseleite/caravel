@@ -12,6 +12,7 @@ class Resource
     public $modelClass;
     public $modelObject;
     public $fields;
+    public $rules = [];
 
     public function __construct($resource)
     {
@@ -21,6 +22,7 @@ class Resource
         $this->setModelClass();
         $this->setModelObject();
         $this->setFields();
+        $this->setRules();
     }
 
     protected function setRoutePrefix()
@@ -57,7 +59,7 @@ class Resource
 
         foreach ($model->getFillable() as $name) {
             $type = $types[$name];
-            $options = isset($model->crud[$name]) ? $model->crud[$name] : null;
+            $options = isset($model->caravel[$name]) ? $model->caravel[$name] : null;
             $this->fields[] = new Field($name, $type, $options);
         }
     }
@@ -73,17 +75,13 @@ class Resource
         ];
     }
 
-    public function validationRules()
+    protected function setRules()
     {
-        $rules = [];
-
         foreach ($this->fields as $field) {
-            if ($field->required) {
-                $rules[$field->name] = 'required';
+            if (! empty($field->rules)) {
+                $this->rules[$field->name] = $field->rules;
             }
         }
-
-        return $rules;
     }
 
     public function find($id)

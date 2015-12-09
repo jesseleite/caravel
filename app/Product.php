@@ -12,8 +12,8 @@ class Product extends Model
         'price',
     ];
 
-    public $crud = [
-        'title' => 'required',
-        'description' => 'required',
+    public $caravel = [
+        'title' => 'required|min:5',
+        'description' => 'required|type:simplemde',
     ];
 }

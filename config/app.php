@@ -152,7 +152,6 @@ return [
 
         // ??
         ThisVessel\Caravel\CaravelServiceProvider::class,
-        AdamWathan\BootForms\BootFormsServiceProvider::class,
 
     ],
 
@@ -204,7 +203,6 @@ return [
         'View'      => Illuminate\Support\Facades\View::class,
 
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        'BootForm' => AdamWathan\BootForms\Facades\BootForm::class,
 
     ],
 

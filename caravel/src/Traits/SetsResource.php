@@ -6,8 +6,11 @@ use ThisVessel\Caravel\Resource;
 
 trait SetsResource
 {
-    public $resource;
-
+    /**
+     * Pretty yucky way of helping ResourceController detect current resource.
+     *
+     * @return \ThisVessel\Caravel\Resource
+     */
     public function setResource()
     {
         // If already set, return from property.

@@ -1,15 +1,9 @@
 @extends('caravel::master')
 
 @section('container')
-    @if (session()->get('success'))
-        <div id="success" class="row">
-            <div class="col-md-12">
-                <div class="alert alert-success" role="alert">
-                    {{ session('success') }}
-                </div>
-            </div>
-        </div>
-    @endif
+
+    @include('caravel::components.alert')
+
     <div class="row">
         @if ($items->count() > 0)
             <div class="col-md-12">
@@ -70,9 +64,11 @@
         </div>
       </div>
     </div>
+
 @endsection
 
 @section('scripts')
+
     <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
     <script>
@@ -105,4 +101,5 @@
             }
         });
     </script> --}}
+
 @endsection

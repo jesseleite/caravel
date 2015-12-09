@@ -15,10 +15,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Caravel Admin
+// Caravel Route Group
 Route::group(['prefix' => config('caravel.route_prefix')], function () {
+
+    // Caravel Dashboard
     Route::get('dashboard', '\ThisVessel\Caravel\Controllers\DashboardController@page');
+
+    // Caravel Resources
     foreach (config('caravel.resources') as $resource => $model) {
         Route::resource($resource, '\ThisVessel\Caravel\Controllers\ResourceController');
     }
+
 });

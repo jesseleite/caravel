@@ -11,6 +11,13 @@ class ResourceController extends Controller
 {
     use ValidatesRequests, SetsResource;
 
+    /**
+     * Resource helper object.
+     *
+     * @var \ThisVessel\Caravel\Resource
+     */
+    protected $resource;
+
     public function __construct()
     {
         $this->setResource();
@@ -50,7 +57,7 @@ class ResourceController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, $this->resource->validationRules());
+        $this->validate($request, $this->resource->rules);
 
         $model = $this->resource->modelClass;
         $model::create($request->all());
@@ -96,7 +103,7 @@ class ResourceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, $this->resource->validationRules());
+        $this->validate($request, $this->resource->rules);
 
         $model = $this->resource->find($id);
         $model->update($request->all());

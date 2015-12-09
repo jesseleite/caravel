@@ -3,9 +3,17 @@
 namespace ThisVessel\Caravel;
 
 use Illuminate\Support\ServiceProvider;
+use AdamWathan\BootForms\BootFormsServiceProvider;
 
 class CaravelServiceProvider extends ServiceProvider
 {
+    /**
+	 * Should I defer?
+	 *
+	 * @var bool
+	 */
+	protected $defer = false;
+
     /**
      * Bootstrap things.
      *
@@ -30,5 +38,7 @@ class CaravelServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../config/caravel.php', 'caravel'
         );
+
+        $this->app->register(BootFormsServiceProvider::class);
     }
 }

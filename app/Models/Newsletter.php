@@ -11,8 +11,7 @@ class Newsletter extends Model
         'pdf',
     ];
 
-    protected $crud = [
-        // 'title' => 'type:text',
-        // 'pdf' => 'type:dropzone',
+    public $caravel = [
+        'title' => 'required',
     ];
 }
