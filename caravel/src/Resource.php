@@ -2,6 +2,8 @@
 
 namespace ThisVessel\Caravel;
 
+use DB;
+
 class Resource
 {
     public $key;
@@ -43,7 +45,21 @@ class Resource
 
     protected function setFields()
     {
-        $this->fields = $this->modelObject->getCrudFields();
+        $model = $this->modelObject;
+
+        // Super yucky code...
+        $database = config('database.connections.mysql.database');
+        $columns = DB::select( DB::raw('SHOW COLUMNS FROM ' . $database . '.'. $model->getTable()));
+        foreach($columns as $column){
+            $types[$column->Field] = $column->Type;
+        }
+        // End of super yucky code.
+
+        foreach ($model->getFillable() as $name) {
+            $type = $types[$name];
+            $options = isset($model->crud[$name]) ? $model->crud[$name] : null;
+            $this->fields[] = new Field($name, $type, $options);
+        }
     }
 
     public function commonViewData()
