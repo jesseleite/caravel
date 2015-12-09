@@ -1,6 +1,15 @@
 @extends('caravel::master')
 
 @section('container')
+    @if (session()->get('success'))
+        <div id="success" class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success" role="alert">
+                    {{ session('success') }}
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="row">
         <div class="col-md-12">
             <table id="caravel-list-resource" class="table">
@@ -57,10 +66,20 @@
         $(document).ready(function() {
             $('.delete').click(function(e) {
                 e.preventDefault();
-                console.log(this.href);
                 $('form#confirm-delete').attr('action', this.href);
-                // window.location.href = '/admin/dashboard';
             });
+
+            if ($('#success')) {
+                setTimeout(function() {
+                    $('#success').fadeOut("normal", function() {
+                        $(this).remove();
+                    });
+                }, 4000);
+
+                $('#success').click(function() {
+                    $(this).remove();
+                });
+            }
         });
     </script>
 

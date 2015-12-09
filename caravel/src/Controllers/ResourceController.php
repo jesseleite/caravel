@@ -55,6 +55,8 @@ class ResourceController extends Controller
         $model = $this->resource->modelClass;
         $model::create($request->all());
 
+        session()->flash('success', ucfirst(str_singular($this->resource->key)) . ' was created successfully!');
+
         return redirect($this->resource->baseUri);
     }
 
@@ -97,8 +99,9 @@ class ResourceController extends Controller
         $this->validate($request, $this->resource->validationRules());
 
         $model = $this->resource->find($id);
-        // dd($request->all());
         $model->update($request->all());
+
+        session()->flash('success', ucfirst(str_singular($this->resource->key)) . ' was updated successfully!');
 
         return redirect($this->resource->baseUri);
     }
@@ -113,6 +116,8 @@ class ResourceController extends Controller
     {
         $model = $this->resource->modelClass;
         $model::destroy($id);
+
+        session()->flash('success', ucfirst(str_singular($this->resource->key)) . ' was deleted successfully!');
 
         return redirect($this->resource->baseUri);
     }
