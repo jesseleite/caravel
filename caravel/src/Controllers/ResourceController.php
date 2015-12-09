@@ -18,6 +18,11 @@ class ResourceController extends Controller
      */
     protected $resource;
 
+    /**
+     * Create a new resource controller instance.
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->setResource();
@@ -75,7 +80,7 @@ class ResourceController extends Controller
      */
     public function show($id)
     {
-        //
+        return abort(404);
     }
 
     /**

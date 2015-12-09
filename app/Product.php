@@ -13,7 +13,7 @@ class Product extends Model
     ];
 
     public $caravel = [
-        'title' => 'type:password|min:8',
-        // 'description' => 'required|type:simplemde',
+        'title' => 'required',
+        'description' => 'required|type:simplemde',
     ];
 }

@@ -13,13 +13,7 @@ trait SetsResource
      */
     public function setResource()
     {
-        // If already set, return from property.
-        if (isset($this->resource)) {
-            var_dump('getting from property');
-            return $this->resource;
-        }
-
-        // Otherwise get URI,
+        // Get current URI,
         $uri = request()->getRequestUri();
 
         // Remove route prefix,
@@ -28,15 +22,11 @@ trait SetsResource
             $uri = str_replace($prefix, null, $uri);
         }
 
-        // Grab resource,
+        // Grab resource name,
         $uri = ltrim($uri, '/');
         $parts = explode('/', $uri);
         $baseUri = $parts[0];
 
-        // New up Resource object.
-        $resource = new Resource($baseUri);
-
-        // Set and return.
-        return $this->resource = $resource;
+        $this->resource = new Resource($baseUri);
     }
 }
