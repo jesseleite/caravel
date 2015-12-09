@@ -28,7 +28,7 @@ class Field
 
     public function setTypeFromDbal($type)
     {
-        if (str_contains($type, 'text')) {
+        if ($type instanceof \Doctrine\DBAL\Types\TextType) {
             $this->type = 'textarea';
         } else {
             $this->type = 'input';

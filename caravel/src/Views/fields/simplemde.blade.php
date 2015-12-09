@@ -1,5 +1,7 @@
-{!! $bootForm->textarea($field->label, $field)->helpBlock($field->help) !!}
+{!! $bootForm->textarea($field->label, $field)
+             ->helpBlock($field->help) !!}
 
+{{-- Please sir, why CDN? Load these locally, as needed. Somehow. Pls. --}}
 <link rel="stylesheet" href="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>

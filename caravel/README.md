@@ -10,7 +10,7 @@ Caravel is a lightweight CMS built on Laravel.  It can be added to an existing L
 4. Add resources & models to resources array in config.
 5. Add public $caravel property onto each model.
 
-## Example Model Config:
+## Example Model Config
 
 ```php
 public $caravel = [
@@ -28,3 +28,8 @@ public $caravel = [
 
 ];
 ```
+
+## Requirements
+
+- doctrine/dbal
+- adamwathan/bootforms

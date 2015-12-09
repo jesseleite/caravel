@@ -9,7 +9,8 @@
         "laravel/framework": "5.1.*",
         "barryvdh/laravel-debugbar": "^2.0",
         "miroc/laravel-adminer": "dev-master",
-        "adamwathan/bootforms": "^0.7.1"
+        "adamwathan/bootforms": "^0.7.1",
+        "doctrine/dbal": "^2.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

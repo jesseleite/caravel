@@ -49,13 +49,13 @@ class Resource
     {
         $model = $this->modelObject;
 
-        // Super yucky code...
         $database = config('database.connections.mysql.database');
-        $columns = DB::select( DB::raw('SHOW COLUMNS FROM ' . $database . '.'. $model->getTable()));
-        foreach($columns as $column){
-            $types[$column->Field] = $column->Type;
+        $schema  = $model->getConnection()->getDoctrineSchemaManager($model->getTable());
+        $columns = $schema->listTableColumns($model->getTable(), $database);
+
+        foreach ($columns as $column) {
+            $types[$column->getName()] = $column->getType();
         }
-        // End of super yucky code.
 
         foreach ($model->getFillable() as $name) {
             $type = $types[$name];
