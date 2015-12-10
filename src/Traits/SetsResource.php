@@ -27,6 +27,11 @@ trait SetsResource
         $parts = explode('/', $uri);
         $baseUri = $parts[0];
 
-        $this->resource = new Resource($baseUri);
+        // Only new up Resource object if $baseUri is a proper resource.
+        // Important for avoiding errors on controller instantiation by router?
+        $resources = config('caravel.resources');
+        if (isset($resources[$baseUri])) {
+            $this->resource = new Resource($baseUri);
+        }
     }
 }
