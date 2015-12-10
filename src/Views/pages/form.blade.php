@@ -9,7 +9,7 @@
         <div class="col-md-12">
 
             {!! $bootForm->open()->action($action)->addClass('caravel-form') !!}
-                @if (isset($model))
+                @if (isset($model->id))
                     {!! $bootForm->bind($model) !!}
                     {!! $bootForm->hidden('_method')->value('PUT') !!}
                 @endif
