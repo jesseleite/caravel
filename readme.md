@@ -4,7 +4,14 @@
 
 A lightweight CMS built on Laravel.  Wait, another CMS?  Yes, another CMS.
 
-It can be added to an existing Laravel app, or installed into a fresh Laravel installation for standalone use.  It hooks into your Eloquent Models and automatically generates resourceful routes and views for basic CRUD management.  Bring your own auth, view customizations, field type extensions, etc.  [View a quick demo here.](http://recordit.co/hxPb7nh3RD)
+It can be added to an existing Laravel app, or installed into a fresh Laravel installation for standalone use.  It hooks into your Eloquent Models and automatically generates resourceful routes and views for basic CRUD management.  Bring your own authentication, view customizations, field types, etc.  [View a quick demo here.](http://recordit.co/hxPb7nh3RD)
+
+- [Installation](#installation)
+- [Field Configuration](#field-configuration)
+- [Available Field Types](#available-field-types)
+- [Add Field Types](#add-field-types)
+- [Customize Views](#customize-views)
+- [Authentication](#authentication)
 
 ## Installation
 
@@ -14,7 +21,7 @@ composer require 'thisvessel/caravel:dev-master'
 ```
 Note: I will tag version as soon I've added sufficient test coverage.
 
-### 2. Add CaravelServiceProvider to providers array in /config/app.php
+### 2. Add CaravelServiceProvider to providers array in /config/app.php.
 ```php
 ThisVessel\Caravel\CaravelServiceProvider::class,
 ```
@@ -24,7 +31,7 @@ ThisVessel\Caravel\CaravelServiceProvider::class,
 php artisan vendor:publish --provider="ThisVessel\Caravel\CaravelServiceProvider" --tag="config"
 ```
 
-### 4. Add Eloquent Model mappings to resources array in /config/caravel.php
+### 4. Add Eloquent Model mappings to resources array in /config/caravel.php.
 ```php
 'resources' => [
     'products' => App\Product::class,
@@ -100,6 +107,32 @@ The public `$caravel` property contains field modifiers and validation rules.  T
 
 2. More advanced configuration requires nesting array elements for type, rules, label and help.
 
+## Available Field Types
+
+Included field types:
+- `input` (Basic text input)
+- `textarea` (Basic textarea)
+- `simplemde` ([Simplemde markdown editor](https://github.com/NextStepWebs/simplemde-markdown-editor))
+
+...more to come very soon! (ie. checkboxes, radios, dropdowns, etc.)
+
+## Add Field Types
+
+You can add your new field types simply by referencing a new `type` string in your Model's `$caravel` field configuration.  This new type does not need to be registered anywhere.  Just be sure to provide Caravel with a proper view partial for this new field type.  A few notes on field type view partials:
+- Place your new view partial within `/resources/views/vendor/caravel/fields`.
+- You are responsible for displaying label, help block text, validation state, etc. correctly.
+- A `$field` object is automatically passed into your view partial with necessary data for your markup (ie. name, label, required, help block text, etc.).
+- A `$model` object is automatically passed into your view partial, in case you need access to other model properties.
+- Finally, `$form` and `$bootForm` form builder objects are also passed into your view partial.  [Form](https://github.com/adamwathan/form) and [BootForms](https://github.com/adamwathan/bootforms) are great packages by [Adam Wathan](https://twitter.com/adamwathan).  Feel free to use these, otherwise plain old markup will work fine as well.
+
+## Customize Views
+
+You can easily override Caravel's views and view partials.  First publish Caravel's views to your project's /resources/views/vendor/caravel folder.
+```
+php artisan vendor:publish --provider="ThisVessel\Caravel\CaravelServiceProvider" --tag="views"
+```
+Once these views are published, you can modify anything within this folder.  Caravel will attempt to load your views before loading from /vendor.
+
 ## Authentication
 
-There is none!  Bring your own authentication!  You can easily apply authentication middleware to Caravel's route group.  I may add more authentication options in the future.
+Bring your own authentication!  You can easily apply any authentication middleware to Caravel's route group.  I may add more authentication options in the future.

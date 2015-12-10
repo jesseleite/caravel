@@ -24,6 +24,10 @@ class CaravelServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__.'/Views', 'caravel');
 
         $this->publishes([
+            __DIR__.'/Views' => base_path('resources/views/vendor/caravel'),
+        ], 'views');
+
+        $this->publishes([
             __DIR__.'/../config/caravel.php' => config_path('caravel.php'),
         ], 'config');
     }

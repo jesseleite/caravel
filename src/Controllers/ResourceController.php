@@ -51,6 +51,8 @@ class ResourceController extends Controller
     {
         $data = $this->resource->commonViewData();
 
+        $data['model']  = $this->resource->modelObject;
+
         return view('caravel::pages.form', $data);
     }
 
