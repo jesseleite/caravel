@@ -9,6 +9,11 @@ trait SetsResource
     /**
      * Pretty yucky way of helping ResourceController detect current resource.
      *
+     * Note:
+     * If I can find a way to get resource uri/key without having to parse
+     * the request URI, then I can also remove 'prefix' from config,
+     * and have user set the prefix explicitly on the route group.
+     *
      * @return \ThisVessel\Caravel\Resource
      */
     public function setResource()

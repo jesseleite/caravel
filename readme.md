@@ -39,7 +39,7 @@ php artisan vendor:publish --provider="ThisVessel\Caravel\CaravelServiceProvider
 ],
 ```
 
-### 5. Copy these routes into your routes.php file.
+### 5. Copy Caravel's routes into your routes.php file.
 ```php
 // Caravel Route Group
 Route::group(['prefix' => config('caravel.prefix'), 'as' => 'caravel::'], function () {
@@ -63,8 +63,9 @@ Route::group(['prefix' => config('caravel.prefix'), 'as' => 'caravel::'], functi
 
 });
 ```
+If you are configuring Caravel as a standalone installation, or you are routing through a subdomain, you might prefer setting a custom route `prefix` in `/config/caravel.php`.
 
-That's it!  You now have a basic working CMS.
+### That's it!  You now have a basic working CMS.
 
 ## Field Configuration
 
