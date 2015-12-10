@@ -39,7 +39,7 @@ class ResourceController extends Controller
         $data = $this->resource->commonViewData();
         $data['items'] = $model::all()->reverse();
 
-        return view('caravel::list', $data);
+        return view('caravel::pages.list', $data);
     }
 
     /**
@@ -51,7 +51,7 @@ class ResourceController extends Controller
     {
         $data = $this->resource->commonViewData();
 
-        return view('caravel::form', $data);
+        return view('caravel::pages.form', $data);
     }
 
     /**
@@ -96,7 +96,7 @@ class ResourceController extends Controller
         $data['action'] = $this->resource->baseUri . '/' . $id;
         $data['model']  = $this->resource->find($id);
 
-        return view('caravel::form', $data);
+        return view('caravel::pages.form', $data);
     }
 
     /**

@@ -11,6 +11,6 @@ class DashboardController extends Controller
     {
         $data['prefix'] = '/' . config('caravel.route_prefix');
 
-        return view('caravel::dashboard', $data);
+        return view('caravel::pages.dashboard', $data);
     }
 }

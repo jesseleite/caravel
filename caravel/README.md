@@ -19,7 +19,7 @@ Note: I will tag version as soon I've added sufficient test coverage.
 ThisVessel\Caravel\CaravelServiceProvider::class,
 ```
 
-3. Artisan vendor:publish config file.
+3. Publish Caravel's config file.
 ```
 php artisan vendor:publish --provider="ThisVessel\Caravel\CaravelServiceProvider" --tag="config"
 ```
@@ -34,16 +34,21 @@ php artisan vendor:publish --provider="ThisVessel\Caravel\CaravelServiceProvider
 
 5. Copy these routes into your routes.php file.
 ```php
-// Caravel Dashboard
-Route::get('dashboard', '\ThisVessel\Caravel\Controllers\DashboardController@page');
+// Caravel Route Group
+Route::group(['prefix' => config('caravel.route_prefix')], function () {
 
-// Caravel Resources
-foreach (config('caravel.resources') as $resource => $model) {
-    Route::resource($resource, '\ThisVessel\Caravel\Controllers\ResourceController');
-}
+    // Caravel Dashboard
+    Route::get('dashboard', '\ThisVessel\Caravel\Controllers\DashboardController@page');
+
+    // Caravel Resources
+    foreach (config('caravel.resources') as $resource => $model) {
+        Route::resource($resource, '\ThisVessel\Caravel\Controllers\ResourceController');
+    }
+
+});
 ```
 
-That's it!  You should now have a working CMS.
+That's it!  You now have a basic working CMS.
 
 ## Field Configuration
 
@@ -97,4 +102,4 @@ The public `$caravel` property contains field modifiers and validation rules.  T
 
 # Authentication
 
-There is none!  Bring your own authentication!  You can easily wrap Caravel's routing in a route group to apply authentication middleware.  I may add more authentication options in the future.
+There is none!  Bring your own authentication!  You can easily apply authentication middleware to Caravel's route group.  I may add more authentication options in the future.

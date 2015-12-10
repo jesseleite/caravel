@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Caravel Admin</title>
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> -->
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+    {{-- Yeck! Get these styles outta here! --}}
     <style>
         body {
             margin: 50px 0;
@@ -34,13 +36,17 @@
             display: inline-block;
         }
     </style>
+
 </head>
 <body>
+
     <div class="container">
+
         <div class="page-header">
             <h1>Caravel Admin</h1>
             <p class="lead">Powered by This Vessel</p>
         </div>
+
         <div class="row">
             <div class="col-md-3">
                 <ul class="nav nav-pills nav-stacked">
@@ -58,6 +64,7 @@
                 @yield('container')
             </div>
         </div>
+
     </div>
 
     @yield('scripts')
