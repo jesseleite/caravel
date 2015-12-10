@@ -63,6 +63,10 @@ Route::group(['prefix' => config('caravel.prefix'), 'as' => 'caravel::'], functi
 
 });
 ```
+To inspect which routes are dynamically generated, run the following command from your project root.
+```
+php artisan route:list
+```
 If you are configuring Caravel as a standalone installation, or you are routing through a subdomain, you might prefer setting a custom route `prefix` in `/config/caravel.php`.  Can be set `null`.
 
 *That's it!  You now have a basic working CMS.*
