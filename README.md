@@ -117,7 +117,7 @@ class Author extends Model
 
 Your model's `$fillable` property is very important as it tells Caravel which fields need form input rendering.
 
-The public `$caravel` property contains field modifiers and validation rules.  These are optional, and there are two ways to approach such configuration on a field.
+The public `$caravel` property contains field modifiers and validation rules.  These are optional, and there are two ways to approach such configuration on a field:
 
 1. Shorthand string, which allows you to quickly specify field type (eg. `type:simplemde`), as well as Laravel validation rules.  Using pipe `|` separators for specifying multiple modifiers.
 
