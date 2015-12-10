@@ -4,7 +4,7 @@
 
 A lightweight CMS built on Laravel.  Wait, another CMS?  Yes, another CMS :/
 
-The goal of this CMS is to be super light and easy to implement, while giving you full control using Laravel's toolset.  It can be added to an existing Laravel app, or installed into a fresh Laravel installation for standalone use.  It hooks into your Eloquent Models and automatically generates resourceful routes and views for basic CRUD management.  Bring your own authentication, view customizations, field types, etc.  [View a quick demo here.](http://recordit.co/hxPb7nh3RD)
+The goal of this CMS is to be super light and easy to implement, while giving you full control of Laravel's toolset.  It can be added to an existing Laravel app, or installed into a fresh Laravel installation for standalone use.  It hooks into your Eloquent Models and automatically generates resourceful routes and views for basic CRUD management.  Bring your own authentication, view customizations, field types, etc.  [View a quick demo here.](http://recordit.co/hxPb7nh3RD)
 
 - [Installation](#installation)
 - [Field Configuration](#field-configuration)
