@@ -7,7 +7,6 @@
 
     <div class="row">
         <div class="col-md-12">
-
             {!! $bootForm->open()->action($action)->addClass('caravel-form') !!}
                 @if (isset($model->id))
                     {!! $bootForm->bind($model) !!}
@@ -18,7 +17,6 @@
                 @endforeach
                 {!! $bootForm->submit('Save')->addClass('btn-primary m-t') !!}
             {!! $bootForm->close() !!}
-
         </div>
     </div>
 

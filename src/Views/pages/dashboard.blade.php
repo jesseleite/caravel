@@ -3,6 +3,8 @@
 @section('container')
 
     <div class="row">
+
+        <!-- Welcome Card -->
         <div class="col-md-6">
             <div class="card card-block">
                 <h3 class="card-title">Welcome</h3>
@@ -10,6 +12,8 @@
                 <p class="card-text version">Installed Version: 2.0.0-beta</p>
             </div>
         </div>
+
+        <!-- Analytics Card -->
         <div class="col-md-6">
             <div class="card card-block">
                 <h3 class="card-title">Visitor Analytics</h3>
@@ -17,6 +21,7 @@
                 <button class="btn btn-secondary-outline">Coming soon!</a>
             </div>
         </div>
+
     </div>
 
 @endsection

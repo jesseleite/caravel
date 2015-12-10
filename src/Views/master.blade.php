@@ -4,22 +4,25 @@
     <meta charset="UTF-8">
     <title>Caravel Admin</title>
 
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-
     @include('caravel::shame.css')
 
 </head>
 <body>
-
     <div class="container">
 
+        <!-- Page Header -->
         <div class="page-header">
             <h1>Caravel Admin</h1>
             <p class="lead">Powered by This Vessel</p>
         </div>
 
+        <!-- Page Wrapper -->
         <div class="row">
+
+            <!-- Navigation -->
             <div class="col-md-3">
                 <ul class="nav nav-pills nav-stacked">
                     <li class="nav-item">
@@ -41,14 +44,13 @@
                     @endif
                 </ul>
             </div>
+
+            <!-- Container -->
             <div class="col-md-9">
                 @yield('container')
             </div>
+
         </div>
-
     </div>
-
-    @yield('scripts')
-
 </body>
 </html>

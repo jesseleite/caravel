@@ -5,8 +5,8 @@
     @include('caravel::components.alert')
 
     <div class="row">
-        @if ($items->count() > 0)
-            <div class="col-md-12">
+        <div class="col-md-12">
+            @if ($items->count() > 0)
                 <table class="table">
                     <thead>
                         <tr>
@@ -25,23 +25,25 @@
                                     <td>{{ str_limit($item->$field, 25) }}</td>
                                 @endforeach
                                 <td class="actions">
-                                    <a href="{{ route('caravel::' . $resource . '.edit', $item->id) }}" class="btn btn-warning-outline btn-sm" role="button"><i class="fa fa-pencil"></i></a>
-                                    <a href="{{ route('caravel::' . $resource . '.destroy', $item->id) }}" class="btn btn-danger-outline btn-sm delete" role="button" data-toggle="modal" data-target=".bd-example-modal-sm"><i class="fa fa-trash-o"></i></a>
+                                    <a href="{{ route('caravel::' . $resource . '.edit', $item->id) }}"class="btn btn-warning-outline btn-sm" role="button">
+                                        <i class="fa fa-pencil"></i>
+                                    </a>
+                                    <a href="{{ route('caravel::' . $resource . '.destroy', $item->id) }}" class="btn btn-danger-outline btn-sm delete" role="button" data-toggle="modal" data-target=".bd-example-modal-sm">
+                                        <i class="fa fa-trash-o"></i>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
-            </div>
-        @else
-            <div class="col-md-12">
+            @else
                 <div class="card card-block">
                     <h3 class="card-title">Nothing to see here!</h3>
                     <p class="card-text">Ready to get started?  It's easy!  Create your first {{ str_singular($resource) }} now...</p>
                     <a href="{{ route('caravel::' . $resource . '.create') }}" class="btn btn-primary-outline"><i class="fa fa-file-o"></i> Create {{ ucfirst(str_singular($resource)) }}</a>
                 </div>
-            </div>
-        @endif
+            @endif
+        </div>
     </div>
 
     @include('caravel::components.modals.delete')
