@@ -8,23 +8,23 @@ It can be added to an existing Laravel app, or installed into a fresh Laravel in
 
 ## Installation
 
-1. Install into your Laravel project using [Composer](https://getcomposer.org).
+### 1. Install into your Laravel project using [Composer](https://getcomposer.org).
 ```
 composer require 'thisvessel/caravel:dev-master'
 ```
 Note: I will tag version as soon I've added sufficient test coverage.
 
-2. Add CaravelServiceProvider to providers array in /config/app.php
+### 2. Add CaravelServiceProvider to providers array in /config/app.php
 ```php
 ThisVessel\Caravel\CaravelServiceProvider::class,
 ```
 
-3. Publish Caravel's config file.
+### 3. Publish Caravel's config file.
 ```
 php artisan vendor:publish --provider="ThisVessel\Caravel\CaravelServiceProvider" --tag="config"
 ```
 
-4. Add Eloquent Model mappings to resources array in /config/caravel.php
+### 4. Add Eloquent Model mappings to resources array in /config/caravel.php
 ```php
 'resources' => [
     'products' => App\Product::class,
@@ -32,7 +32,7 @@ php artisan vendor:publish --provider="ThisVessel\Caravel\CaravelServiceProvider
 ],
 ```
 
-5. Copy these routes into your routes.php file.
+### 5. Copy these routes into your routes.php file.
 ```php
 // Caravel Route Group
 Route::group(['prefix' => config('caravel.route_prefix')], function () {
@@ -85,7 +85,7 @@ class Author extends Model
         'biography' => [
             'type'  => 'simplemde',
             'rules' => 'required|min:10',
-            'label' => 'Author Biography,
+            'label' => 'Author Biography',
             'help'  => 'Help block text goes here.',
         ],
     ];
@@ -100,6 +100,6 @@ The public `$caravel` property contains field modifiers and validation rules.  T
 
 2. More advanced configuration requires nesting array elements for type, rules, label and help.
 
-# Authentication
+## Authentication
 
 There is none!  Bring your own authentication!  You can easily apply authentication middleware to Caravel's route group.  I may add more authentication options in the future.
