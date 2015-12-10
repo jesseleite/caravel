@@ -29,7 +29,9 @@ class Resource
 
     protected function setRoutePrefix()
     {
-        $this->routePrefix = '/' . config('caravel.route_prefix');
+        if (! empty(config('caravel.route_prefix'))) {
+            $this->routePrefix = '/' . config('caravel.route_prefix');
+        }
     }
 
     protected function setBaseUri()

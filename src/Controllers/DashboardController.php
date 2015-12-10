@@ -9,7 +9,11 @@ class DashboardController extends Controller
 {
     public function page()
     {
-        $data['prefix'] = '/' . config('caravel.route_prefix');
+        if (! empty(config('caravel.route_prefix'))) {
+            $data['prefix'] = '/' . config('caravel.route_prefix');
+        } else {
+            $data['prefix'] = null;
+        }
 
         return view('caravel::pages.dashboard', $data);
     }
