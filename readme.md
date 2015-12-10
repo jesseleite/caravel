@@ -1,6 +1,6 @@
 # Caravel
 
-**DISCLAIMER: This is a work in progress! Use at your own risk! When I am happy with API and test coverage, I will tag version. Suggestions welcome :)**
+**DISCLAIMER: This is a work in progress! Use at your own risk! When I am happy with implementation and test coverage, I will tag version. Suggestions welcome :)**
 
 A lightweight CMS built on Laravel.  Wait, another CMS?  Yes, another CMS :/
 
