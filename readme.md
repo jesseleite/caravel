@@ -123,7 +123,7 @@ You can add your new field types simply by referencing a new `type` string in yo
 - You are responsible for displaying label, help block text, validation state, etc. correctly.
 - A `$field` object is automatically passed into your view partial with necessary data for your markup (ie. name, label, required, help block text, etc.).
 - A `$model` object is automatically passed into your view partial, in case you need access to other model properties.
-- Finally, `$form` and `$bootForm` form builder objects are also passed into your view partial.  [Form](https://github.com/adamwathan/form) and [BootForms](https://github.com/adamwathan/bootforms) are great packages by [Adam Wathan](https://twitter.com/adamwathan).  Feel free to use these, otherwise plain old markup will work fine as well.
+- Finally, `$form` and `$bootForm` form builder objects are also passed into your view partial.  [Form](https://github.com/adamwathan/form) and [BootForms](https://github.com/adamwathan/bootforms) are excellent packages by [Adam Wathan](https://twitter.com/adamwathan).  Feel free to make use of these packages, otherwise plain old markup will work fine as well.
 
 ## Customize Views
 
