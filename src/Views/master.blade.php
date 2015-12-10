@@ -7,41 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 
-    {{-- Yeck! Get these styles outta here! --}}
-    <style>
-        body {
-            margin: 50px 0;
-        }
-        .page-header {
-            margin-bottom: 30px;
-            margin-left: 16px;
-        }
-        .nav {
-            margin-bottom: 30px;
-        }
-        .logout {
-            color: #ccc;
-        }
-        .logout:hover {
-            color: #7a7a7a;
-        }
-        .version {
-            color: #ccc;
-        }
-        th.actions,
-        td.actions {
-            text-align: right;
-        }
-        td.actions > a {
-            /*margin-bottom: 7px; Fix this when collapsed for small screens. */
-        }
-        .help-block {
-            color: #ccc;
-        }
-        #confirm-delete {
-            display: inline-block;
-        }
-    </style>
+    @include('caravel::shame.css')
 
 </head>
 <body>
@@ -57,11 +23,11 @@
             <div class="col-md-3">
                 <ul class="nav nav-pills nav-stacked">
                     <li class="nav-item">
-                        <a href="{{ $prefix }}/dashboard" class="nav-link {{ !isset($resource) ? 'active' : '' }}">Dashboard</a>
+                        <a href="{{ route('caravel::dashboard') }}" class="nav-link {{ !isset($resource) ? 'active' : '' }}">Dashboard</a>
                     </li>
                     @foreach (config('caravel.resources') as $uri => $model)
                         <li class="nav-item">
-                            <a href="{{ $prefix }}/{{ $uri }}" class="nav-link {{ isset($resource) && $resource == $uri ? 'active' : '' }}">{{ ucfirst($uri) }}</a>
+                            <a href="{{ route('caravel::' . $uri . '.index') }}" class="nav-link {{ isset($resource) && $resource == $uri ? 'active' : '' }}">{{ ucfirst($uri) }}</a>
                         </li>
                     @endforeach
                     @if (config('caravel.logout'))

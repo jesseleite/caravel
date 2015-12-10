@@ -8,9 +8,7 @@ class Resource
 {
     use DbalFieldTypes;
 
-    public $key;
-    public $routePrefix;
-    public $baseUri;
+    public $name;
     public $modelClass;
     public $modelObject;
     public $fields;
@@ -18,30 +16,21 @@ class Resource
 
     public function __construct($resource)
     {
-        $this->key = $resource;
-        $this->setRoutePrefix();
-        $this->setBaseUri();
+        $this->setName($resource);
         $this->setModelClass();
         $this->setModelObject();
         $this->setFields();
         $this->setRules();
     }
 
-    protected function setRoutePrefix()
+    protected function setName($resource)
     {
-        if (! empty(config('caravel.route_prefix'))) {
-            $this->routePrefix = '/' . config('caravel.route_prefix');
-        }
-    }
-
-    protected function setBaseUri()
-    {
-        $this->baseUri = $this->routePrefix . '/' . $this->key;
+        $this->name = $resource;
     }
 
     protected function setModelClass()
     {
-        $this->modelClass = config('caravel.resources')[$this->key];
+        $this->modelClass = config('caravel.resources')[$this->name];
     }
 
     protected function setModelObject()
@@ -64,10 +53,7 @@ class Resource
     public function commonViewData()
     {
         return [
-            'resource' => $this->key,
-            'prefix'   => $this->routePrefix,
-            'baseUri'  => $this->baseUri,
-            'action'   => $this->baseUri,
+            'resource' => $this->name,
             'fields'   => $this->fields,
         ];
     }

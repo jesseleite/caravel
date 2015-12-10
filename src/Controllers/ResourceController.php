@@ -51,6 +51,7 @@ class ResourceController extends Controller
     {
         $data = $this->resource->commonViewData();
 
+        $data['action'] = route('caravel::' . $this->resource->name . '.store');
         $data['model']  = $this->resource->modelObject;
 
         return view('caravel::pages.form', $data);
@@ -69,9 +70,9 @@ class ResourceController extends Controller
         $model = $this->resource->modelClass;
         $model::create($request->all());
 
-        session()->flash('success', ucfirst(str_singular($this->resource->key)) . ' was created successfully!');
+        session()->flash('success', ucfirst(str_singular($this->resource->name)) . ' was created successfully!');
 
-        return redirect($this->resource->baseUri);
+        return redirect()->route('caravel::' . $this->resource->name . '.index');
     }
 
     /**
@@ -95,7 +96,7 @@ class ResourceController extends Controller
     {
         $data = $this->resource->commonViewData();
 
-        $data['action'] = $this->resource->baseUri . '/' . $id;
+        $data['action'] = route('caravel::' . $this->resource->name . '.update', $id);
         $data['model']  = $this->resource->find($id);
 
         return view('caravel::pages.form', $data);
@@ -115,9 +116,9 @@ class ResourceController extends Controller
         $model = $this->resource->find($id);
         $model->update($request->all());
 
-        session()->flash('success', ucfirst(str_singular($this->resource->key)) . ' was updated successfully!');
+        session()->flash('success', ucfirst(str_singular($this->resource->name)) . ' was updated successfully!');
 
-        return redirect($this->resource->baseUri);
+        return redirect()->route('caravel::' . $this->resource->name . '.index');
     }
 
     /**
@@ -131,8 +132,8 @@ class ResourceController extends Controller
         $model = $this->resource->modelClass;
         $model::destroy($id);
 
-        session()->flash('success', ucfirst(str_singular($this->resource->key)) . ' was deleted successfully!');
+        session()->flash('success', ucfirst(str_singular($this->resource->name)) . ' was deleted successfully!');
 
-        return redirect($this->resource->baseUri);
+        return redirect()->route('caravel::' . $this->resource->name . '.index');
     }
 }

@@ -15,11 +15,11 @@ The goal of this CMS is to be super light and easy to implement, while giving yo
 
 ## Installation
 
-### 1. Install into your Laravel project using [Composer](https://getcomposer.org).
+### 1. Install into your Laravel.
 ```
 composer require 'thisvessel/caravel:dev-master'
 ```
-Note: I will tag version as soon I've added sufficient test coverage.
+Note: I will tag version as soon I am happy with implementation and test coverage.
 
 ### 2. Add CaravelServiceProvider to providers array in /config/app.php.
 ```php
@@ -42,14 +42,23 @@ php artisan vendor:publish --provider="ThisVessel\Caravel\CaravelServiceProvider
 ### 5. Copy these routes into your routes.php file.
 ```php
 // Caravel Route Group
-Route::group(['prefix' => config('caravel.route_prefix')], function () {
+Route::group(['prefix' => config('caravel.prefix'), 'as' => 'caravel::'], function () {
+
+    // Caravel Root
+    Route::get(null, [
+        'as' => 'root', 'uses' => '\ThisVessel\Caravel\Controllers\DashboardController@redirect'
+    ]);
 
     // Caravel Dashboard
-    Route::get('dashboard', '\ThisVessel\Caravel\Controllers\DashboardController@page');
+    Route::get('dashboard', [
+        'as' => 'dashboard', 'uses' => '\ThisVessel\Caravel\Controllers\DashboardController@index'
+    ]);
 
     // Caravel Resources
     foreach (config('caravel.resources') as $resource => $model) {
-        Route::resource($resource, '\ThisVessel\Caravel\Controllers\ResourceController');
+        Route::resource($resource, '\ThisVessel\Caravel\Controllers\ResourceController', [
+            'names' => ThisVessel\Caravel\Helpers\Routing::resourceNamesWithoutPrefix($resource)
+        ]);
     }
 
 });

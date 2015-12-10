@@ -22,14 +22,4 @@
         </div>
     </div>
 
-    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.10/vue.min.js"></script>
-    <script>
-        new Vue({
-            el: '#caravel-list-resource',
-            ready: function() {
-                console.log('list loaded');
-            }
-        });
-    </script> --}}
-
 @endsection

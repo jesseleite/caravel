@@ -7,14 +7,23 @@ use Illuminate\Routing\Controller;
 
 class DashboardController extends Controller
 {
-    public function page()
+    /**
+     * Display dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
-        if (! empty(config('caravel.route_prefix'))) {
-            $data['prefix'] = '/' . config('caravel.route_prefix');
-        } else {
-            $data['prefix'] = null;
-        }
+        return view('caravel::pages.dashboard');
+    }
 
-        return view('caravel::pages.dashboard', $data);
+    /**
+     * Redirect to dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function redirect()
+    {
+        return redirect()->route('caravel::dashboard');
     }
 }

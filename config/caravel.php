@@ -6,7 +6,7 @@ return [
         // 'products' => App\Product::class,
     ],
 
-    'route_prefix' => null,
+    'prefix' => 'caravel',
 
     'logout' => null,
 
