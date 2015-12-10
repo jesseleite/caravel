@@ -1,27 +1,105 @@
-## Laravel PHP Framework
+# Caravel
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+**DISCLAIMER: This is a work in progress! Use at your own risk! When I am happy with API and test coverage, I will tag version. Suggestions welcome :)**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+A lightweight CMS built on Laravel.  Wait, another CMS?  Yes, another CMS.
 
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+It can be added to an existing Laravel app, or installed into a fresh Laravel installation for standalone use.  It hooks into your Eloquent Models and automatically generates resourceful routes and views for basic CRUD management.  Bring your own auth, view customizations, field type extensions, etc.  [View a quick demo here.](http://recordit.co/hxPb7nh3RD)
 
-## Official Documentation
+## Installation
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+1. Install into your Laravel project using [Composer](https://getcomposer.org).
+```
+composer require 'thisvessel/caravel:dev-master'
+```
+Note: I will tag version as soon I've added sufficient test coverage.
 
-## Contributing
+2. Add CaravelServiceProvider to providers array in /config/app.php
+```php
+ThisVessel\Caravel\CaravelServiceProvider::class,
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+3. Publish Caravel's config file.
+```
+php artisan vendor:publish --provider="ThisVessel\Caravel\CaravelServiceProvider" --tag="config"
+```
 
-## Security Vulnerabilities
+4. Add Eloquent Model mappings to resources array in /config/caravel.php
+```php
+'resources' => [
+    'products' => App\Product::class,
+    'newsletters'  => App\Newsletter::class,
+],
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+5. Copy these routes into your routes.php file.
+```php
+// Caravel Route Group
+Route::group(['prefix' => config('caravel.route_prefix')], function () {
 
-### License
+    // Caravel Dashboard
+    Route::get('dashboard', '\ThisVessel\Caravel\Controllers\DashboardController@page');
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+    // Caravel Resources
+    foreach (config('caravel.resources') as $resource => $model) {
+        Route::resource($resource, '\ThisVessel\Caravel\Controllers\ResourceController');
+    }
+
+});
+```
+
+That's it!  You now have a basic working CMS.
+
+## Field Configuration
+
+Field configuration happens in your Eloquent Model.
+
+```php
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Author extends Model
+{
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'password',
+        'biography'
+    ];
+
+    /**
+     * Caravel CMS configuration.
+     *
+     * @var array
+     */
+    public $caravel = [
+        'name' => 'required',
+        'password' => 'type:password|required|min:8',
+        'biography' => [
+            'type'  => 'simplemde',
+            'rules' => 'required|min:10',
+            'label' => 'Author Biography,
+            'help'  => 'Help block text goes here.',
+        ],
+    ];
+}
+```
+
+Your model's `$fillable` property is very important as it tells Caravel which fields to render.
+
+The public `$caravel` property contains field modifiers and validation rules.  There are two ways to approach configuration on a field.
+
+1. Shorthand string, which allows you to quickly specify field type, as well as validation rules as per Laravel spec.
+
+2. More advanced configuration requires nesting array elements for type, rules, label and help.
+
+# Authentication
+
+There is none!  Bring your own authentication!  You can easily apply authentication middleware to Caravel's route group.  I may add more authentication options in the future.

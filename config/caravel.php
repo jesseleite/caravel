@@ -3,10 +3,9 @@
 return [
 
     'resources' => [
-        'products' => App\Product::class,
-        'newsletters'  => App\Newsletter::class,
+        // 'products' => App\Product::class,
     ],
 
-    'route_prefix' => 'admin',
+    'route_prefix' => null,
 
 ];
