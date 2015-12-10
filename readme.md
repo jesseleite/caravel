@@ -63,9 +63,9 @@ Route::group(['prefix' => config('caravel.prefix'), 'as' => 'caravel::'], functi
 
 });
 ```
-If you are configuring Caravel as a standalone installation, or you are routing through a subdomain, you might prefer setting a custom route `prefix` in `/config/caravel.php`.  (Can be set `null`.)
+If you are configuring Caravel as a standalone installation, or you are routing through a subdomain, you might prefer setting a custom route `prefix` in `/config/caravel.php`.  Can be set `null`.
 
-### That's it!  You now have a basic working CMS.
+*That's it!  You now have a basic working CMS.*
 
 ## Field Configuration
 
