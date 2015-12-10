@@ -8,4 +8,6 @@ return [
 
     'route_prefix' => null,
 
+    'logout' => null,
+
 ];

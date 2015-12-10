@@ -19,6 +19,12 @@
         .nav {
             margin-bottom: 30px;
         }
+        .logout {
+            color: #ccc;
+        }
+        .logout:hover {
+            color: #7a7a7a;
+        }
         .version {
             color: #ccc;
         }
@@ -58,6 +64,15 @@
                             <a href="{{ $prefix }}/{{ $uri }}" class="nav-link {{ isset($resource) && $resource == $uri ? 'active' : '' }}">{{ ucfirst($uri) }}</a>
                         </li>
                     @endforeach
+                    @if (config('caravel.logout'))
+                        <li class="nav-item">
+                            @if (substr(config('caravel.logout'), 0, 1) == '/')
+                                <a href="{{ config('caravel.logout') }}" class="nav-link m-t logout"><i class="fa fa-sign-out">&nbsp;&nbsp;Logout</i></a>
+                            @else
+                                <a href="/{{ config('caravel.logout') }}" class="nav-link m-t logout"><i class="fa fa-sign-out">&nbsp;&nbsp;Logout</i></a>
+                            @endif
+                        </li>
+                    @endif
                 </ul>
             </div>
             <div class="col-md-9">

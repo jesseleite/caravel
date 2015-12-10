@@ -135,4 +135,4 @@ Once these views are published, you can modify anything within this folder.  Car
 
 ## Authentication
 
-Bring your own authentication!  You can easily apply any authentication middleware to Caravel's route group.  I may add more authentication options in the future.
+Bring your own authentication!  You can easily apply any authentication middleware to Caravel's route group.  Don't forget to inform Caravel of your logout route so that the proper link can be displayed in the menu!  This can be specified in /config/caravel.php.
