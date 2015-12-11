@@ -32,4 +32,7 @@
     #confirm-delete {
         display: inline-block;
     }
+    input[type=file] {
+        display: block;
+    }
 </style>

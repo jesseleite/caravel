@@ -129,6 +129,7 @@ Included field types:
 - `input` (Basic text input)
 - `textarea` (Basic textarea)
 - `simplemde` ([Simplemde markdown editor](https://github.com/NextStepWebs/simplemde-markdown-editor))
+- `file` (Basic file input)
 
 ...more to come very soon! (ie. checkboxes, radios, dropdowns, etc.)
 

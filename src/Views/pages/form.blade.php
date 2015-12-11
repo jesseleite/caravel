@@ -7,7 +7,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            {!! $bootForm->open()->action($action)->addClass('caravel-form') !!}
+            {!! $bootForm->open()->action($action)->multipart()->addClass('caravel-form') !!}
                 @if (isset($model->id))
                     {!! $bootForm->bind($model) !!}
                     {!! $bootForm->hidden('_method')->value('PUT') !!}
