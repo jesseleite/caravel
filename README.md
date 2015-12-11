@@ -130,6 +130,7 @@ Included field types:
 - `textarea` (Basic textarea)
 - `simplemde` ([Simplemde markdown editor](https://github.com/NextStepWebs/simplemde-markdown-editor))
 - `file` (Basic file input)
+    - Currently requires external handling for actual upload.
 
 ...more to come very soon! (ie. checkboxes, radios, dropdowns, etc.)
 
