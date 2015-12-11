@@ -6,7 +6,16 @@
 <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 <script src="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
 <script>
-    var simplemde = new SimpleMDE({ element: $('#{{ $field }}')[0] });
+    var simplemde = new SimpleMDE({
+        element: $('#{{ $field }}')[0],
+        renderingConfig: {
+            singleLineBreaks: true
+        },
+        hideIcons: ["guide"]
+            // - Implement custom hideIcons options soon.
+            // - Build guide off of shown icons only.
+            // - Show guide in modal.
+    });
 
     $(function() {
 
