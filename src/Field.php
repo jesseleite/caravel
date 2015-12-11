@@ -97,7 +97,11 @@ class Field
 
     public function setLabel()
     {
-        $this->label = isset($this->options['label']) ? $this->options['label'] : ucfirst($this->name);
+        if (isset($this->options['label'])) {
+            $this->label = $this->options['label'];
+        } else {
+            $this->label = ucwords(str_replace('_', ' ', $this->name));
+        }
     }
 
     public function setHelp()
