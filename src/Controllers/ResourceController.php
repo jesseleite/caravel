@@ -2,14 +2,13 @@
 
 namespace ThisVessel\Caravel\Controllers;
 
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use ThisVessel\Caravel\Traits\SetsResource;
-use Illuminate\Foundation\Validation\ValidatesRequests;
+use ThisVessel\Caravel\Requests\ResourceRequest;
 
 class ResourceController extends Controller
 {
-    use ValidatesRequests, SetsResource;
+    use SetsResource;
 
     /**
      * Resource helper object.
@@ -63,10 +62,8 @@ class ResourceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ResourceRequest $request)
     {
-        $this->validate($request, $this->resource->rules);
-
         $model = $this->resource->modelClass;
         $model::create($request->all());
 
@@ -109,10 +106,8 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ResourceRequest $request, $id)
     {
-        $this->validate($request, $this->resource->rules);
-
         $model = $this->resource->find($id);
         $model->update($request->all());
 
