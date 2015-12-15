@@ -111,6 +111,11 @@ class Field
         }
     }
 
+    public function listable()
+    {
+        return $this->type == 'password' ? false : true;
+    }
+
     public function __toString()
     {
         return $this->name;

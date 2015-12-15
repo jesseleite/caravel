@@ -11,7 +11,9 @@
                     <thead>
                         <tr>
                             @foreach ($fields as $field)
-                                <th>{{ $field->label }}</th>
+                                @if ($field->listable())
+                                    <th>{{ $field->label }}</th>
+                                @endif
                             @endforeach
                             <th class="actions">
                                 <a href="{{ route('caravel::' . $resource . '.create') }}" class="btn btn-sm btn-primary-outline pull-right"><i class="fa fa-file-o"></i></a>
@@ -22,7 +24,9 @@
                         @foreach ($items as $item)
                             <tr>
                                 @foreach ($fields as $field)
-                                    <td>{{ str_limit($item->$field, 25) }}</td>
+                                    @if ($field->listable())
+                                        <td>{{ str_limit($item->$field, 25) }}</td>
+                                    @endif
                                 @endforeach
                                 <td class="actions">
                                     <a href="{{ route('caravel::' . $resource . '.edit', $item->id) }}"class="btn btn-warning-outline btn-sm" role="button">
