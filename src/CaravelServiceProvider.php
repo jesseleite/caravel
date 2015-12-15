@@ -40,7 +40,7 @@ class CaravelServiceProvider extends ServiceProvider
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/caravel.php', 'caravel'
+            __DIR__.'/Config/caravel.php', 'caravel'
         );
 
         $this->app->register(BootFormsServiceProvider::class);
