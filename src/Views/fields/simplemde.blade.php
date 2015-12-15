@@ -11,10 +11,11 @@
         renderingConfig: {
             singleLineBreaks: true
         },
-        hideIcons: ["guide"]
+        hideIcons: ["guide", "image"]
             // - Implement custom hideIcons options soon.
             // - Build guide off of shown icons only.
             // - Show guide in modal.
+            // - Implement helper for image insertion?
     });
 
     $(function() {
