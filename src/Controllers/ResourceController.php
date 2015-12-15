@@ -35,9 +35,9 @@ class ResourceController extends Controller
      */
     public function index()
     {
-        Drawbridge::authorize('manage', $this->resource->modelObject);
+        Drawbridge::authorize('manage', $this->resource->newInstance);
 
-        $model = $this->resource->modelClass;
+        $model = $this->resource->className;
 
         $data = $this->resource->commonViewData();
         $data['items'] = $model::all()->reverse();
@@ -52,11 +52,11 @@ class ResourceController extends Controller
      */
     public function create()
     {
-        Drawbridge::authorize('create', $this->resource->modelObject);
+        Drawbridge::authorize('create', $this->resource->newInstance);
 
         $data = $this->resource->commonViewData();
         $data['action'] = route('caravel::' . $this->resource->name . '.store');
-        $data['model']  = $this->resource->modelObject;
+        $data['model']  = $this->resource->newInstance;
 
         return view('caravel::pages.form', $data);
     }
@@ -69,7 +69,7 @@ class ResourceController extends Controller
      */
     public function store(ResourceRequest $request)
     {
-        $model = $this->resource->modelClass;
+        $model = $this->resource->className;
 
         $model::create($request->all());
 

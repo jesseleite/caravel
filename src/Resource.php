@@ -9,16 +9,16 @@ class Resource
     use DbalFieldTypes;
 
     public $name;
-    public $modelClass;
-    public $modelObject;
+    public $className;
+    public $newInstance;
     public $fields;
     public $rules = [];
 
     public function __construct($resource)
     {
         $this->setName($resource);
-        $this->setModelClass();
-        $this->setModelObject();
+        $this->setClassName();
+        $this->setNewInstance();
         $this->setFields();
         $this->setRules();
     }
@@ -28,19 +28,19 @@ class Resource
         $this->name = $resource;
     }
 
-    protected function setModelClass()
+    protected function setClassName()
     {
-        $this->modelClass = config('caravel.resources')[$this->name];
+        $this->className = config('caravel.resources')[$this->name];
     }
 
-    protected function setModelObject()
+    protected function setNewInstance()
     {
-        $this->modelObject = new $this->modelClass;
+        $this->newInstance = new $this->className;
     }
 
     protected function setFields()
     {
-        $model = $this->modelObject;
+        $model = $this->newInstance;
         $types = $this->getTypesFromDbal($model);
 
         foreach ($model->getFillable() as $name) {
@@ -69,7 +69,7 @@ class Resource
 
     public function find($id)
     {
-        $model = $this->modelObject;
+        $model = $this->newInstance;
 
         return $model::find($id);
     }

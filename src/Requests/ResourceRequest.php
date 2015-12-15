@@ -37,10 +37,10 @@ class ResourceRequest extends FormRequest
         $id = $this->route($this->resource->name);
 
         if (isset($id)) {
-            $model = $this->resource->modelClass;
+            $model = $this->resource->className;
             Drawbridge::authorize('update', $model::find($id));
         } else {
-            Drawbridge::authorize('create', $this->resource->modelObject);
+            Drawbridge::authorize('create', $this->resource->newInstance);
         }
 
         return true;
