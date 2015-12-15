@@ -34,8 +34,14 @@ class ResourceRequest extends FormRequest
      */
     public function authorize()
     {
-        // TODO: Detect if create or update!
-        // Drawbridge::authorize('create', $this->resource->modelObject);
+        $id = $this->route($this->resource->name);
+
+        if (isset($id)) {
+            $model = $this->resource->modelClass;
+            Drawbridge::authorize('update', $model::find($id));
+        } else {
+            Drawbridge::authorize('create', $this->resource->modelObject);
+        }
 
         return true;
     }
