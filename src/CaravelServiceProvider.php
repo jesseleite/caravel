@@ -28,7 +28,7 @@ class CaravelServiceProvider extends ServiceProvider
         ], 'views');
 
         $this->publishes([
-            __DIR__.'/../config/caravel.php' => config_path('caravel.php'),
+            __DIR__.'/Config/caravel.php' => config_path('caravel.php'),
         ], 'config');
     }
 
