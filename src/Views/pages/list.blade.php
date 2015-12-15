@@ -1,5 +1,7 @@
 @extends('caravel::master')
 
+@inject('drawbridge', '\ThisVessel\Caravel\Helpers\Drawbridge')
+
 @section('container')
 
     @include('caravel::components.alert')
@@ -16,7 +18,9 @@
                                 @endif
                             @endforeach
                             <th class="actions">
-                                <a href="{{ route('caravel::' . $resource . '.create') }}" class="btn btn-sm btn-primary-outline pull-right"><i class="fa fa-file-o"></i></a>
+                                @if ($drawbridge::allows('create', $newInstance))
+                                    <a href="{{ route('caravel::' . $resource . '.create') }}" class="btn btn-sm btn-primary-outline pull-right"><i class="fa fa-file-o"></i></a>
+                                @endif
                             </th>
                         </tr>
                     </thead>
@@ -29,12 +33,16 @@
                                     @endif
                                 @endforeach
                                 <td class="actions">
-                                    <a href="{{ route('caravel::' . $resource . '.edit', $item->id) }}"class="btn btn-warning-outline btn-sm" role="button">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
+                                    @if ($drawbridge::allows('update', $item))
+                                        <a href="{{ route('caravel::' . $resource . '.edit', $item->id) }}"class="btn btn-warning-outline btn-sm" role="button">
+                                            <i class="fa fa-pencil"></i>
+                                        </a>
+                                    @endif
+                                    @if ($drawbridge::allows('delete', $item))
                                     <a href="{{ route('caravel::' . $resource . '.destroy', $item->id) }}" class="btn btn-danger-outline btn-sm delete" role="button" data-toggle="modal" data-target=".bd-example-modal-sm">
                                         <i class="fa fa-trash-o"></i>
                                     </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

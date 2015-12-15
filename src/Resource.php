@@ -54,6 +54,7 @@ class Resource
     {
         return [
             'resource' => $this->name,
+            'newInstance' => $this->newInstance,
             'fields'   => $this->fields,
         ];
     }
