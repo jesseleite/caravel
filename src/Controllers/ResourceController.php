@@ -3,6 +3,7 @@
 namespace ThisVessel\Caravel\Controllers;
 
 use Illuminate\Routing\Controller;
+use ThisVessel\Caravel\Helpers\Drawbridge;
 use ThisVessel\Caravel\Traits\SetsResource;
 use ThisVessel\Caravel\Requests\ResourceRequest;
 
@@ -34,7 +35,10 @@ class ResourceController extends Controller
      */
     public function index()
     {
+        Drawbridge::authorize('manage', $this->resource->modelObject);
+
         $model = $this->resource->modelClass;
+
         $data = $this->resource->commonViewData();
         $data['items'] = $model::all()->reverse();
 
@@ -48,8 +52,9 @@ class ResourceController extends Controller
      */
     public function create()
     {
-        $data = $this->resource->commonViewData();
+        Drawbridge::authorize('create', $this->resource->modelObject);
 
+        $data = $this->resource->commonViewData();
         $data['action'] = route('caravel::' . $this->resource->name . '.store');
         $data['model']  = $this->resource->modelObject;
 
@@ -65,6 +70,7 @@ class ResourceController extends Controller
     public function store(ResourceRequest $request)
     {
         $model = $this->resource->modelClass;
+
         $model::create($request->all());
 
         session()->flash('success', ucfirst(str_singular($this->resource->name)) . ' was created successfully!');
@@ -91,10 +97,13 @@ class ResourceController extends Controller
      */
     public function edit($id)
     {
-        $data = $this->resource->commonViewData();
+        $model = $this->resource->find($id);
 
+        Drawbridge::authorize('update', $model);
+
+        $data = $this->resource->commonViewData();
         $data['action'] = route('caravel::' . $this->resource->name . '.update', $id);
-        $data['model']  = $this->resource->find($id);
+        $data['model']  = $model;
 
         return view('caravel::pages.form', $data);
     }
@@ -109,6 +118,7 @@ class ResourceController extends Controller
     public function update(ResourceRequest $request, $id)
     {
         $model = $this->resource->find($id);
+
         $model->update($request->all());
 
         session()->flash('success', ucfirst(str_singular($this->resource->name)) . ' was updated successfully!');
@@ -124,8 +134,11 @@ class ResourceController extends Controller
      */
     public function destroy($id)
     {
-        $model = $this->resource->modelClass;
-        $model::destroy($id);
+        $model = $this->resource->find($id);
+
+        Drawbridge::authorize('delete', $model);
+
+        $model->delete();
 
         session()->flash('success', ucfirst(str_singular($this->resource->name)) . ' was deleted successfully!');
 

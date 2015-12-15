@@ -12,6 +12,7 @@ The goal of this CMS is to be super light and easy to implement, while giving yo
 - [Add Field Types](#add-field-types)
 - [Customize Views](#customize-views)
 - [Authentication](#authentication)
+- [Authorization](#authorization)
 
 ## Installation
 
@@ -76,12 +77,6 @@ If you are configuring Caravel as a standalone installation, or you are routing 
 Field configuration happens in your Eloquent Model.
 
 ```php
-<?php
-
-namespace App;
-
-use Illuminate\Database\Eloquent\Model;
-
 class Author extends Model
 {
     /**
@@ -112,7 +107,6 @@ class Author extends Model
             'help'  => 'Help block text goes here.',
         ],
     ];
-}
 ```
 
 Your model's `$fillable` property is very important as it tells Caravel which fields need form input rendering.
@@ -125,12 +119,14 @@ The public `$caravel` property contains field modifiers and validation rules.  T
 
 ## Available Field Types
 
-Included field types:
-- `input` (Basic text input)
-- `textarea` (Basic textarea)
-- `simplemde` ([Simplemde markdown editor](https://github.com/NextStepWebs/simplemde-markdown-editor))
-- `file` (Basic file input)
-    - Currently requires external handling for actual upload.
+The following field types are included with Caravel:
+
+| Field Type | Description      |
+| ---------- | ---------------- |
+| input      | Basic text input |
+| textarea   | Basic textarea   |
+| simplemde  | [Simplemde markdown editor](https://github.com/NextStepWebs/simplemde-markdown-editor) |
+| file       | Basic file input (*Currently requires external upload handling) |
 
 ...more to come very soon! (ie. checkboxes, radios, dropdowns, etc.)
 
@@ -153,4 +149,25 @@ Once these views are published, you can modify anything within this folder.  Car
 
 ## Authentication
 
-Bring your own authentication!  You can easily apply any authentication middleware to Caravel's route group.  Don't forget to inform Caravel of your logout route so that the proper link can be displayed in the menu!  This can be specified in /config/caravel.php.
+Bring your own authentication!  Though Laravel ships with [Authentication](http://laravel.com/docs/authentication) features, you can easily apply any authentication middleware to Caravel's route group.  Don't forget to inform Caravel of your logout route so that the proper link can be displayed in the menu!  This can be specified in /config/caravel.php.
+
+## Authorization
+
+If your authentication system is compatible with Laravel's [Authorization](http://laravel.com/docs/authorization) features, Caravel has preconfigured ability and policy checks for you to hook into.  For example, imagine you have the following resource mapping in `/config/caravel.php`:
+
+```php
+'resources' => [
+    'posts' => App\Post::class,
+],
+```
+
+Caravel uses this mapping to create the following ability and policy checks:
+
+| Ability Definitions | Policy Methods | Behaviour                          |
+| ------------------- | -------------- | ---------------------------------- |
+| manage-posts        | manage()       | Can posts be shown in user's menu? |
+| create-posts        | create()       | Can posts be created by user?      |
+| update-post         | update()       | Can post be updated by user?       |
+| delete-post         | delete()       | Can post be deleted by user?       |
+
+If you define abilities or policy methods using the above naming conventions, Caravel will use your authorization logic where applicable.  Otherwise, Caravel skips the authorization check and gives the user full access.

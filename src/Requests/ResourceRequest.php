@@ -2,7 +2,7 @@
 
 namespace ThisVessel\Caravel\Requests;
 
-use Gate;
+use ThisVessel\Caravel\Helpers\Drawbridge;
 use Illuminate\Foundation\Http\FormRequest;
 use ThisVessel\Caravel\Traits\SetsResource;
 
@@ -34,6 +34,9 @@ class ResourceRequest extends FormRequest
      */
     public function authorize()
     {
+        // TODO: Detect if create or update!
+        // Drawbridge::authorize('create', $this->resource->modelObject);
+
         return true;
     }
 

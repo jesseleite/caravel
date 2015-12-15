@@ -28,10 +28,13 @@
                     <li class="nav-item">
                         <a href="{{ route('caravel::dashboard') }}" class="nav-link {{ !isset($resource) ? 'active' : '' }}">Dashboard</a>
                     </li>
+                    @inject('drawbridge', '\ThisVessel\Caravel\Helpers\Drawbridge')
                     @foreach (config('caravel.resources') as $uri => $model)
-                        <li class="nav-item">
-                            <a href="{{ route('caravel::' . $uri . '.index') }}" class="nav-link {{ isset($resource) && $resource == $uri ? 'active' : '' }}">{{ ucfirst($uri) }}</a>
-                        </li>
+                        @if ($drawbridge::allows('manage', new $model))
+                            <li class="nav-item">
+                                <a href="{{ route('caravel::' . $uri . '.index') }}" class="nav-link {{ isset($resource) && $resource == $uri ? 'active' : '' }}">{{ ucfirst($uri) }}</a>
+                            </li>
+                        @endif
                     @endforeach
                     @if (config('caravel.logout'))
                         <li class="nav-item">
