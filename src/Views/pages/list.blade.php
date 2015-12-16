@@ -8,6 +8,7 @@
 
     @include('caravel::components.alert')
 
+    <!-- Resource List -->
     <div class="row">
         <div class="col-md-12">
             @if ($items->count() > 0)

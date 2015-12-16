@@ -7,6 +7,7 @@
 
 @section('container')
 
+    <!-- Resource Form -->
     <div class="row">
         <div class="col-md-12">
             {!! $bootForm->open()->action($action)->multipart()->addClass('caravel-form') !!}

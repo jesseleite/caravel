@@ -1,4 +1,5 @@
 @if (session()->get('success'))
+    <!-- Alert -->
     <div id="success" class="row">
         <div class="col-md-12">
             <div class="alert alert-success" role="alert">

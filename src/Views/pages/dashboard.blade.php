@@ -4,6 +4,7 @@
 
 @section('container')
 
+    <!-- Dashboard -->
     <div class="row">
 
         <!-- Welcome Card -->

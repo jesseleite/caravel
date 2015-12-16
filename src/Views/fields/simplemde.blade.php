@@ -1,3 +1,4 @@
+<!-- Simplemde Markdown Editor -->
 {!! $bootForm->textarea($field->label, $field)
              ->helpBlock($field->help) !!}
 
