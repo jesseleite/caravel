@@ -1,5 +1,7 @@
 @extends('caravel::master')
 
+@section('title', 'Dashboard')
+
 @section('container')
 
     <div class="row">

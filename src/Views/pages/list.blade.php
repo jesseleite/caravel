@@ -1,5 +1,7 @@
 @extends('caravel::master')
 
+@section('title', ucfirst($resource))
+
 @inject('drawbridge', '\ThisVessel\Caravel\Helpers\Drawbridge')
 
 @section('container')

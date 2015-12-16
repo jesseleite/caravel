@@ -7,3 +7,22 @@
         </div>
     </div>
 @endif
+
+@section('scripts')
+    @parent
+    <script>
+        $(document).ready(function() {
+            if ($('#success')) {
+                setTimeout(function() {
+                    $('#success').fadeOut("normal", function() {
+                        $(this).remove();
+                    });
+                }, 4000);
+
+                $('#success').click(function() {
+                    $(this).remove();
+                });
+            }
+        });
+    </script>
+@endsection

@@ -1,5 +1,7 @@
 @extends('caravel::master')
 
+@section('title', ucfirst($resource))
+
 @inject('form', 'adamwathan.form')
 @inject('bootForm', 'bootform')
 

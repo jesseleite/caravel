@@ -19,25 +19,14 @@
     </div>
 </div>
 
-<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('.delete').click(function(e) {
-            e.preventDefault();
-            $('form#confirm-delete').attr('action', this.href);
-        });
-
-        if ($('#success')) {
-            setTimeout(function() {
-                $('#success').fadeOut("normal", function() {
-                    $(this).remove();
-                });
-            }, 4000);
-
-            $('#success').click(function() {
-                $(this).remove();
+@section('scripts')
+    @parent
+    <script>
+        $(document).ready(function() {
+            $('.delete').click(function(e) {
+                e.preventDefault();
+                $('form#confirm-delete').attr('action', this.href);
             });
-        }
-    });
-</script>
+        });
+    </script>
+@endsection

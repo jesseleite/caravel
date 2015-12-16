@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Caravel Admin</title>
+    <title>Caravel Admin - @yield('title')</title>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    @include('caravel::shame.css')
+    @section('stylesheets')
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        @include('caravel::shame.css')
+    @show
 
 </head>
 <body>
@@ -55,5 +57,12 @@
 
         </div>
     </div>
+
+    <!-- Scripts -->
+    @section('scripts')
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>
+    @show
+
 </body>
 </html>
