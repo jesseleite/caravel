@@ -47,12 +47,14 @@ Route::group(['prefix' => config('caravel.prefix'), 'as' => 'caravel::'], functi
 
     // Caravel Root
     Route::get(null, [
-        'as' => 'root', 'uses' => '\ThisVessel\Caravel\Controllers\DashboardController@redirect'
+        'as' => 'root',
+        'uses' => '\ThisVessel\Caravel\Controllers\DashboardController@redirect',
     ]);
 
     // Caravel Dashboard
     Route::get('dashboard', [
-        'as' => 'dashboard', 'uses' => '\ThisVessel\Caravel\Controllers\DashboardController@index'
+        'as' => 'dashboard',
+        'uses' => '\ThisVessel\Caravel\Controllers\DashboardController@index',
     ]);
 
     // Caravel Resources
@@ -149,7 +151,7 @@ php artisan vendor:publish --tag="caravel-views"
 // Publish Field View Partials Only
 php artisan vendor:publish --tag="caravel-fields"
 ```
-Once these views are published, you can modify anything within this folder.  Caravel will attempt to load your views before loading from /vendor.
+Once these views are published, you can modify anything within this folder.  Caravel will attempt to load your views before loading it's default views.
 
 ## Authentication
 
