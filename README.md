@@ -151,7 +151,7 @@ php artisan vendor:publish --tag="caravel-views"
 // Publish Field View Partials Only
 php artisan vendor:publish --tag="caravel-fields"
 ```
-Once these views are published, you can modify anything within this folder.  Caravel will attempt to load your views before loading it's default views.
+Once these views are published, you can modify anything within this folder.  Caravel will attempt to load your views before loading it's own default views.
 
 ## Authentication
 
