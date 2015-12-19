@@ -35,4 +35,15 @@
     input[type=file] {
         display: block;
     }
+    .has-error {
+        color: rgb(217, 83, 79);
+    }
+    .has-error .help-block {
+        color: rgb(217, 83, 79);
+    }
+    .has-error input,
+    .has-error textarea
+    .has-error input:focus {
+        border-color: rgb(217, 83, 79) !important;
+    }
 </style>
