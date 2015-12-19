@@ -42,7 +42,7 @@
         color: rgb(217, 83, 79);
     }
     .has-error input,
-    .has-error textarea
+    .has-error textarea,
     .has-error input:focus {
         border-color: rgb(217, 83, 79) !important;
     }
