@@ -1,6 +1,6 @@
 # Caravel
 
-**DISCLAIMER: This is a work in progress! Use at your own risk! When I am happy with implementation and test coverage, I will tag version. Suggestions welcome :)**
+**DISCLAIMER: This is a work in progress! Use at your own risk! When I am mostly happy with implementation, I will tag a version. Suggestions welcome :)**
 
 A lightweight CMS built on Laravel.  Yes, another CMS :/
 
@@ -20,7 +20,7 @@ The goal of this CMS is to be super light and easy to implement, while giving yo
 ```
 composer require 'thisvessel/caravel:dev-master'
 ```
-Note: I will tag version as soon I am happy with implementation and test coverage.
+Note: I will tag a version when I am mostly happy with implementation.
 
 ### 2. Add CaravelServiceProvider to providers array in /config/app.php.
 ```php
@@ -29,7 +29,7 @@ ThisVessel\Caravel\CaravelServiceProvider::class,
 
 ### 3. Publish Caravel's config file.
 ```
-php artisan vendor:publish --provider="ThisVessel\Caravel\CaravelServiceProvider" --tag="config"
+php artisan vendor:publish -tag="caravel-config"
 ```
 
 ### 4. Add Eloquent Model mappings to resources array in /config/caravel.php.
@@ -143,13 +143,22 @@ You can add your new field types simply by referencing a new `type` string in yo
 
 You can easily override Caravel's views and view partials.  First publish Caravel's views to your project's /resources/views/vendor/caravel folder.
 ```
-php artisan vendor:publish --provider="ThisVessel\Caravel\CaravelServiceProvider" --tag="views"
+// Publish All Views
+php artisan vendor:publish --tag="caravel-views"
+
+// Publish Field View Partials Only
+php artisan vendor:publish --tag="caravel-fields"
 ```
 Once these views are published, you can modify anything within this folder.  Caravel will attempt to load your views before loading from /vendor.
 
 ## Authentication
 
 Bring your own authentication!  Though Laravel ships with [Authentication](http://laravel.com/docs/authentication) features, you can easily apply any authentication middleware to Caravel's route group.  Don't forget to inform Caravel of your logout route so that the proper link can be displayed in the menu!  This can be specified in /config/caravel.php.
+
+Need a login view?  You can publish Caravel's login view to /resources/views/auth using the following command.
+```
+php artisan vendor:publish --tag="caravel-auth"
+```
 
 ## Authorization
 
