@@ -34,7 +34,7 @@
                     @foreach (config('caravel.resources') as $uri => $model)
                         @if ($drawbridge::allows('manage', new $model))
                             <li class="nav-item">
-                                <a href="{{ route('caravel::' . $uri . '.index') }}" class="nav-link {{ isset($resource) && $resource == $uri ? 'active' : '' }}">{{ ucfirst($uri) }}</a>
+                                <a href="{{ route('caravel::' . $uri . '.index') }}" class="nav-link {{ isset($resource) && $resource == $uri ? 'active' : '' }}">{{ ucwords(implode(' ', explode('-', $uri))) }}</a>
                             </li>
                         @endif
                     @endforeach
