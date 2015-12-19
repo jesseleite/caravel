@@ -17,7 +17,7 @@
 
         <!-- Page Header -->
         <div class="page-header">
-            <h1>Caravel Admin</h1>
+            <h1 class="display-4">Caravel Admin</h1>
             <p class="lead">Powered by This Vessel</p>
         </div>
 
@@ -41,9 +41,9 @@
                     @if (config('caravel.logout'))
                         <li class="nav-item">
                             @if (substr(config('caravel.logout'), 0, 1) == '/')
-                                <a href="{{ config('caravel.logout') }}" class="nav-link m-t logout"><i class="fa fa-sign-out">&nbsp;&nbsp;Logout</i></a>
+                                <a href="{{ config('caravel.logout') }}" class="nav-link m-t-1 logout"><i class="fa fa-sign-out">&nbsp;&nbsp;Logout</i></a>
                             @else
-                                <a href="/{{ config('caravel.logout') }}" class="nav-link m-t logout"><i class="fa fa-sign-out">&nbsp;&nbsp;Logout</i></a>
+                                <a href="/{{ config('caravel.logout') }}" class="nav-link m-t-1 logout"><i class="fa fa-sign-out">&nbsp;&nbsp;Logout</i></a>
                             @endif
                         </li>
                     @endif

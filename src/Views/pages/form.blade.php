@@ -18,7 +18,7 @@
                 @foreach ($fields as $field)
                     @include('caravel::fields.' . $field->type, ['field' => $field])
                 @endforeach
-                {!! $bootForm->submit('Save')->addClass('btn-primary m-t') !!}
+                {!! $bootForm->submit('Save')->addClass('btn-primary m-t-1') !!}
             {!! $bootForm->close() !!}
         </div>
     </div>
