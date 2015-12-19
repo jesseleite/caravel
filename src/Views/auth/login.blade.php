@@ -17,11 +17,12 @@
         <div class="col-md-6 col-md-offset-3">
             <h1 class="display-4">Caravel Admin</h1>
             <p class="lead">Powered by This Vessel</p>
-            {!! BootForm::open()->action('/auth/login') !!}
-                {!! BootForm::email('Email', 'email')->autofocus() !!}
-                {!! BootForm::password('Password', 'password') !!}
-                {!! BootForm::submit('Login')->addClass('btn-primary m-t-1') !!}
-            {!! BootForm::close() !!}
+            @inject('bootForm', 'bootform')
+            {!! $bootForm->open()->action('/auth/login') !!}
+                {!! $bootForm->email('Email', 'email')->autofocus() !!}
+                {!! $bootForm->password('Password', 'password') !!}
+                {!! $bootForm->submit('Login')->addClass('btn-primary m-t-1') !!}
+            {!! $bootForm->close() !!}
         </div>
 
     </div>
