@@ -5,11 +5,12 @@ namespace ThisVessel\Caravel\Controllers;
 use Illuminate\Routing\Controller;
 use ThisVessel\Caravel\Helpers\Drawbridge;
 use ThisVessel\Caravel\Traits\SetsResource;
+use ThisVessel\Caravel\Traits\UploadsFiles;
 use ThisVessel\Caravel\Requests\ResourceRequest;
 
 class ResourceController extends Controller
 {
-    use SetsResource;
+    use SetsResource, UploadsFiles;
 
     /**
      * Resource helper object.
@@ -71,7 +72,11 @@ class ResourceController extends Controller
     {
         $model = $this->resource->className;
 
-        $model::create($request->all());
+        $data = $this->prepareInputData($request);
+
+        $created = $model::create($data);
+
+        $this->uploadFiles($request, $created);
 
         session()->flash('success', ucfirst(str_singular($this->resource->name)) . ' was created successfully!');
 
@@ -119,7 +124,11 @@ class ResourceController extends Controller
     {
         $model = $this->resource->find($id);
 
-        $model->update($request->all());
+        $data = $this->prepareInputData($request);
+
+        $model->update($data);
+
+        $this->uploadFiles($request, $model);
 
         session()->flash('success', ucfirst(str_singular($this->resource->name)) . ' was updated successfully!');
 

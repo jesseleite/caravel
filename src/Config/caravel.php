@@ -10,4 +10,8 @@ return [
 
     'logout' => null,
 
+    'upload' => [
+        'path' => public_path() . '/uploads/:table/:id',
+    ],
+
 ];
