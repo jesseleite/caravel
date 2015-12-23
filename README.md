@@ -29,7 +29,7 @@ ThisVessel\Caravel\CaravelServiceProvider::class,
 
 ### 3. Publish Caravel's config file.
 ```
-php artisan vendor:publish -tag="caravel-config"
+php artisan vendor:publish --tag="caravel-config"
 ```
 
 ### 4. Add Eloquent Model mappings to resources array in /config/caravel.php.
