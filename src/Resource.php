@@ -19,6 +19,7 @@ class Resource
         $this->setName($resource);
         $this->setClassName();
         $this->setNewInstance();
+        $this->checkFillable();
         $this->setFields();
         $this->setRules();
     }
@@ -47,6 +48,13 @@ class Resource
             $type = $types[$name];
             $options = isset($model->caravel[$name]) ? $model->caravel[$name] : null;
             $this->fields[] = new Field($name, $type, $options);
+        }
+    }
+
+    public function checkFillable()
+    {
+        if (empty($this->newInstance->getFillable())) {
+            return abort(403, 'Caravel requires fillable fields on model.');
         }
     }
 
