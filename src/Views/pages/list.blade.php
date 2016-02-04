@@ -37,12 +37,12 @@
                                 @endforeach
                                 <td class="actions">
                                     @if ($drawbridge::allows('update', $item))
-                                        <a href="{{ route('caravel::' . $resource . '.edit', $item->id) }}"class="btn btn-warning-outline btn-sm" role="button">
+                                        <a href="{{ route('caravel::' . $resource . '.edit', $item) }}"class="btn btn-warning-outline btn-sm" role="button">
                                             <i class="fa fa-pencil"></i>
                                         </a>
                                     @endif
                                     @if ($drawbridge::allows('delete', $item))
-                                    <a href="{{ route('caravel::' . $resource . '.destroy', $item->id) }}" class="btn btn-danger-outline btn-sm delete" role="button" data-toggle="modal" data-target=".bd-example-modal-sm">
+                                    <a href="{{ route('caravel::' . $resource . '.destroy', $item) }}" class="btn btn-danger-outline btn-sm delete" role="button" data-toggle="modal" data-target=".bd-example-modal-sm">
                                         <i class="fa fa-trash-o"></i>
                                     </a>
                                     @endif

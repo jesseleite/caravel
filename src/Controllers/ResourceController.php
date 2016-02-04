@@ -102,7 +102,7 @@ class ResourceController extends Controller
         Drawbridge::authorize('update', $model);
 
         $data = $this->resource->commonViewData();
-        $data['action'] = route('caravel::' . $this->resource->name . '.update', $id);
+        $data['action'] = route('caravel::' . $this->resource->name . '.update', $model);
         $data['model']  = $model;
 
         return view('caravel::pages.form', $data);
