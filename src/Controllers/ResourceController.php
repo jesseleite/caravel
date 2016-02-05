@@ -37,10 +37,8 @@ class ResourceController extends Controller
     {
         Drawbridge::authorize('manage', $this->resource->newInstance);
 
-        $model = $this->resource->className;
-
         $data = $this->resource->commonViewData();
-        $data['items'] = $model::all()->reverse();
+        $data['items'] = $this->resource->getList();
 
         return view('caravel::pages.list', $data);
     }

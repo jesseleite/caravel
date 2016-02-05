@@ -11,6 +11,7 @@ class Resource
     public $name;
     public $className;
     public $newInstance;
+    public $orderBy;
     public $fields;
     public $rules = [];
 
@@ -20,6 +21,7 @@ class Resource
         $this->setClassName();
         $this->setNewInstance();
         $this->checkFillable();
+        $this->setOrderBy();
         $this->setFields();
         $this->setRules();
     }
@@ -37,6 +39,19 @@ class Resource
     protected function setNewInstance()
     {
         $this->newInstance = new $this->className;
+    }
+
+    protected function setOrderBy()
+    {
+        $model = $this->newInstance;
+
+        if (isset($model->caravel['orderBy'])) {
+            $this->orderBy = $model->caravel['orderBy'];
+        } elseif (isset($model->updated_at)) {
+            $this->orderBy = 'updated_at desc';
+        } else {
+            $this->orderBy = $model->getKeyName() . ' desc';
+        }
     }
 
     protected function setFields()
@@ -74,6 +89,18 @@ class Resource
                 $this->rules[$field->name] = $field->rules;
             }
         }
+    }
+
+    public function getList()
+    {
+        $model = $this->newInstance;
+        $query = $model::orderByRaw($this->orderBy);
+
+        if (method_exists($model, 'withoutGlobalScopes')) {
+            $query = $query->withoutGlobalScopes();
+        }
+
+        return $query->get();
     }
 
     public function find($id)
