@@ -21,6 +21,9 @@ trait SetsResource
         // Get current URI,
         $uri = request()->getRequestUri();
 
+        // Remove request parameters,
+        $uri = explode('?', $uri)[0];
+
         // Remove route prefix,
         if (! empty(config('caravel.prefix'))) {
             $prefix = '/' . config('caravel.prefix');

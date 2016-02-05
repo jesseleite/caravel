@@ -12,6 +12,9 @@
     <div class="row">
         <div class="col-md-12">
             @if ($items->count() > 0)
+                <div class="pull-right">
+                    @include('caravel::components.pagination')
+                </div>
                 <table class="table">
                     <thead>
                         <tr>
@@ -51,6 +54,9 @@
                         @endforeach
                     </tbody>
                 </table>
+                <div class="pull-right">
+                    @include('caravel::components.pagination')
+                </div>
             @else
                 <div class="card card-block">
                     <h3 class="card-title">Nothing to see here!</h3>

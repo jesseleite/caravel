@@ -100,7 +100,7 @@ class Resource
             $query = $query->withoutGlobalScopes();
         }
 
-        return $query->get();
+        return $query->paginate(25);
     }
 
     public function find($id)
