@@ -10,7 +10,7 @@
     "license": "MIT",
     "require": {
         "php": ">=5.5.0",
-        "adamwathan/bootforms": "^0.7.1",
+        "adamwathan/bootforms": "^0.8.0",
         "doctrine/dbal": "^2.5"
     },
     "require-dev": {
