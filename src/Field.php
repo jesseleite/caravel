@@ -7,6 +7,7 @@ class Field
     public $name;
     public $label;
     public $type;
+    public $listable = true;
     public $required = false;
     public $help = null;
     public $rules = null;
@@ -17,6 +18,7 @@ class Field
         $this->setName($name);
         $this->setTypeFromDbal($type);
         $this->setOptions($options);
+        $this->unlistIfPassword();
         $this->setLabel();
         $this->setHelp();
     }
@@ -65,6 +67,11 @@ class Field
                 $this->setType($type[1]);
             }
 
+            // If unlist modifier provided, set on object.
+            elseif ($option == 'unlist') {
+                $this->setListable(false);
+            }
+
             // If required modifier provided, set on object and save as validation rule.
             elseif ($option == 'required') {
                 $this->setRequired(true);
@@ -80,9 +87,21 @@ class Field
         $this->setRules(implode('|', $rules));
     }
 
+    public function unlistIfPassword()
+    {
+        if ($this->type == 'password') {
+            $this->setListable(false);
+        }
+    }
+
     public function setType($type)
     {
         $this->type = $type;
+    }
+
+    public function setListable($listable)
+    {
+        $this->listable = $listable;
     }
 
     public function setRequired($required)
@@ -113,7 +132,7 @@ class Field
 
     public function listable()
     {
-        return $this->type == 'password' ? false : true;
+        return $this->listable ? true : false;
     }
 
     public function __toString()
