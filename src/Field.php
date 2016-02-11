@@ -132,7 +132,7 @@ class Field
 
     public function listable()
     {
-        return $this->listable ? true : false;
+        return $this->listable;
     }
 
     public function __toString()
