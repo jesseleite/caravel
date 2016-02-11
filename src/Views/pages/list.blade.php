@@ -15,45 +15,47 @@
                 <div class="pull-right">
                     @include('caravel::components.pagination')
                 </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            @foreach ($fields as $field)
-                                @if ($field->listable())
-                                    <th>{{ $field->label }}</th>
-                                @endif
-                            @endforeach
-                            <th class="actions">
-                                @if ($drawbridge::allows('create', $newInstance))
-                                    <a href="{{ route('caravel::' . $resource . '.create') }}" class="btn btn-sm btn-primary-outline pull-right"><i class="fa fa-file-o"></i></a>
-                                @endif
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($items as $item)
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
                             <tr>
                                 @foreach ($fields as $field)
                                     @if ($field->listable())
-                                        <td>{{ str_limit($item->$field, 25) }}</td>
+                                        <th>{{ $field->label }}</th>
                                     @endif
                                 @endforeach
-                                <td class="actions">
-                                    @if ($drawbridge::allows('update', $item))
-                                        <a href="{{ route('caravel::' . $resource . '.edit', $item) }}"class="btn btn-warning-outline btn-sm" role="button">
-                                            <i class="fa fa-pencil"></i>
-                                        </a>
+                                <th class="actions">
+                                    @if ($drawbridge::allows('create', $newInstance))
+                                        <a href="{{ route('caravel::' . $resource . '.create') }}" class="btn btn-sm btn-primary-outline pull-right"><i class="fa fa-file-o"></i></a>
                                     @endif
-                                    @if ($drawbridge::allows('delete', $item))
-                                    <a href="{{ route('caravel::' . $resource . '.destroy', $item) }}" class="btn btn-danger-outline btn-sm delete" role="button" data-toggle="modal" data-target=".bd-example-modal-sm">
-                                        <i class="fa fa-trash-o"></i>
-                                    </a>
-                                    @endif
-                                </td>
+                                </th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($items as $item)
+                                <tr>
+                                    @foreach ($fields as $field)
+                                        @if ($field->listable())
+                                            <td>{{ str_limit($item->$field, 25) }}</td>
+                                        @endif
+                                    @endforeach
+                                    <td class="actions">
+                                        @if ($drawbridge::allows('update', $item))
+                                            <a href="{{ route('caravel::' . $resource . '.edit', $item) }}" class="btn btn-warning-outline btn-sm" role="button">
+                                                <i class="fa fa-pencil"></i>
+                                            </a>
+                                        @endif
+                                        @if ($drawbridge::allows('delete', $item))
+                                            <a href="{{ route('caravel::' . $resource . '.destroy', $item) }}" class="btn btn-danger-outline btn-sm delete" role="button" data-toggle="modal" data-target=".bd-example-modal-sm">
+                                                <i class="fa fa-trash-o"></i>
+                                            </a>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
                 <div class="pull-right">
                     @include('caravel::components.pagination')
                 </div>
