@@ -38,18 +38,18 @@ class ResourceController extends Controller
     {
         Drawbridge::authorize('manage', $this->resource->newInstance);
 
-        $perPage = config('caravel.pagination');
-        $getParams = [];
-
         if ($this->resource->searchable() && $request->search) {
             $this->resource->search($request->search);
+            $search = $request->search;
             $getParams['search'] = $request->search;
         }
 
-        $data = $this->resource->commonViewData();
-        $data['items'] = $this->resource->paginate($perPage);
-        $data['searchable'] = $this->resource->searchable();
-        $data['getParams'] = $getParams;
+        $data = array_merge($this->resource->commonViewData(), [
+            'items' => $this->resource->paginate(config('caravel.pagination')),
+            'searchable' => $this->resource->searchable(),
+            'search' => isset($search) ? $search : null,
+            'getParams' => isset($getParams) ? $getParams : [],
+        ]);
 
         return view('caravel::pages.list', $data);
     }
@@ -63,9 +63,10 @@ class ResourceController extends Controller
     {
         Drawbridge::authorize('create', $this->resource->newInstance);
 
-        $data = $this->resource->commonViewData();
-        $data['action'] = route('caravel::' . $this->resource->name . '.store');
-        $data['model']  = $this->resource->newInstance;
+        $data = array_merge($this->resource->commonViewData(), [
+            'action' => route('caravel::' . $this->resource->name . '.store'),
+            'model' => $this->resource->newInstance,
+        ]);
 
         return view('caravel::pages.form', $data);
     }
@@ -110,9 +111,10 @@ class ResourceController extends Controller
 
         Drawbridge::authorize('update', $model);
 
-        $data = $this->resource->commonViewData();
-        $data['action'] = route('caravel::' . $this->resource->name . '.update', $model);
-        $data['model']  = $model;
+        $data = array_merge($this->resource->commonViewData(), [
+            'action' => route('caravel::' . $this->resource->name . '.update', $model),
+            'model' => $model,
+        ]);
 
         return view('caravel::pages.form', $data);
     }

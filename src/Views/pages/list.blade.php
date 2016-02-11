@@ -22,10 +22,10 @@
                         <div class="col-md-6">
                             {!! $bootForm->open()->get() !!}
                                 {!! $bootForm->inputGroup('Search', 'search')
-                                             ->inline()
                                              ->hideLabel()
                                              ->placeholder('Search ' . ucfirst($resource))
-                                             ->beforeAddon('<i class="fa fa-search"></i>') !!}
+                                             ->beforeAddon('<i class="fa fa-search"></i>')
+                                             ->value($search) !!}
                             {!! $bootForm->close() !!}
                         </div>
                     @endif
