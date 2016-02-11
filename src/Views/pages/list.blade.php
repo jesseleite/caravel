@@ -4,6 +4,9 @@
 
 @inject('drawbridge', '\ThisVessel\Caravel\Helpers\Drawbridge')
 
+@inject('form', 'adamwathan.form')
+@inject('bootForm', 'bootform')
+
 @section('container')
 
     @include('caravel::components.alert')
