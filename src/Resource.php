@@ -14,6 +14,7 @@ class Resource
     public $orderBy;
     public $fields;
     public $rules = [];
+    public $query;
 
     public function __construct($resource)
     {
@@ -24,6 +25,7 @@ class Resource
         $this->setOrderBy();
         $this->setFields();
         $this->setRules();
+        $this->setQueryBuilder();
     }
 
     protected function setName($resource)
@@ -91,22 +93,32 @@ class Resource
         }
     }
 
-    public function query()
+    public function setQueryBuilder()
     {
         $model = $this->newInstance;
-        $query = $model::orderByRaw($this->orderBy);
+        $this->query = $model::query();
 
         if (method_exists($model, 'withoutGlobalScopes')) {
-            $query = $query->withoutGlobalScopes();
+            $this->query->withoutGlobalScopes();
         }
 
-        return $query;
+        $this->query->orderByRaw($this->orderBy);
     }
 
-    public function find($id)
+    public function search($input)
     {
-        $model = $this->newInstance;
+        $this->query->where('manufacturer', 'like', "%$input%");
+    }
 
-        return $model::find($id);
+    /**
+     * Pass dynamic method calls onto query builder.
+     *
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return call_user_func_array([$this->query, $method], $parameters);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace ThisVessel\Caravel\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use ThisVessel\Caravel\Helpers\Drawbridge;
 use ThisVessel\Caravel\Traits\SetsResource;
@@ -33,14 +34,18 @@ class ResourceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         Drawbridge::authorize('manage', $this->resource->newInstance);
 
         $perPage = config('caravel.pagination');
 
+        if ($request->search) {
+            $this->resource->search($request->search);
+        }
+
         $data = $this->resource->commonViewData();
-        $data['items'] = $this->resource->query()->paginate($perPage);
+        $data['items'] = $this->resource->paginate($perPage);
 
         return view('caravel::pages.list', $data);
     }
