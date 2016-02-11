@@ -5,7 +5,7 @@ namespace ThisVessel\Caravel\Contracts;
 interface SearchableContract
 {
     /**
-     * Determine if the entity has a given ability.
+     * Eloquent query scope for allowing user search on resource model.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      * @param  string  $keywords
