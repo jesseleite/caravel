@@ -105,9 +105,9 @@ class Resource
         $this->query->orderByRaw($this->orderBy);
     }
 
-    public function search($input)
+    public function searchable()
     {
-        $this->query->where('manufacturer', 'like', "%$input%");
+        return method_exists($this->newInstance, 'scopeSearch') ? true : false;
     }
 
     /**

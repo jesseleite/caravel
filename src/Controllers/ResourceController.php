@@ -41,13 +41,14 @@ class ResourceController extends Controller
         $perPage = config('caravel.pagination');
         $getParams = [];
 
-        if ($request->search) {
+        if ($this->resource->searchable() && $request->search) {
             $this->resource->search($request->search);
             $getParams['search'] = $request->search;
         }
 
         $data = $this->resource->commonViewData();
         $data['items'] = $this->resource->paginate($perPage);
+        $data['searchable'] = $this->resource->searchable();
         $data['getParams'] = $getParams;
 
         return view('caravel::pages.list', $data);

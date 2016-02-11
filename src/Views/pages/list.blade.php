@@ -18,16 +18,18 @@
 
                 <!-- Resource List Toolbar -->
                 <div class="list-toolbar row">
-                    <div class="col-md-6">
-                        {!! $bootForm->open()->get() !!}
-                            {!! $bootForm->inputGroup('Search', 'search')
-                                         ->inline()
-                                         ->hideLabel()
-                                         ->placeholder('Search ' . ucfirst($resource))
-                                         ->beforeAddon('<i class="fa fa-search"></i>') !!}
-                        {!! $bootForm->close() !!}
-                    </div>
-                    <div class="col-md-6">
+                    @if ($searchable)
+                        <div class="col-md-6">
+                            {!! $bootForm->open()->get() !!}
+                                {!! $bootForm->inputGroup('Search', 'search')
+                                             ->inline()
+                                             ->hideLabel()
+                                             ->placeholder('Search ' . ucfirst($resource))
+                                             ->beforeAddon('<i class="fa fa-search"></i>') !!}
+                            {!! $bootForm->close() !!}
+                        </div>
+                    @endif
+                    <div class="{{ $searchable ? 'col-md-6' : 'col-md-12' }}">
                         <div class="pull-right">
                             @include('caravel::components.pagination')
                         </div>
