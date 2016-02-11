@@ -10,4 +10,6 @@ return [
 
     'logout' => null,
 
+    'pagination' => 25,
+
 ];

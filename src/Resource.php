@@ -91,7 +91,7 @@ class Resource
         }
     }
 
-    public function getList()
+    public function query()
     {
         $model = $this->newInstance;
         $query = $model::orderByRaw($this->orderBy);
@@ -100,7 +100,7 @@ class Resource
             $query = $query->withoutGlobalScopes();
         }
 
-        return $query->paginate(25);
+        return $query;
     }
 
     public function find($id)
