@@ -19,7 +19,7 @@
                 <!-- Resource List Toolbar -->
                 <div class="list-toolbar row">
                     <div class="col-md-6">
-                        {!! $bootForm->open() !!}
+                        {!! $bootForm->open()->get() !!}
                             {!! $bootForm->inputGroup('Search', 'search')
                                          ->inline()
                                          ->hideLabel()
