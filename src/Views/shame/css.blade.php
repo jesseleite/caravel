@@ -47,4 +47,13 @@
     .has-error input:focus {
         border-color: rgb(217, 83, 79) !important;
     }
+    .pagination {
+        margin: 0;
+    }
+    .list-toolbar {
+        padding: 0.5rem .75rem;
+    }
+    .list-toolbar input, button {
+        padding: 0.5rem .75rem !important;
+    }
 </style>

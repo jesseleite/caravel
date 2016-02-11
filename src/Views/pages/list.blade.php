@@ -12,9 +12,26 @@
     <div class="row">
         <div class="col-md-12">
             @if ($items->count() > 0)
-                <div class="pull-right">
-                    @include('caravel::components.pagination')
+
+                <!-- Resource List Toolbar -->
+                <div class="list-toolbar row">
+                    <div class="col-md-6">
+                        {!! $bootForm->open() !!}
+                            {!! $bootForm->inputGroup('Search', 'search')
+                                         ->inline()
+                                         ->hideLabel()
+                                         ->placeholder('Search ' . ucfirst($resource))
+                                         ->beforeAddon('<i class="fa fa-search"></i>') !!}
+                        {!! $bootForm->close() !!}
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            @include('caravel::components.pagination')
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Resource List Table -->
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -56,15 +73,25 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="pull-right">
-                    @include('caravel::components.pagination')
+
+                <!-- Resource List Toolbar -->
+                <div class="list-toolbar row">
+                    <div class="col-md-12">
+                        <div class="pull-right">
+                            @include('caravel::components.pagination')
+                        </div>
+                    </div>
                 </div>
+
             @else
+
+                <!-- No Resources Card -->
                 <div class="card card-block">
                     <h3 class="card-title">Nothing to see here!</h3>
                     <p class="card-text">Ready to get started?  It's easy!  Create your first {{ str_singular($resource) }} now...</p>
                     <a href="{{ route('caravel::' . $resource . '.create') }}" class="btn btn-primary-outline"><i class="fa fa-file-o"></i> Create {{ ucfirst(str_singular($resource)) }}</a>
                 </div>
+
             @endif
         </div>
     </div>
