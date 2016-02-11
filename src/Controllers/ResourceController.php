@@ -39,13 +39,16 @@ class ResourceController extends Controller
         Drawbridge::authorize('manage', $this->resource->newInstance);
 
         $perPage = config('caravel.pagination');
+        $getParams = [];
 
         if ($request->search) {
             $this->resource->search($request->search);
+            $getParams['search'] = $request->search;
         }
 
         $data = $this->resource->commonViewData();
         $data['items'] = $this->resource->paginate($perPage);
+        $data['getParams'] = $getParams;
 
         return view('caravel::pages.list', $data);
     }
