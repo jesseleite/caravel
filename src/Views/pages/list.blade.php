@@ -14,7 +14,7 @@
     <!-- Resource List -->
     <div class="row">
         <div class="col-md-12">
-            @if ($items->count() > 0)
+            @if ($items->count() > 0 || $search)
 
                 <!-- Resource List Top Toolbar -->
                 <div class="list-toolbar row">
@@ -57,7 +57,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($items as $item)
+                            @forelse ($items as $item)
                                 <tr>
                                     @foreach ($fields as $field)
                                         @if ($field->listable())
@@ -77,7 +77,13 @@
                                         @endif
                                     </td>
                                 </tr>
-                            @endforeach
+                            @empty
+                                <tr>
+                                    <td colspan="{{ count($fields) }}">
+                                        No {{ implode(' ', explode('-', $resource)) }} were found!
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
