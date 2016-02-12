@@ -16,7 +16,7 @@
         <div class="col-md-12">
             @if ($items->count() > 0)
 
-                <!-- Resource List Toolbar -->
+                <!-- Resource List Top Toolbar -->
                 <div class="list-toolbar row">
                     @if ($searchable)
                         <div class="col-md-6">
@@ -82,7 +82,7 @@
                     </table>
                 </div>
 
-                <!-- Resource List Toolbar -->
+                <!-- Resource List Bottom Toolbar -->
                 <div class="list-toolbar row">
                     <div class="col-md-12">
                         <div class="pull-right">
