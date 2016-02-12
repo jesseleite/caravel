@@ -26,6 +26,16 @@
 
             <!-- Navigation -->
             <div class="col-md-3">
+                {{-- Temp! Messing with collapsable menu for mobile.
+                <ul id="navigation-toggle" class="nav nav-pills nav-stacked">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="collapse" href="#navigation" aria-expanded="false" aria-controls="navigation">
+                            <i class="fa fa-bars"></i> Navigation
+                        </a>
+                    </li>
+                </ul>
+                <ul id="navigation" class="nav nav-pills nav-stacked">
+                --}}
                 <ul class="nav nav-pills nav-stacked">
                     <li class="nav-item">
                         <a href="{{ route('caravel::dashboard') }}" class="nav-link {{ !isset($resource) ? 'active' : '' }}">Dashboard</a>
