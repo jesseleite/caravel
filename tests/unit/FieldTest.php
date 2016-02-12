@@ -24,6 +24,13 @@ class FieldTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($field->type, 'textarea');
     }
 
+    public function testObjectToString()
+    {
+        $field = $this->newField();
+
+        $this->assertEquals(strval($field), 'my_field');
+    }
+
     public function testFieldDefaults()
     {
         $field = $this->newField();

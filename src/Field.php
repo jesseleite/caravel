@@ -29,6 +29,42 @@ class Field
         $this->name = $name;
     }
 
+    public function setType($type)
+    {
+        $this->type = $type;
+    }
+
+    public function setUnlisted()
+    {
+        $this->listable = false;
+    }
+
+    public function setRequired()
+    {
+        $this->required = true;
+    }
+
+    public function setLabel()
+    {
+        if (isset($this->options['label'])) {
+            $this->label = $this->options['label'];
+        } else {
+            $this->label = ucwords(str_replace('_', ' ', $this->name));
+        }
+    }
+
+    public function setHelp()
+    {
+        if (isset($this->options['help'])) {
+            $this->help = $this->options['help'];
+        }
+    }
+
+    public function listable()
+    {
+        return $this->listable;
+    }
+
     public function setTypeFromDbal($type)
     {
         if ($type instanceof \Doctrine\DBAL\Types\TextType) {
@@ -59,9 +95,33 @@ class Field
         }
     }
 
-    public function setEdgeCases()
+    public function separateModifiersFromValidationRules($options)
     {
-        $this->unlistIfPassword();
+        $options   = explode('|', $options);
+        $modifiers = [];
+        $rules     = [];
+
+        // Loop through options and set object state accordingly.
+        foreach ($options as $option) {
+
+            // If type modifier provided, set on object.
+            if (str_contains($option, 'type:')) {
+                $modifiers[] = $option;
+            }
+
+            // If unlist modifier provided, set on object.
+            elseif ($option == 'unlist') {
+                $modifiers[] = $option;
+            }
+
+            // Else pass all other options as validation rules.
+            else {
+                $rules[] = $option;
+            }
+        }
+
+        $this->setModifiers(implode('|', $modifiers));
+        $this->setRules(implode('|', $rules));
     }
 
     public function setModifiers($modifiers)
@@ -102,33 +162,9 @@ class Field
         $this->rules = $rules ? implode('|', $rules) : null;
     }
 
-    public function separateModifiersFromValidationRules($options)
+    public function setEdgeCases()
     {
-        $options   = explode('|', $options);
-        $modifiers = [];
-        $rules     = [];
-
-        // Loop through options and set object state accordingly.
-        foreach ($options as $option) {
-
-            // If type modifier provided, set on object.
-            if (str_contains($option, 'type:')) {
-                $modifiers[] = $option;
-            }
-
-            // If unlist modifier provided, set on object.
-            elseif ($option == 'unlist') {
-                $modifiers[] = $option;
-            }
-
-            // Else pass all other options as validation rules.
-            else {
-                $rules[] = $option;
-            }
-        }
-
-        $this->setModifiers(implode('|', $modifiers));
-        $this->setRules(implode('|', $rules));
+        $this->unlistIfPassword();
     }
 
     public function unlistIfPassword()
@@ -136,42 +172,6 @@ class Field
         if ($this->type == 'password') {
             $this->setUnlisted();
         }
-    }
-
-    public function setType($type)
-    {
-        $this->type = $type;
-    }
-
-    public function setUnlisted()
-    {
-        $this->listable = false;
-    }
-
-    public function setRequired()
-    {
-        $this->required = true;
-    }
-
-    public function setLabel()
-    {
-        if (isset($this->options['label'])) {
-            $this->label = $this->options['label'];
-        } else {
-            $this->label = ucwords(str_replace('_', ' ', $this->name));
-        }
-    }
-
-    public function setHelp()
-    {
-        if (isset($this->options['help'])) {
-            $this->help = $this->options['help'];
-        }
-    }
-
-    public function listable()
-    {
-        return $this->listable;
     }
 
     public function __toString()
