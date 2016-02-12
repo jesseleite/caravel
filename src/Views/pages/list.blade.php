@@ -26,7 +26,7 @@
                             {!! $bootForm->open()->get() !!}
                                 {!! $bootForm->inputGroup('Search', 'search')
                                              ->hideLabel()
-                                             ->placeholder('Search ' . ucfirst($resource))
+                                             ->placeholder('Search ' . ucwords(implode(' ', explode('-', $resource))))
                                              ->beforeAddon('<i class="fa fa-search"></i>')
                                              ->value($search) !!}
                             {!! $bootForm->close() !!}
