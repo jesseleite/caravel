@@ -20,6 +20,9 @@
                 <div class="list-toolbar row">
                     @if ($searchable)
                         <div class="col-md-6">
+                            @if ($search)
+                                <a href="{{ route('caravel::' . $resource . '.index') }}" class="btn btn-link pull-right btn-close"><i class="fa fa-times-circle"></i></a>
+                            @endif
                             {!! $bootForm->open()->get() !!}
                                 {!! $bootForm->inputGroup('Search', 'search')
                                              ->hideLabel()

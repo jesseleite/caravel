@@ -53,7 +53,10 @@
     .list-toolbar {
         padding: 0.5rem .75rem;
     }
-    .list-toolbar input, button {
+    .list-toolbar input, button, a.btn {
         padding: 0.5rem .75rem !important;
+    }
+    .list-toolbar a.btn-close {
+        color: #d9534f;
     }
 </style>
