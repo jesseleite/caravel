@@ -10,15 +10,16 @@ class Field
     public $listable = true;
     public $required = false;
     public $help = null;
+    public $modifiers = null;
     public $rules = null;
     protected $options = null;
 
-    public function __construct($name, $type, $options = null)
+    public function __construct($name, $dbalType, $options = null)
     {
         $this->setName($name);
-        $this->setTypeFromDbal($type);
+        $this->setTypeFromDbal($dbalType);
         $this->setOptions($options);
-        $this->unlistIfPassword();
+        $this->setEdgeCases();
         $this->setLabel();
         $this->setHelp();
     }
@@ -49,33 +50,75 @@ class Field
             $this->setType($options['type']);
         }
 
+        if (isset($options['modifiers'])) {
+            $this->setModifiers($options['modifiers']);
+        }
+
         if (isset($options['rules'])) {
             $this->setRules($options['rules']);
         }
     }
 
-    public function separateModifiersFromValidationRules($options)
+    public function setEdgeCases()
     {
-        $options = explode('|', $options);
-        $rules   = [];
+        $this->unlistIfPassword();
+    }
 
-        foreach ($options as $option) {
+    public function setModifiers($modifiers)
+    {
+        $modifiers = explode('|', $modifiers);
+
+        // Loop through options and set object state accordingly.
+        foreach ($modifiers as $modifier) {
 
             // If type modifier provided, set on object.
-            if (str_contains($option, 'type:')) {
-                $type = explode(':', $option);
+            if (str_contains($modifier, 'type:')) {
+                $type = explode(':', $modifier);
                 $this->setType($type[1]);
             }
 
             // If unlist modifier provided, set on object.
-            elseif ($option == 'unlist') {
-                $this->setListable(false);
+            elseif ($modifier == 'unlist') {
+                $this->setUnlisted();
             }
+        }
+
+        $this->modifiers = $modifiers ? implode('|', $modifiers) : null;
+    }
+
+    public function setRules($rules)
+    {
+        $rules = explode('|', $rules);
+
+        // Loop through rules and set object state accordingly.
+        foreach ($rules as $rule) {
 
             // If required modifier provided, set on object and save as validation rule.
-            elseif ($option == 'required') {
-                $this->setRequired(true);
-                $rules[] = $option;
+            if ($rule == 'required') {
+                $this->setRequired();
+            }
+        }
+
+        $this->rules = $rules ? implode('|', $rules) : null;
+    }
+
+    public function separateModifiersFromValidationRules($options)
+    {
+        $options   = explode('|', $options);
+        $modifiers = [];
+        $rules     = [];
+
+        // Loop through options and set object state accordingly.
+        foreach ($options as $option) {
+
+            // If type modifier provided, set on object.
+            if (str_contains($option, 'type:')) {
+                $modifiers[] = $option;
+            }
+
+            // If unlist modifier provided, set on object.
+            elseif ($option == 'unlist') {
+                $modifiers[] = $option;
             }
 
             // Else pass all other options as validation rules.
@@ -84,13 +127,14 @@ class Field
             }
         }
 
+        $this->setModifiers(implode('|', $modifiers));
         $this->setRules(implode('|', $rules));
     }
 
     public function unlistIfPassword()
     {
         if ($this->type == 'password') {
-            $this->setListable(false);
+            $this->setUnlisted();
         }
     }
 
@@ -99,19 +143,14 @@ class Field
         $this->type = $type;
     }
 
-    public function setListable($listable)
+    public function setUnlisted()
     {
-        $this->listable = $listable;
+        $this->listable = false;
     }
 
-    public function setRequired($required)
+    public function setRequired()
     {
-        $this->required = $required;
-    }
-
-    public function setRules($rules)
-    {
-        $this->rules = $rules;
+        $this->required = true;
     }
 
     public function setLabel()
