@@ -38,6 +38,7 @@ class FieldTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($field->name, 'my_field');
         $this->assertEquals($field->label, 'My Field');
         $this->assertEquals($field->type, 'input');
+        $this->assertEquals($field->typeParams, null);
         $this->assertEquals($field->listable, true);
         $this->assertEquals($field->required, false);
         $this->assertEquals($field->help, null);
@@ -69,7 +70,29 @@ class FieldTest extends PHPUnit_Framework_TestCase
         $field2 = $this->newField($options);
 
         $this->assertEquals($field1->type, 'file');
+        $this->assertEquals($field1->typeParams, null);
         $this->assertEquals($field2->type, 'file');
+        $this->assertEquals($field2->typeParams, null);
+    }
+
+    public function testTypeParams()
+    {
+        $options = 'required|type:select,optionsAccessor,incredible|min:8';
+        $field1 = $this->newField($options);
+
+        $options = [
+            'type' => 'select,optionsAccessor,incredible',
+            'rules' => 'required|min:8',
+        ];
+        $field2 = $this->newField($options);
+
+        $expected = [
+            0 => 'optionsAccessor',
+            1 => 'incredible',
+        ];
+
+        $this->assertEquals($field1->typeParams, $expected);
+        $this->assertEquals($field2->typeParams, $expected);
     }
 
     public function testRequired()

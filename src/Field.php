@@ -7,6 +7,7 @@ class Field
     public $name;
     public $label;
     public $type;
+    public $typeParams = null;
     public $listable = true;
     public $required = false;
     public $help = null;
@@ -31,7 +32,23 @@ class Field
 
     public function setType($type)
     {
+        if (str_contains($type, ',')) {
+            $exploded = explode(',', $type);
+            $type = $exploded[0];
+            $this->setTypeParams($exploded, true);
+        }
+
         $this->type = $type;
+    }
+
+    public function setTypeParams($params, $removeType = false)
+    {
+        if ($removeType) {
+            unset($params[0]);
+            $params = array_values($params);
+        }
+
+        $this->typeParams = $params;
     }
 
     public function setUnlisted()
