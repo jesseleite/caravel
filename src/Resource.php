@@ -59,10 +59,10 @@ class Resource
     protected function setFields()
     {
         $model = $this->newInstance;
-        $types = $this->getTypesFromDbal($model);
+        $types = $this->getDbalTypesFromModel($model);
 
         foreach ($model->getFillable() as $name) {
-            $type = $types[$name];
+            $type = isset($types[$name]) ? $types[$name] : $this->getDbalTypeInstance('string');
             $options = isset($model->caravel[$name]) ? $model->caravel[$name] : null;
             $this->fields[] = new Field($name, $type, $options);
         }
