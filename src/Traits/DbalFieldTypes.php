@@ -2,15 +2,17 @@
 
 namespace ThisVessel\Caravel\Traits;
 
+use Doctrine\DBAL\Types\Type;
+
 trait DbalFieldTypes
 {
     /**
-     * Insert model, get DBAL field types.
+     * Scan model table and return DBAL field types.
      *
-     * @param  $model \Illuminate\Database\Eloquent\Model;
-     * @return array  \Doctrine\DBAL\Types;
+     * @param  \Illuminate\Database\Eloquent\Model  $model;
+     * @return array
      */
-    public function getTypesFromDbal($model)
+    public function getDbalTypesFromModel($model)
     {
         $schema  = $model->getConnection()->getDoctrineSchemaManager($model->getTable());
         $columns = $schema->listTableColumns($model->getTable());
@@ -20,5 +22,16 @@ trait DbalFieldTypes
         }
 
         return $types;
+    }
+
+    /**
+     * Factory method to create dbal type instances.
+     *
+     * @param  string  $type
+     * @return \Doctrine\DBAL\Types\Type;
+     */
+    public function getDbalTypeInstance($type)
+    {
+        return Type::getType($type);
     }
 }
