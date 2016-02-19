@@ -49,7 +49,7 @@
                                         <th>{{ $field->label }}</th>
                                     @endif
                                 @endforeach
-                                <th class="actions">
+                                <th class="text-xs-right text-nowrap">
                                     @if ($drawbridge::allows('create', $newInstance))
                                         <a href="{{ route('caravel::' . $resource . '.create') }}" class="btn btn-sm btn-primary-outline pull-right"><i class="fa fa-file-o"></i></a>
                                     @endif
@@ -64,14 +64,14 @@
                                             <td>{{ str_limit($item->$field, 25) }}</td>
                                         @endif
                                     @endforeach
-                                    <td class="actions">
+                                    <td class="text-xs-right text-nowrap">
                                         @if ($drawbridge::allows('update', $item))
                                             <a href="{{ route('caravel::' . $resource . '.edit', $item) }}" class="btn btn-warning-outline btn-sm" role="button">
                                                 <i class="fa fa-pencil"></i>
                                             </a>
                                         @endif
                                         @if ($drawbridge::allows('delete', $item))
-                                            <a href="{{ route('caravel::' . $resource . '.destroy', $item) }}" class="btn btn-danger-outline btn-sm delete" role="button" data-toggle="modal" data-target=".bd-example-modal-sm">
+                                            <a href="{{ route('caravel::' . $resource . '.destroy', $item) }}" class="btn btn-danger-outline btn-sm" role="button" data-toggle="modal" data-target="#modal-delete">
                                                 <i class="fa fa-trash-o"></i>
                                             </a>
                                         @endif

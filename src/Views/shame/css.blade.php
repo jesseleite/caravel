@@ -19,19 +19,8 @@
     .version {
         color: #ccc;
     }
-    th.actions,
-    td.actions {
-        text-align: right;
-        white-space: nowrap;
-    }
-    td.actions > a {
-        /*margin-bottom: 7px; Fix this when collapsed for small screens. */
-    }
     .help-block {
         color: #ccc;
-    }
-    #confirm-delete {
-        display: inline-block;
     }
     input[type=file] {
         display: block;
