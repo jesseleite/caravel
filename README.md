@@ -123,14 +123,41 @@ The public `$caravel` property contains field modifiers and validation rules.  T
 
 The following field types are included with Caravel:
 
-| Field Type | Description      |
-| ---------- | ---------------- |
-| input      | Basic text input |
-| textarea   | Basic textarea   |
-| simplemde  | [Simplemde markdown editor](https://github.com/NextStepWebs/simplemde-markdown-editor) |
-| file       | Basic file input (*Currently requires external upload handling) |
+| Field Type      | Description                  |
+| --------------- | ---------------------------- |
+| input           | Basic text input             |
+| textarea        | Basic textarea               |
+| simplemde       | [Simplemde markdown editor](https://github.com/NextStepWebs/simplemde-markdown-editor) |
+| password        | Basic password input         |
+| select          | Basic select dropdown *      |
+| select-multiple | Basic multiple select *      |
+| radio           | Basic radio input group *    |
+| checkbox        | Basic checkbox input group * |
+| file            | Basic file input **          |
 
-...more to come very soon! (ie. checkboxes, radios, dropdowns, etc.)
+#### *Note on select, radio, and checkbox field types...
+When using select, radio, or checkbox types, you may pass a reference to an [Eloquent Accessor](https://laravel.com/docs/eloquent-mutators#accessors-and-mutators) method for specifying available options. Example:
+```
+'published' => 'type:radio,publishedOptions'
+```
+The second parameter in the above example is a reference to the publishedOptions accessor, which you can define on your model and use to dynamically generate radio options for your field:
+```
+public function getPublishedOptionsAttribute()
+{
+    return [
+        1 => 'Published',
+        0 => 'Hidden',
+    ];
+}
+```
+This will generate a pair of radio options with binary boolean values:
+```
+<label><input type="radio" name="published" value="1"> Published</label>
+<label><input type="radio" name="published" value="0"> Hidden</label>
+```
+
+#### **Note on file input field type...
+File upload handling not currently provided by Caravel. It is recommended that you leverage [Eloquent Mutators](https://laravel.com/docs/eloquent-mutators#accessors-and-mutators) to handle your file uploads.  Mutators open a wealth of possibilities.  For example, you could [handle your file upload](https://laravel.com/docs/requests#files) directly within that field's mutator, or you could pass the file object to an external service class to handle the upload. Examples and helpers to come soon.
 
 ## Add Field Types
 
@@ -174,11 +201,11 @@ If your authentication system is compatible with Laravel's [Authorization](http:
 
 Caravel uses this mapping to create the following ability and policy checks:
 
-| Ability Definitions | Policy Methods | Behaviour                          |
-| ------------------- | -------------- | ---------------------------------- |
-| manage-posts        | manage()       | Can posts be shown in user's menu? |
-| create-posts        | create()       | Can posts be created by user?      |
-| update-post         | update()       | Can post be updated by user?       |
-| delete-post         | delete()       | Can post be deleted by user?       |
+| Ability Definitions | Policy Methods | Behaviour                      |
+| ------------------- | -------------- | ------------------------------ |
+| manage-posts        | manage()       | Can user see posts in sidebar? |
+| create-posts        | create()       | Can user create a post?        |
+| update-post         | update()       | Can user update a post?        |
+| delete-post         | delete()       | Can user delete a post?        |
 
 If you define abilities or policy methods using the above naming conventions, Caravel will use your authorization logic where applicable.  Otherwise, Caravel skips the authorization check and gives the user full access.
