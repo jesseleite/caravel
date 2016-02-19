@@ -50,12 +50,12 @@ class Resource
         $model = $this->newInstance;
 
         if (isset($model->caravel['orderBy'])) {
-            $this->orderBy = $model->caravel['orderBy'];
+            return $this->orderBy = $model->caravel['orderBy'];
         } elseif (isset($model->updated_at)) {
-            $this->orderBy = 'updated_at desc';
-        } else {
-            $this->orderBy = $model->getKeyName() . ' desc';
+            return $this->orderBy = 'updated_at desc';
         }
+
+        return $this->orderBy = $model->getKeyName() . ' desc';
     }
 
     protected function setFields()
@@ -122,11 +122,19 @@ class Resource
 
     public function trashed($trash)
     {
-        if ($this->softDeletes) {
-            return $trash == 'only' ? $this->query->onlyTrashed() : $this->query->withTrashed();
+        if (! $this->softDeletes) {
+            return $this->query;
         }
 
-        return $this->query;
+        if ($trash == 'only') {
+            return $this->query->onlyTrashed();
+        }
+
+        $model = $this->newInstance;
+        $query = $model::query();
+        $orderByDeletedFirst = $this->softDeletes . ' desc, ' . $this->orderBy;
+
+        return $this->query = $query->withTrashed()->orderByRaw($orderByDeletedFirst);
     }
 
     /**
