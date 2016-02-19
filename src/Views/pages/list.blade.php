@@ -33,8 +33,11 @@
                         </div>
                     @endif
                     <div class="{{ $searchable ? 'col-md-6' : 'col-md-12' }}">
-                        <div class="pull-right">
+                        <div class="pull-right m-l-1">
                             @include('caravel::components.pagination')
+                        </div>
+                        <div class="pull-right m-l-1">
+                            @include('caravel::components.advanced-dropdown')
                         </div>
                     </div>
                 </div>
