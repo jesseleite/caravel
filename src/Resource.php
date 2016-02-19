@@ -15,6 +15,7 @@ class Resource
     public $fields;
     public $rules = [];
     public $query;
+    public $softDeletes = false;
 
     public function __construct($resource)
     {
@@ -26,6 +27,7 @@ class Resource
         $this->setFields();
         $this->setRules();
         $this->setQueryBuilder();
+        $this->setSoftDeletes();
     }
 
     protected function setName($resource)
@@ -68,6 +70,13 @@ class Resource
         }
     }
 
+    public function setSoftDeletes()
+    {
+        if (method_exists($this->newInstance, 'getDeletedAtColumn')) {
+            $this->softDeletes = $this->newInstance->getDeletedAtColumn();
+        }
+    }
+
     public function checkFillable()
     {
         if (empty($this->newInstance->getFillable())) {
@@ -81,6 +90,7 @@ class Resource
             'resource' => $this->name,
             'newInstance' => $this->newInstance,
             'fields'   => $this->fields,
+            'softDeletes' => $this->softDeletes,
         ];
     }
 
@@ -108,6 +118,15 @@ class Resource
     public function searchable()
     {
         return method_exists($this->newInstance, 'scopeSearch') ? true : false;
+    }
+
+    public function trashed($trash)
+    {
+        if ($this->softDeletes) {
+            return $trash == 'only' ? $this->query->onlyTrashed() : $this->query->withTrashed();
+        }
+
+        return $this->query;
     }
 
     /**

@@ -58,23 +58,29 @@
                         </thead>
                         <tbody>
                             @forelse ($items as $item)
-                                <tr>
+                                <tr class="{{ $softDeletes && ! is_null($item->{$softDeletes}) ? 'table-danger' : null }}">
                                     @foreach ($fields as $field)
                                         @if ($field->listable())
                                             <td>{{ str_limit($item->$field, 25) }}</td>
                                         @endif
                                     @endforeach
                                     <td class="text-xs-right text-nowrap">
-                                        @if ($drawbridge::allows('update', $item))
-                                            <a href="{{ route('caravel::' . $resource . '.edit', $item) }}" class="btn btn-warning-outline btn-sm" role="button">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-                                        @endif
-                                        @if ($drawbridge::allows('delete', $item))
-                                            <a href="{{ route('caravel::' . $resource . '.destroy', $item) }}" class="btn btn-danger-outline btn-sm" role="button" data-toggle="modal" data-target="#modal-delete">
-                                                <i class="fa fa-trash-o"></i>
-                                            </a>
-                                        @endif
+                                        @unless ($drawbridge::allows('delete', $item) && $softDeletes && ! is_null($item->{$softDeletes}))
+                                            @if ($drawbridge::allows('update', $item))
+                                                <a href="{{ route('caravel::' . $resource . '.edit', $item) }}" class="btn btn-warning-outline btn-sm" role="button">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                            @endif
+                                            @if ($drawbridge::allows('delete', $item))
+                                                <a href="{{ route('caravel::' . $resource . '.destroy', $item) }}" class="btn btn-danger-outline btn-sm" role="button" data-toggle="modal" data-target="#modal-delete">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
+                                            @endif
+                                        @else
+                                            {!! $form->open()->action(route('caravel::' . $resource . '.restore', $item))!!}
+                                                {!! $form->submit('<i class="fa fa-undo"></i>')->addClass('btn btn-danger-outline btn-sm') !!}
+                                            {!! $form->close() !!}
+                                        @endunless
                                     </td>
                                 </tr>
                             @empty

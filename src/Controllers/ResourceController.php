@@ -44,6 +44,11 @@ class ResourceController extends Controller
             $getParams['search'] = $request->search;
         }
 
+        if ($this->resource->softDeletes && $request->trash) {
+            $this->resource->trashed($request->trash);
+            $getParams['trash'] = $request->trash;
+        }
+
         $data = array_merge($this->resource->commonViewData(), [
             'items' => $this->resource->paginate(config('caravel.pagination')),
             'searchable' => $this->resource->searchable(),
@@ -152,6 +157,27 @@ class ResourceController extends Controller
         $model->delete();
 
         session()->flash('success', ucfirst(str_singular($this->resource->name)) . ' was deleted successfully!');
+
+        return redirect()->route('caravel::' . $this->resource->name . '.index');
+    }
+
+    /**
+     * Restore the resource if soft deleted.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore($id)
+    {
+        if (! $this->resource->softDeletes) {
+            return abort(405, 'This resource does not allow soft deletes.');
+        }
+
+        $model = $this->resource->withTrashed()->find($id);
+
+        Drawbridge::authorize('delete', $model);
+
+        $model->restore();
 
         return redirect()->route('caravel::' . $this->resource->name . '.index');
     }
