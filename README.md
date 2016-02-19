@@ -86,10 +86,11 @@ class Author extends Model
         'username' => 'required',
         'password' => 'type:password|required|min:8',
         'biography' => [
-            'type'  => 'simplemde',
-            'rules' => 'required|min:10',
-            'label' => 'Author Biography',
-            'help'  => 'Help block text goes here.',
+            'type'      => 'simplemde',
+            'modifiers' => 'unlist',
+            'rules'     => 'required|min:10',
+            'label'     => 'Author Biography',
+            'help'      => 'Help block text goes here.',
         ],
     ];
 ```
@@ -98,9 +99,9 @@ Your model's `$fillable` property is very important as it tells Caravel which fi
 
 The public `$caravel` property contains field modifiers and validation rules.  These are optional, and there are two ways to approach such configuration on a field:
 
-1. Shorthand string, which allows you to quickly specify field type (eg. `type:simplemde`), as well as Laravel validation rules.  Using pipe `|` separators for specifying multiple modifiers.
+1. Shorthand string, which allows you to quickly specify field type (eg. `type:simplemde`), field modifiers (eg. `unlist`), as well as Laravel validation rules.  Using pipe `|` separators for specifying multiple modifiers.
 
-2. More advanced configuration requires nesting array elements for `type`, `rules`, `label` and `help`.
+2. More advanced configuration requires nesting array elements for `type`, `modifiers`, `rules`, `label` and `help`.
 
 ## Available Field Types
 
