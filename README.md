@@ -137,11 +137,11 @@ The following field types are included with Caravel:
 
 #### *Note on select, radio, and checkbox field types...
 When using select, radio, or checkbox types, you may pass a reference to an [Eloquent Accessor](https://laravel.com/docs/eloquent-mutators#accessors-and-mutators) method for specifying available options. Example:
-```
+```php
 'published' => 'type:radio,publishedOptions'
 ```
 The second parameter in the above example is a reference to the publishedOptions accessor, which you can define on your model and use to dynamically generate radio options for your field:
-```
+```php
 public function getPublishedOptionsAttribute()
 {
     return [
@@ -151,7 +151,7 @@ public function getPublishedOptionsAttribute()
 }
 ```
 This will generate a pair of radio options with binary boolean values:
-```
+```html
 <label><input type="radio" name="published" value="1"> Published</label>
 <label><input type="radio" name="published" value="0"> Hidden</label>
 ```
