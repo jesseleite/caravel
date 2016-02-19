@@ -45,25 +45,8 @@ php artisan vendor:publish --tag="caravel-config"
 // Caravel Route Group
 Route::group(['prefix' => config('caravel.prefix'), 'as' => 'caravel::'], function () {
 
-    // Caravel Root
-    Route::get(null, [
-        'as' => 'root',
-        'uses' => '\ThisVessel\Caravel\Controllers\DashboardController@redirect',
-    ]);
-
-    // Caravel Dashboard
-    Route::get('dashboard', [
-        'as' => 'dashboard',
-        'uses' => '\ThisVessel\Caravel\Controllers\DashboardController@index',
-    ]);
-
-    // Caravel Resources
-    foreach (config('caravel.resources') as $resource => $model) {
-        Route::resource($resource, '\ThisVessel\Caravel\Controllers\ResourceController', [
-            'names' => ThisVessel\Caravel\Helpers\Routing::resourceNamesWithoutPrefix($resource)
-        ]);
-    }
-
+    // Default Caravel Routes
+    ThisVessel\Caravel\Routes::default();
 });
 ```
 To inspect which routes are dynamically generated, run the following command from your project root.
