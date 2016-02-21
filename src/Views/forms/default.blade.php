@@ -1,3 +1,3 @@
 @foreach ($fields as $field)
-    @field($field)
+    @field($field->name)
 @endforeach

@@ -41,7 +41,8 @@ class CaravelServiceProvider extends ServiceProvider
         ], 'caravel-fields');
 
         Blade::directive('field', function($expression) {
-            return "<?php echo \$__env->make('caravel::components.field', ['field' => \$fields[$expression]], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>";
+            $fieldName = substr($expression, 0, 1) == '(' ? substr($expression, 1, -1) : $expression;
+            return "<?php echo \$__env->make('caravel::fields.' . \$fields[$fieldName]->type, ['field' => \$fields[$fieldName]], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>";
         });
     }
 
