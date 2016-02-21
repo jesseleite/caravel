@@ -13,9 +13,10 @@ class Resource
     public $newInstance;
     public $orderBy;
     public $fields;
-    public $rules = [];
+    public $rules;
     public $query;
-    public $softDeletes = false;
+    public $softDeletes;
+    public $formPartial;
 
     public function __construct($resource)
     {
@@ -28,6 +29,7 @@ class Resource
         $this->setRules();
         $this->setQueryBuilder();
         $this->setSoftDeletes();
+        $this->setFormPartial();
     }
 
     protected function setName($resource)
@@ -47,15 +49,15 @@ class Resource
 
     protected function setOrderBy()
     {
-        $model = $this->newInstance;
+        if (isset($this->newInstance->caravel['orderBy'])) {
+            return $this->orderBy = $this->newInstance->caravel['orderBy'];
+        }
 
-        if (isset($model->caravel['orderBy'])) {
-            return $this->orderBy = $model->caravel['orderBy'];
-        } elseif (isset($model->updated_at)) {
+        if (isset($this->newInstance->updated_at)) {
             return $this->orderBy = 'updated_at desc';
         }
 
-        return $this->orderBy = $model->getKeyName() . ' desc';
+        $this->orderBy = $model->getKeyName() . ' desc';
     }
 
     protected function setFields()
@@ -66,15 +68,26 @@ class Resource
         foreach ($model->getFillable() as $name) {
             $type = isset($types[$name]) ? $types[$name] : $this->getDbalTypeInstance('string');
             $options = isset($model->caravel[$name]) ? $model->caravel[$name] : null;
-            $this->fields[] = new Field($name, $type, $options);
+            $this->fields[$name] = new Field($name, $type, $options);
         }
     }
 
     public function setSoftDeletes()
     {
         if (method_exists($this->newInstance, 'getDeletedAtColumn')) {
-            $this->softDeletes = $this->newInstance->getDeletedAtColumn();
+            return $this->softDeletes = $this->newInstance->getDeletedAtColumn();
         }
+
+        return false;
+    }
+
+    public function setFormPartial()
+    {
+        if (isset($this->newInstance->caravel['form'])) {
+            return $this->formPartial = $this->newInstance->caravel['form'];
+        }
+
+        $this->formPartial = 'default';
     }
 
     public function checkFillable()
@@ -87,15 +100,18 @@ class Resource
     public function commonViewData()
     {
         return [
-            'resource' => $this->name,
+            'resource'    => $this->name,
             'newInstance' => $this->newInstance,
-            'fields'   => $this->fields,
+            'fields'      => (object) $this->fields,
             'softDeletes' => $this->softDeletes,
+            'formPartial' => $this->formPartial,
         ];
     }
 
     protected function setRules()
     {
+        $this->rules = [];
+
         foreach ($this->fields as $field) {
             if (! empty($field->rules)) {
                 $this->rules[$field->name] = $field->rules;
