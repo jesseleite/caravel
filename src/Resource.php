@@ -102,7 +102,7 @@ class Resource
         return [
             'resource'    => $this->name,
             'newInstance' => $this->newInstance,
-            'fields'      => (object) $this->fields,
+            'fields'      => $this->fields,
             'softDeletes' => $this->softDeletes,
             'formPartial' => $this->formPartial,
         ];
