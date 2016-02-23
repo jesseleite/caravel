@@ -57,7 +57,7 @@ class Resource
             return $this->orderBy = 'updated_at desc';
         }
 
-        $this->orderBy = $model->getKeyName() . ' desc';
+        $this->orderBy = $this->newInstance->getKeyName() . ' desc';
     }
 
     protected function setFields()
