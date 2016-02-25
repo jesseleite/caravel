@@ -20,7 +20,10 @@
     "autoload": {
         "psr-4": {
             "ThisVessel\\Caravel\\": "src/"
-        }
+        },
+        "files": [
+            "src/Helpers/functions.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [
