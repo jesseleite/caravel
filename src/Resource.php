@@ -124,7 +124,7 @@ class Resource
         $model = $this->newInstance;
         $this->query = $model::query();
 
-        if (method_exists($model, 'withoutGlobalScopes')) {
+        if (method_exists($this->query, 'withoutGlobalScopes')) {
             $this->query->withoutGlobalScopes();
         }
 
