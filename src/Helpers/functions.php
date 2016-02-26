@@ -20,10 +20,9 @@ if (! function_exists('caravel_route')) {
 
 if (! function_exists('caravel_markdown')) {
     /**
-     * Get caravel route for a model action.
+     * Render a block of markdown.
      *
-     * @param  string  $action
-     * @param  mixed  $model
+     * @param  string  $markdown
      * @return string
      */
     function caravel_markdown($markdown)
