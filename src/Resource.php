@@ -131,7 +131,7 @@ class Resource
         }
 
         // Re-apply soft deletes scope.
-        if ($this->softDeletes) {
+        if (method_exists($this->query, 'withGlobalScope') && $this->softDeletes) {
             $this->query->withGlobalScope('SoftDeletes', new SoftDeletingScope);
         }
 
