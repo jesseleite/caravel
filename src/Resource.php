@@ -3,6 +3,7 @@
 namespace ThisVessel\Caravel;
 
 use ThisVessel\Caravel\Traits\DbalFieldTypes;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class Resource
 {
@@ -27,8 +28,8 @@ class Resource
         $this->setOrderBy();
         $this->setFields();
         $this->setRules();
-        $this->setQueryBuilder();
         $this->setSoftDeletes();
+        $this->setQueryBuilder();
         $this->setFormPartial();
     }
 
@@ -124,8 +125,14 @@ class Resource
         $model = $this->newInstance;
         $this->query = $model::query();
 
+        // Remove all global scopes.
         if (method_exists($this->query, 'withoutGlobalScopes')) {
             $this->query->withoutGlobalScopes();
+        }
+
+        // Re-apply soft deletes scope.
+        if ($this->softDeletes) {
+            $this->query->withGlobalScope('SoftDeletes', new SoftDeletingScope);
         }
 
         $this->query->orderByRaw($this->orderBy);
@@ -142,13 +149,13 @@ class Resource
             return $this->query;
         }
 
-        if ($trash == 'only') {
-            return $this->query->onlyTrashed();
-        }
-
         $model = $this->newInstance;
         $query = $model::query();
         $orderByDeletedFirst = $this->softDeletes . ' desc, ' . $this->orderBy;
+
+        if ($trash == 'only') {
+            return $this->query = $query->onlyTrashed();
+        }
 
         return $this->query = $query->withTrashed()->orderByRaw($orderByDeletedFirst);
     }
