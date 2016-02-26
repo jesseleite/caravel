@@ -64,7 +64,7 @@
                                 <tr class="{{ $softDeletes && ! is_null($item->{$softDeletes}) ? 'table-danger' : null }}">
                                     @foreach ($fields as $field)
                                         @if ($field->listable())
-                                            <td>{{ str_limit($item->$field, 40) }}</td>
+                                            <td>{{ $field->listAccessor ? $item->{$field->listAccessor} : str_limit($item->$field, 40) }}</td>
                                         @endif
                                     @endforeach
                                     <td class="text-xs-right text-nowrap">

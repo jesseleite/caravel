@@ -9,6 +9,7 @@ class Field
     public $type;
     public $typeParams = null;
     public $listable = true;
+    public $listAccessor = null;
     public $required = false;
     public $help = null;
     public $modifiers = null;
@@ -49,6 +50,11 @@ class Field
         }
 
         $this->typeParams = $params;
+    }
+
+    public function setListAccessor($accessor)
+    {
+        $this->listAccessor = $accessor;
     }
 
     public function setUnlisted()
@@ -152,6 +158,12 @@ class Field
             if (str_contains($modifier, 'type:')) {
                 $type = explode(':', $modifier);
                 $this->setType($type[1]);
+            }
+
+            // If list modifier provided, set on object.
+            elseif (str_contains($modifier, 'list:')) {
+                $accessor = explode(':', $modifier);
+                $this->setListAccessor($accessor[1]);
             }
 
             // If unlist modifier provided, set on object.
