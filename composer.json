@@ -11,7 +11,8 @@
     "require": {
         "php": ">=5.5.0",
         "adamwathan/bootforms": "^0.8.0",
-        "doctrine/dbal": "^2.5"
+        "doctrine/dbal": "^2.5",
+        "league/commonmark": "^0.13.0"
     },
     "require-dev": {
         "illuminate/support": "4.*",
