@@ -18,8 +18,7 @@
     </div>
 </div>
 
-@section('scripts')
-    @parent
+@push('scripts')
     <script>
         $(document).ready(function() {
             $('a[data-target="#modal-delete"]').click(function(e) {
@@ -28,4 +27,4 @@
             });
         });
     </script>
-@endsection
+@endpush
