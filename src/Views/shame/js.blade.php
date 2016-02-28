@@ -8,5 +8,8 @@
             $('select').css('height', inputHeight);
         }
 
+        // Autofocus first form input.
+        $('form :input:visible:enabled:not([readonly]):first').focus();
+
     });
 </script>
