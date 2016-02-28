@@ -56,24 +56,14 @@ class Routes
     }
 
     /**
-     * Register conventional REST resource routes only.
+     * Register all conventional REST resource routes only.
      *
      * @return void
      */
     public static function restfulResources()
     {
         foreach (config('caravel.resources') as $resource => $model) {
-            Route::resource($resource, '\ThisVessel\Caravel\Controllers\ResourceController', [
-                'names' => [
-                    'index'   => $resource . '.index',
-                    'create'  => $resource . '.create',
-                    'store'   => $resource . '.store',
-                    'show'    => $resource . '.show',
-                    'edit'    => $resource . '.edit',
-                    'update'  => $resource . '.update',
-                    'destroy' => $resource . '.destroy',
-                ],
-            ]);
+            static::resource($resource, '\ThisVessel\Caravel\Controllers\ResourceController');
         }
     }
 
@@ -90,5 +80,38 @@ class Routes
                 'uses' => '\ThisVessel\Caravel\Controllers\ResourceController@restore',
             ]);
         }
+    }
+
+    /**
+     * Register custom REST resource routes.
+     *
+     * @param  string  $resource
+     * @param  string  $controller
+     * @return void
+     */
+    public static function resource($resource, $controller)
+    {
+        Route::resource($resource, $controller, [
+            'names' => static::resourceNames($resource),
+        ]);
+    }
+
+    /**
+     * Fix resource names to ignore caravel prefix.
+     *
+     * @param  string  $resource
+     * @return array
+     */
+    protected static function resourceNames($resource)
+    {
+        return [
+            'index'   => $resource . '.index',
+            'create'  => $resource . '.create',
+            'store'   => $resource . '.store',
+            'show'    => $resource . '.show',
+            'edit'    => $resource . '.edit',
+            'update'  => $resource . '.update',
+            'destroy' => $resource . '.destroy',
+        ];
     }
 }
