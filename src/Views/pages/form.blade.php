@@ -12,7 +12,7 @@
         <div class="col-md-12">
             {!! $bootForm->open()->action($action)->multipart()->addClass('caravel-form') !!}
                 @if ($model->getKey())
-                    {!! $bootForm->bind($model) !!}
+                    {!! $bootForm->bind($bindable) !!}
                     {!! $bootForm->hidden('_method')->value('PUT') !!}
                 @endif
                 @include('caravel::forms.' . $formPartial)

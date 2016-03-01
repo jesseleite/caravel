@@ -4,6 +4,8 @@ namespace ThisVessel\Caravel;
 
 use ThisVessel\Caravel\Traits\DbalFieldTypes;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Resource
 {
@@ -14,6 +16,7 @@ class Resource
     public $newInstance;
     public $orderBy;
     public $fields;
+    public $relations;
     public $rules;
     public $query;
     public $softDeletes;
@@ -27,6 +30,7 @@ class Resource
         $this->checkFillable();
         $this->setOrderBy();
         $this->setFields();
+        $this->setRelations();
         $this->setRules();
         $this->setSoftDeletes();
         $this->setQueryBuilder();
@@ -73,7 +77,18 @@ class Resource
         }
     }
 
-    public function setSoftDeletes()
+    protected function setRelations()
+    {
+        $this->relations = [];
+
+        foreach ($this->fields as $field) {
+            if ($field->relation) {
+                $this->relations[$field->name] = $field->relation;
+            }
+        }
+    }
+
+    protected function setSoftDeletes()
     {
         if (method_exists($this->newInstance, 'getDeletedAtColumn')) {
             return $this->softDeletes = $this->newInstance->getDeletedAtColumn();
@@ -82,7 +97,7 @@ class Resource
         return false;
     }
 
-    public function setFormPartial()
+    protected function setFormPartial()
     {
         if (isset($this->newInstance->caravel['form'])) {
             return $this->formPartial = $this->newInstance->caravel['form'];
@@ -91,7 +106,7 @@ class Resource
         $this->formPartial = 'default';
     }
 
-    public function checkFillable()
+    protected function checkFillable()
     {
         if (empty($this->newInstance->getFillable())) {
             return abort(403, 'Caravel requires fillable fields on model.');
@@ -120,7 +135,7 @@ class Resource
         }
     }
 
-    public function setQueryBuilder()
+    protected function setQueryBuilder()
     {
         $model = $this->newInstance;
         $this->query = $model::query();
@@ -158,6 +173,52 @@ class Resource
         }
 
         return $this->query = $query->withTrashed()->orderByRaw($orderByDeletedFirst);
+    }
+
+    public function bindable($model)
+    {
+        foreach ($this->relations as $field => $relation) {
+            if ($model->{$relation}() instanceof BelongsTo) {
+                $bindable[$field] = $model->{$relation}->{$model->getKeyName()};
+            } elseif ($model->{$relation}() instanceof BelongsToMany) {
+                $bindable[$field] = $model->{$relation}->pluck($model->getKeyName())->toArray();
+            }
+        }
+
+        return isset($bindable) ? array_merge($model->getAttributes(), $bindable) : $model;
+    }
+
+    public function createWithRelations($request)
+    {
+        return $this->saveWithRelations($request, $this->newInstance);
+    }
+
+    public function updateWithRelations($request, $model)
+    {
+        return $this->saveWithRelations($request, $model);
+    }
+
+    protected function saveWithRelations($request, $model)
+    {
+        $relations = $this->relations;
+
+        $model->fill($request->except(array_keys($relations)));
+
+        foreach ($relations as $field => $relation) {
+            if ($model->{$relation}() instanceof BelongsTo) {
+                $model->{$relation}()->associate($request->get($field, null));
+            }
+        }
+
+        $model->save();
+
+        foreach ($relations as $field => $relation) {
+            if ($model->{$relation}() instanceof BelongsToMany) {
+                $model->{$relation}()->sync($request->get($field, []));
+            }
+        }
+
+        return $model;
     }
 
     /**

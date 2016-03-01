@@ -71,6 +71,7 @@ class ResourceController extends Controller
         $data = array_merge($this->resource->commonViewData(), [
             'action' => route('caravel::' . $this->resource->name . '.store'),
             'model' => $this->resource->newInstance,
+            'bindable' => $this->resource->newInstance,
         ]);
 
         return view('caravel::pages.form', $data);
@@ -84,9 +85,9 @@ class ResourceController extends Controller
      */
     public function store(ResourceRequest $request)
     {
-        $model = $this->resource->className;
+        Drawbridge::authorize('create', $this->resource->newInstance);
 
-        $model::create($request->all());
+        $this->resource->createWithRelations($request);
 
         session()->flash('success', ucfirst(str_singular($this->resource->name)) . ' was created successfully!');
 
@@ -119,6 +120,7 @@ class ResourceController extends Controller
         $data = array_merge($this->resource->commonViewData(), [
             'action' => route('caravel::' . $this->resource->name . '.update', $model),
             'model' => $model,
+            'bindable' => $this->resource->bindable($model),
         ]);
 
         return view('caravel::pages.form', $data);
@@ -135,7 +137,9 @@ class ResourceController extends Controller
     {
         $model = $this->resource->find($id);
 
-        $model->update($request->all());
+        Drawbridge::authorize('update', $model);
+
+        $this->resource->updateWithRelations($request, $model);
 
         session()->flash('success', ucfirst(str_singular($this->resource->name)) . ' was updated successfully!');
 

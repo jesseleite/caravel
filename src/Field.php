@@ -14,6 +14,7 @@ class Field
     public $help = null;
     public $modifiers = null;
     public $rules = null;
+    public $relation = false;
     protected $options = null;
 
     public function __construct($name, $dbalType, $options = null)
@@ -83,6 +84,19 @@ class Field
         }
     }
 
+    public function setRelation($relation)
+    {
+        $exploded = explode(',', $relation);
+        $relation = $exploded[0];
+        $accessor = isset($exploded[1]) ? $exploded[1] : false;
+
+        $this->relation = $relation;
+
+        if (! $this->listAccessor && $accessor) {
+            $this->setListAccessor($accessor);
+        }
+    }
+
     public function listable()
     {
         return $this->listable;
@@ -116,6 +130,10 @@ class Field
         if (isset($options['rules'])) {
             $this->setRules($options['rules']);
         }
+
+        if (isset($options['relation'])) {
+            $this->setRelation($options['relation']);
+        }
     }
 
     public function separateModifiersFromValidationRules($options)
@@ -129,6 +147,16 @@ class Field
 
             // If type modifier provided, set on object.
             if (str_contains($option, 'type:')) {
+                $modifiers[] = $option;
+            }
+
+            // If type modifier provided, set on object.
+            elseif (str_contains($option, 'list:')) {
+                $modifiers[] = $option;
+            }
+
+            // If type modifier provided, set on object.
+            elseif (str_contains($option, 'relation:')) {
                 $modifiers[] = $option;
             }
 
@@ -164,6 +192,12 @@ class Field
             elseif (str_contains($modifier, 'list:')) {
                 $accessor = explode(':', $modifier);
                 $this->setListAccessor($accessor[1]);
+            }
+
+            // If list modifier provided, set on object.
+            elseif (str_contains($modifier, 'relation:')) {
+                $relation = explode(':', $modifier);
+                $this->setRelation($relation[1]);
             }
 
             // If unlist modifier provided, set on object.
