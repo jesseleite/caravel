@@ -14,6 +14,7 @@ class Resource
     public $name;
     public $className;
     public $newInstance;
+    public $fillable;
     public $orderBy;
     public $fields;
     public $relations;
@@ -27,7 +28,7 @@ class Resource
         $this->setName($resource);
         $this->setClassName();
         $this->setNewInstance();
-        $this->checkFillable();
+        $this->setFillable();
         $this->setOrderBy();
         $this->setFields();
         $this->setRelations();
@@ -50,6 +51,15 @@ class Resource
     protected function setNewInstance()
     {
         $this->newInstance = new $this->className;
+    }
+
+    protected function setFillable()
+    {
+        $forget = ['form', 'orderBy'];
+        $fillable = array_values(array_diff(array_keys($this->newInstance->caravel), $forget));
+        $this->fillable = $fillable;
+
+        $this->newInstance->fillable($fillable);
     }
 
     protected function setOrderBy()
@@ -202,6 +212,7 @@ class Resource
     {
         $relations = $this->relations;
 
+        $model->fillable($this->fillable);
         $model->fill($request->except(array_keys($relations)));
 
         foreach ($relations as $field => $relation) {
