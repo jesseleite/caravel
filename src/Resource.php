@@ -56,7 +56,13 @@ class Resource
     protected function setFillable()
     {
         $forget = ['form', 'orderBy'];
-        $fillable = array_values(array_diff(array_keys($this->newInstance->caravel), $forget));
+        $caravel = $this->newInstance->caravel ? $this->newInstance->caravel : [];
+        $fillable = array_values(array_diff(array_keys($caravel), $forget));
+
+        if (empty($fillable)) {
+            return abort(403, 'Fillable fields required in model\'s $caravel config.');
+        }
+
         $this->fillable = $fillable;
 
         $this->newInstance->fillable($fillable);
@@ -114,13 +120,6 @@ class Resource
         }
 
         $this->formPartial = 'default';
-    }
-
-    protected function checkFillable()
-    {
-        if (empty($this->newInstance->getFillable())) {
-            return abort(403, 'Caravel requires fillable fields on model.');
-        }
     }
 
     public function commonViewData()
