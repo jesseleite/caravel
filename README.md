@@ -84,7 +84,7 @@ class Author extends Model
 
 Your model's `$caravel` property allows you to define fillable fields, field modifiers, validation rules, etc. for the purpose of creating and updating in Caravel.  You are not required to set the `$fillable` property for the purpose of Caravel.  There are two ways to approach configuring a field:
 
-1. Shorthand string configuration, which allows you to quickly specify field type (eg. `type:simplemde`), field modifiers (eg. `unlist`), as well as [Laravel Validation](https://laravel.com/docs/validation#available-validation-rules) rules.  Using pipe `|` separators for specifying multiple modifiers.
+1. Shorthand string configuration, which allows you to quickly specify field type (eg. `type:simplemde`), field modifiers (eg. `unlist`), as well as [Laravel Validation](https://laravel.com/docs/validation#available-validation-rules) rules.  Specify multiple modifiers and/or rules using pipe `|` separators.
 
 2. Nested array configuration, which allows you to nest array elements for `type`, `modifiers`, `rules`, `label`, `help`, and `relation`.
 
