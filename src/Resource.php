@@ -2,6 +2,7 @@
 
 namespace ThisVessel\Caravel;
 
+use Schema;
 use ThisVessel\Caravel\Traits\DbalFieldTypes;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -74,7 +75,7 @@ class Resource
             return $this->orderBy = $this->newInstance->caravel['orderBy'];
         }
 
-        if (isset($this->newInstance->updated_at)) {
+        if (Schema::hasColumn($this->newInstance->getTable(), $this->newInstance->getUpdatedAtColumn())) {
             return $this->orderBy = 'updated_at desc';
         }
 
