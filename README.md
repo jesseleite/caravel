@@ -65,20 +65,7 @@ Field configuration happens in your Eloquent Model.
 class Author extends Model
 {
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'username',
-        'password',
-        'biography',
-        'hometown',
-        'country',
-    ];
-
-    /**
-     * Caravel CMS configuration.
+     * Caravel configuration.
      *
      * @var array
      */
@@ -95,13 +82,11 @@ class Author extends Model
     ];
 ```
 
-Your model's `$fillable` property is very important as it tells Caravel which fields need form input rendering.
+Your model's `$caravel` property allows you to define fillable fields, field modifiers, validation rules, etc. for the purpose of creating and updating in Caravel.  You are not required to set the `$fillable` property for the purpose of Caravel.  There are two ways to approach configuring a field:
 
-The public `$caravel` property contains field modifiers and validation rules.  These are optional, and there are two ways to approach such configuration on a field:
+1. Shorthand string configuration, which allows you to quickly specify field type (eg. `type:simplemde`), field modifiers (eg. `unlist`), as well as [Laravel Validation](https://laravel.com/docs/validation#available-validation-rules) rules.  Using pipe `|` separators for specifying multiple modifiers.
 
-1. Shorthand string, which allows you to quickly specify field type (eg. `type:simplemde`), field modifiers (eg. `unlist`), as well as Laravel validation rules.  Using pipe `|` separators for specifying multiple modifiers.
-
-2. More advanced configuration requires nesting array elements for `type`, `modifiers`, `rules`, `label` and `help`.
+2. Nested array configuration, which allows you to nest array elements for `type`, `modifiers`, `rules`, `label`, `help`, and `relation`.
 
 ## Available Field Types
 
