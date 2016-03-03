@@ -3,14 +3,14 @@
 namespace ThisVessel\Caravel;
 
 use Schema;
-use ThisVessel\Caravel\Traits\DbalFieldTypes;
+use ThisVessel\Caravel\Traits\DbalHelpers;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Resource
 {
-    use DbalFieldTypes;
+    use DbalHelpers;
 
     public $name;
     public $className;
@@ -89,8 +89,9 @@ class Resource
 
         foreach ($model->getFillable() as $name) {
             $type = isset($types[$name]) ? $types[$name] : $this->getDbalTypeInstance('string');
+            $nullable = $this->getNullable($model, $name);
             $options = isset($model->caravel[$name]) ? $model->caravel[$name] : null;
-            $this->fields[$name] = new Field($name, $type, $options);
+            $this->fields[$name] = new Field($name, $type, $nullable, $options);
         }
     }
 

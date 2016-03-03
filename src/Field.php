@@ -8,6 +8,7 @@ class Field
     public $label;
     public $type;
     public $typeParams = null;
+    public $nullable = false;
     public $listable = true;
     public $listAccessor = null;
     public $required = false;
@@ -17,10 +18,11 @@ class Field
     public $relation = false;
     protected $options = null;
 
-    public function __construct($name, $dbalType, $options = null)
+    public function __construct($name, $dbalType, $nullable, $options = null)
     {
         $this->setName($name);
         $this->setTypeFromDbal($dbalType);
+        $this->setNullable($nullable);
         $this->setOptions($options);
         $this->setEdgeCases();
         $this->setLabel();
@@ -109,6 +111,11 @@ class Field
         } else {
             $this->type = 'input';
         }
+    }
+
+    public function setNullable($nullable)
+    {
+        $this->nullable = $nullable;
     }
 
     public function setOptions($options)
