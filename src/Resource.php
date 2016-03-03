@@ -212,9 +212,11 @@ class Resource
     protected function saveWithRelations($request, $model)
     {
         $relations = $this->relations;
+        $input = $request->except(array_keys($relations));
+        $inputNullable = $this->mapNullable($input);
 
         $model->fillable($this->fillable);
-        $model->fill($request->except(array_keys($relations)));
+        $model->fill($inputNullable);
 
         foreach ($relations as $field => $relation) {
             if ($model->{$relation}() instanceof BelongsTo) {
@@ -231,6 +233,16 @@ class Resource
         }
 
         return $model;
+    }
+
+    protected function mapNullable($input)
+    {
+        $fields = $this->fields;
+
+        return collect($input)->map(function($value, $key) use ($fields) {
+            $nullable = isset($fields[$key]) ? $fields[$key]->nullable : false;
+            return $nullable && $value === '' ? null : $value;
+        })->toArray();
     }
 
     /**
