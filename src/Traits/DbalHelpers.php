@@ -47,6 +47,6 @@ trait DbalHelpers
         $schema = $model->getConnection()->getDoctrineSchemaManager($model->getTable());
         $columns = $schema->listTableColumns($model->getTable());
 
-        return ! $columns[$column]->getNotnull();
+        return isset($columns[$column]) ? ! $columns[$column]->getNotnull() : false;
     }
 }
