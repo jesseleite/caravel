@@ -3,6 +3,6 @@
              ->helpBlock($field->help) !!}
 
 @if (str_contains($field->rules, 'confirmed'))
-    {!! $bootForm->password("{$field->label} Confirmation", "{$field}_confirmation")
+    {!! $bootForm->password("Confirm {$field->label}", "{$field}_confirmation")
                  ->helpBlock($field->help) !!}
 @endif
