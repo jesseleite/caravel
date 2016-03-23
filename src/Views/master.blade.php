@@ -40,9 +40,9 @@
                     @if (config('caravel.auth.logout'))
                         <li class="nav-item">
                             @if (substr(config('caravel.auth.logout'), 0, 1) == '/')
-                                <a href="{{ config('caravel.auth.logout') }}" class="nav-link m-t-1 logout"><i class="fa fa-sign-out">&nbsp;&nbsp;Logout</i></a>
+                                <a href="{{ config('caravel.auth.logout') }}" class="nav-link m-t-1 logout"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a>
                             @else
-                                <a href="/{{ config('caravel.auth.logout') }}" class="nav-link m-t-1 logout"><i class="fa fa-sign-out">&nbsp;&nbsp;Logout</i></a>
+                                <a href="/{{ config('caravel.auth.logout') }}" class="nav-link m-t-1 logout"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a>
                             @endif
                         </li>
                     @endif
