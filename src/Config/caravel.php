@@ -8,8 +8,11 @@ return [
 
     'prefix' => 'caravel',
 
-    'logout' => null,
-
     'pagination' => 25,
+
+    'auth' => [
+        'login' => null,
+        'logout' => null,
+    ],
 
 ];
