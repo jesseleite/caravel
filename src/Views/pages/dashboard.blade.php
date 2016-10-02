@@ -21,7 +21,7 @@
             <div class="card card-block m-b-2">
                 <h3 class="card-title">Visitor Analytics</h3>
                 <p class="card-text"></p>
-                <button class="btn btn-secondary-outline">Coming soon!</a>
+                <button class="btn btn-outline-secondary">Coming soon!</a>
             </div>
         </div>
 

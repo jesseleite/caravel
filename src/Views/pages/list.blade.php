@@ -54,7 +54,7 @@
                                 @endforeach
                                 <th class="text-xs-right text-nowrap">
                                     @if ($drawbridge::allows('create', $newInstance))
-                                        <a href="{{ route('caravel::' . $resource . '.create') }}" class="btn btn-sm btn-primary-outline pull-right"><i class="fa fa-file-o"></i></a>
+                                        <a href="{{ route('caravel::' . $resource . '.create') }}" class="btn btn-outline-sm btn-primary pull-right"><i class="fa fa-file-o"></i></a>
                                     @endif
                                 </th>
                             </tr>
@@ -74,18 +74,18 @@
                                     <td class="text-xs-right text-nowrap">
                                         @unless ($drawbridge::allows('delete', $item) && $softDeletes && ! is_null($item->{$softDeletes}))
                                             @if ($drawbridge::allows('update', $item))
-                                                <a href="{{ route('caravel::' . $resource . '.edit', $item) }}" class="btn btn-warning-outline btn-sm" role="button">
+                                                <a href="{{ route('caravel::' . $resource . '.edit', $item) }}" class="btn btn-outline-warning btn-sm" role="button">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
                                             @endif
                                             @if ($drawbridge::allows('delete', $item))
-                                                <a href="{{ route('caravel::' . $resource . '.destroy', $item) }}" class="btn btn-danger-outline btn-sm" role="button" data-toggle="modal" data-target="#modal-delete">
+                                                <a href="{{ route('caravel::' . $resource . '.destroy', $item) }}" class="btn btn-outline-danger btn-sm" role="button" data-toggle="modal" data-target="#modal-delete">
                                                     <i class="fa fa-trash-o"></i>
                                                 </a>
                                             @endif
                                         @else
                                             {!! $form->open()->action(route('caravel::' . $resource . '.restore', $item))!!}
-                                                {!! $form->submit('<i class="fa fa-undo"></i>')->addClass('btn btn-danger-outline btn-sm') !!}
+                                                {!! $form->submit('<i class="fa fa-undo"></i>')->addClass('btn btn-outline-danger btn-sm') !!}
                                             {!! $form->close() !!}
                                         @endunless
                                     </td>
@@ -116,7 +116,7 @@
                 <div class="card card-block">
                     <h3 class="card-title">Nothing to see here!</h3>
                     <p class="card-text">Ready to get started?  It's easy!  Create your first {{ str_singular($resource) }} now...</p>
-                    <a href="{{ route('caravel::' . $resource . '.create') }}" class="btn btn-primary-outline"><i class="fa fa-file-o"></i> Create {{ ucfirst(str_singular($resource)) }}</a>
+                    <a href="{{ route('caravel::' . $resource . '.create') }}" class="btn btn-outline-primary"><i class="fa fa-file-o"></i> Create {{ ucfirst(str_singular($resource)) }}</a>
                 </div>
 
             @endif
