@@ -9,8 +9,7 @@
     </div>
 @endif
 
-@section('scripts')
-    @parent
+@push('scripts')
     <script>
         $(document).ready(function() {
             if ($('#success')) {
@@ -26,4 +25,4 @@
             }
         });
     </script>
-@endsection
+@endpush

@@ -2,6 +2,7 @@
 
 namespace ThisVessel\Caravel\Controllers;
 
+use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use ThisVessel\Caravel\Helpers\Drawbridge;
 use ThisVessel\Caravel\Traits\SetsResource;
@@ -34,14 +35,27 @@ class ResourceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         Drawbridge::authorize('manage', $this->resource->newInstance);
 
-        $model = $this->resource->className;
+        if ($this->resource->searchable() && $request->search) {
+            $this->resource->search($request->search);
+            $search = $request->search;
+            $getParams['search'] = $request->search;
+        }
 
-        $data = $this->resource->commonViewData();
-        $data['items'] = $model::all()->reverse();
+        if ($this->resource->softDeletes && $request->trash) {
+            $this->resource->trashed($request->trash);
+            $getParams['trash'] = $request->trash;
+        }
+
+        $data = array_merge($this->resource->commonViewData(), [
+            'items' => $this->resource->paginate(config('caravel.pagination')),
+            'searchable' => $this->resource->searchable(),
+            'search' => isset($search) ? $search : null,
+            'getParams' => isset($getParams) ? $getParams : [],
+        ]);
 
         return view('caravel::pages.list', $data);
     }
@@ -55,9 +69,11 @@ class ResourceController extends Controller
     {
         Drawbridge::authorize('create', $this->resource->newInstance);
 
-        $data = $this->resource->commonViewData();
-        $data['action'] = route('caravel::' . $this->resource->name . '.store');
-        $data['model']  = $this->resource->newInstance;
+        $data = array_merge($this->resource->commonViewData(), [
+            'action' => route('caravel::' . $this->resource->name . '.store'),
+            'model' => $this->resource->newInstance,
+            'bindable' => $this->resource->newInstance,
+        ]);
 
         return view('caravel::pages.form', $data);
     }
@@ -70,11 +86,11 @@ class ResourceController extends Controller
      */
     public function store(ResourceRequest $request)
     {
-        $model = $this->resource->className;
+        Drawbridge::authorize('create', $this->resource->newInstance);
 
         $data = $this->prepareInputData($request);
 
-        $created = $model::create($data);
+        $this->resource->createWithRelations($request);
 
         $this->uploadFiles($request, $created);
 
@@ -106,9 +122,11 @@ class ResourceController extends Controller
 
         Drawbridge::authorize('update', $model);
 
-        $data = $this->resource->commonViewData();
-        $data['action'] = route('caravel::' . $this->resource->name . '.update', $id);
-        $data['model']  = $model;
+        $data = array_merge($this->resource->commonViewData(), [
+            'action' => route('caravel::' . $this->resource->name . '.update', $model),
+            'model' => $model,
+            'bindable' => $this->resource->bindable($model),
+        ]);
 
         return view('caravel::pages.form', $data);
     }
@@ -124,9 +142,11 @@ class ResourceController extends Controller
     {
         $model = $this->resource->find($id);
 
+        Drawbridge::authorize('update', $model);
+
         $data = $this->prepareInputData($request);
 
-        $model->update($data);
+        $this->resource->updateWithRelations($request, $model);
 
         $this->uploadFiles($request, $model);
 
@@ -150,6 +170,27 @@ class ResourceController extends Controller
         $model->delete();
 
         session()->flash('success', ucfirst(str_singular($this->resource->name)) . ' was deleted successfully!');
+
+        return redirect()->route('caravel::' . $this->resource->name . '.index');
+    }
+
+    /**
+     * Restore the resource if soft deleted.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function restore($id)
+    {
+        if (! $this->resource->softDeletes) {
+            return abort(405, 'This resource does not allow soft deletes.');
+        }
+
+        $model = $this->resource->withTrashed()->find($id);
+
+        Drawbridge::authorize('delete', $model);
+
+        $model->restore();
 
         return redirect()->route('caravel::' . $this->resource->name . '.index');
     }

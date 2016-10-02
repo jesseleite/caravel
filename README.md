@@ -29,7 +29,7 @@ ThisVessel\Caravel\CaravelServiceProvider::class,
 
 ### 3. Publish Caravel's config file.
 ```
-php artisan vendor:publish -tag="caravel-config"
+php artisan vendor:publish --tag="caravel-config"
 ```
 
 ### 4. Add Eloquent Model mappings to resources array in /config/caravel.php.
@@ -45,25 +45,8 @@ php artisan vendor:publish -tag="caravel-config"
 // Caravel Route Group
 Route::group(['prefix' => config('caravel.prefix'), 'as' => 'caravel::'], function () {
 
-    // Caravel Root
-    Route::get(null, [
-        'as' => 'root',
-        'uses' => '\ThisVessel\Caravel\Controllers\DashboardController@redirect',
-    ]);
-
-    // Caravel Dashboard
-    Route::get('dashboard', [
-        'as' => 'dashboard',
-        'uses' => '\ThisVessel\Caravel\Controllers\DashboardController@index',
-    ]);
-
-    // Caravel Resources
-    foreach (config('caravel.resources') as $resource => $model) {
-        Route::resource($resource, '\ThisVessel\Caravel\Controllers\ResourceController', [
-            'names' => ThisVessel\Caravel\Helpers\Routing::resourceNamesWithoutPrefix($resource)
-        ]);
-    }
-
+    // Default Caravel Routes
+    ThisVessel\Caravel\Routes::default();
 });
 ```
 To inspect which routes are dynamically generated, run the following command from your project root.
@@ -82,20 +65,7 @@ Field configuration happens in your Eloquent Model.
 class Author extends Model
 {
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'username',
-        'password',
-        'biography',
-        'hometown',
-        'country',
-    ];
-
-    /**
-     * Caravel CMS configuration.
+     * Caravel configuration.
      *
      * @var array
      */
@@ -103,34 +73,60 @@ class Author extends Model
         'username' => 'required',
         'password' => 'type:password|required|min:8',
         'biography' => [
-            'type'  => 'simplemde',
-            'rules' => 'required|min:10',
-            'label' => 'Author Biography',
-            'help'  => 'Help block text goes here.',
+            'type'      => 'simplemde',
+            'modifiers' => 'unlist',
+            'rules'     => 'required|min:10',
+            'label'     => 'Author Biography',
+            'help'      => 'Help block text goes here.',
         ],
     ];
 ```
 
-Your model's `$fillable` property is very important as it tells Caravel which fields need form input rendering.
+Your model's `$caravel` property allows you to define fillable fields, field modifiers, validation rules, etc. for the purpose of creating and updating in Caravel.  You are not required to set the `$fillable` property for the purpose of Caravel.  There are two ways to approach configuring a field:
 
-The public `$caravel` property contains field modifiers and validation rules.  These are optional, and there are two ways to approach such configuration on a field:
+1. Shorthand string configuration, which allows you to quickly specify field type (eg. `type:simplemde`), field modifiers (eg. `unlist`), as well as [Laravel Validation](https://laravel.com/docs/validation#available-validation-rules) rules.  Specify multiple modifiers and/or rules using pipe `|` separators.
 
-1. Shorthand string, which allows you to quickly specify field type (eg. `type:simplemde`), as well as Laravel validation rules.  Using pipe `|` separators for specifying multiple modifiers.
-
-2. More advanced configuration requires nesting array elements for `type`, `rules`, `label` and `help`.
+2. Nested array configuration, which allows you to nest array elements for `type`, `modifiers`, `rules`, `label`, `help`, and `relation`.
 
 ## Available Field Types
 
 The following field types are included with Caravel:
 
-| Field Type | Description      |
-| ---------- | ---------------- |
-| input      | Basic text input |
-| textarea   | Basic textarea   |
-| simplemde  | [Simplemde markdown editor](https://github.com/NextStepWebs/simplemde-markdown-editor) |
-| file       | Basic file input (*Currently requires external upload handling) |
+| Field Type      | Description                  |
+| --------------- | ---------------------------- |
+| input           | Basic text input             |
+| textarea        | Basic textarea               |
+| simplemde       | [Simplemde markdown editor](https://github.com/NextStepWebs/simplemde-markdown-editor) |
+| password        | Basic password input         |
+| select          | Basic select dropdown *      |
+| select-multiple | Basic multiple select *      |
+| radio           | Basic radio input group *    |
+| checkbox        | Basic checkbox input group * |
+| file            | Basic file input **          |
 
-...more to come very soon! (ie. checkboxes, radios, dropdowns, etc.)
+#### *Note on select, radio, and checkbox field types...
+When using select, radio, or checkbox types, you may pass a reference to an [Eloquent Accessor](https://laravel.com/docs/eloquent-mutators#accessors-and-mutators) method for specifying available options. Example:
+```php
+'published' => 'type:radio,publishedOptions'
+```
+The second parameter in the above example is a reference to the publishedOptions accessor, which you can define on your model and use to dynamically generate radio options for your field:
+```php
+public function getPublishedOptionsAttribute()
+{
+    return [
+        1 => 'Published',
+        0 => 'Hidden',
+    ];
+}
+```
+This will generate a pair of radio options with binary boolean values:
+```html
+<label><input type="radio" name="published" value="1"> Published</label>
+<label><input type="radio" name="published" value="0"> Hidden</label>
+```
+
+#### **Note on file input field type...
+File upload handling not currently provided by Caravel. It is recommended that you leverage [Eloquent Mutators](https://laravel.com/docs/eloquent-mutators#accessors-and-mutators) to handle your file uploads.  Mutators open a wealth of possibilities.  For example, you could [handle your file upload](https://laravel.com/docs/requests#files) directly within that field's mutator, or you could pass the file object to an external service class to handle the upload. Examples and helpers to come soon.
 
 ## Add Field Types
 
@@ -174,11 +170,11 @@ If your authentication system is compatible with Laravel's [Authorization](http:
 
 Caravel uses this mapping to create the following ability and policy checks:
 
-| Ability Definitions | Policy Methods | Behaviour                          |
-| ------------------- | -------------- | ---------------------------------- |
-| manage-posts        | manage()       | Can posts be shown in user's menu? |
-| create-posts        | create()       | Can posts be created by user?      |
-| update-post         | update()       | Can post be updated by user?       |
-| delete-post         | delete()       | Can post be deleted by user?       |
+| Ability Definitions | Policy Methods | Behaviour                      |
+| ------------------- | -------------- | ------------------------------ |
+| manage-posts        | manage()       | Can user see posts in sidebar? |
+| create-posts        | create()       | Can user create a post?        |
+| update-post         | update()       | Can user update a post?        |
+| delete-post         | delete()       | Can user delete a post?        |
 
 If you define abilities or policy methods using the above naming conventions, Caravel will use your authorization logic where applicable.  Otherwise, Caravel skips the authorization check and gives the user full access.

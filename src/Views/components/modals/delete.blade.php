@@ -1,5 +1,5 @@
 <!-- Delete Modal -->
-<div class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+<div id="modal-delete" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,25 +9,22 @@
                 <p class="m-b-0">Are you sure you would like to delete this resource?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <form id="confirm-delete" method="post">
-                    {{ csrf_field() }}
-                    <input type="hidden" name="_method" value="DELETE">
-                    <button type="submit" class="btn btn-danger">Confirm</button>
-                </form>
+                {!! BootForm::open()->delete() !!}
+                    {!! BootForm::button('Cancel')->addClass('btn-secondary')->attribute('data-dismiss', 'modal') !!}
+                    {!! BootForm::submit('Confirm')->addClass('btn-danger') !!}
+                {!! BootForm::close() !!}
             </div>
         </div>
     </div>
 </div>
 
-@section('scripts')
-    @parent
+@push('scripts')
     <script>
         $(document).ready(function() {
-            $('.delete').click(function(e) {
+            $('a[data-target="#modal-delete"]').click(function(e) {
                 e.preventDefault();
-                $('form#confirm-delete').attr('action', this.href);
+                $('#modal-delete form').attr('action', this.href);
             });
         });
     </script>
-@endsection
+@endpush

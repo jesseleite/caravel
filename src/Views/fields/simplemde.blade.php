@@ -2,13 +2,11 @@
 {!! $bootForm->textarea($field->label, $field)
              ->helpBlock($field->help) !!}
 
-@section('stylesheets')
-    @parent
+@push('stylesheets')
     <link rel="stylesheet" href="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
-@endsection
+@endpush
 
-@section('scripts')
-    @parent
+@push('scripts')
     <script src="//cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
     <script>
         var simplemde = new SimpleMDE({
@@ -36,4 +34,4 @@
             $('.has-error .editor-toolbar').children().css('opacity', originalToolbarOpacity);
         });
     </script>
-@endsection
+@endpush

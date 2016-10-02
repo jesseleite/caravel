@@ -5,11 +5,10 @@
     <title>Caravel Admin - @yield('title')</title>
 
     <!-- Stylesheets -->
-    @section('stylesheets')
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-        @include('caravel::shame.css')
-    @show
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    @include('caravel::shame.css')
+    @stack('stylesheets')
 
 </head>
 <body>
@@ -38,12 +37,12 @@
                             </li>
                         @endif
                     @endforeach
-                    @if (config('caravel.logout'))
+                    @if (config('caravel.auth.logout'))
                         <li class="nav-item">
-                            @if (substr(config('caravel.logout'), 0, 1) == '/')
-                                <a href="{{ config('caravel.logout') }}" class="nav-link m-t-1 logout"><i class="fa fa-sign-out">&nbsp;&nbsp;Logout</i></a>
+                            @if (substr(config('caravel.auth.logout'), 0, 1) == '/')
+                                <a href="{{ config('caravel.auth.logout') }}" class="nav-link m-t-1 logout"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a>
                             @else
-                                <a href="/{{ config('caravel.logout') }}" class="nav-link m-t-1 logout"><i class="fa fa-sign-out">&nbsp;&nbsp;Logout</i></a>
+                                <a href="/{{ config('caravel.auth.logout') }}" class="nav-link m-t-1 logout"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;Logout</a>
                             @endif
                         </li>
                     @endif
@@ -59,10 +58,10 @@
     </div>
 
     <!-- Scripts -->
-    @section('scripts')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
-    @show
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js"></script>
+    @include('caravel::shame.js')
+    @stack('scripts')
 
 </body>
 </html>

@@ -18,7 +18,7 @@
             <h1 class="display-4">Caravel Admin</h1>
             <p class="lead">Powered by This Vessel</p>
             @inject('bootForm', 'bootform')
-            {!! $bootForm->open()->action('/auth/login') !!}
+            {!! $bootForm->open()->action(config('caravel.auth.login')) !!}
                 {!! $bootForm->email('Email', 'email')->autofocus() !!}
                 {!! $bootForm->password('Password', 'password') !!}
                 {!! $bootForm->submit('Login')->addClass('btn-primary m-t-1') !!}

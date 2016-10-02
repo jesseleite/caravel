@@ -2,6 +2,7 @@
 
 namespace ThisVessel\Caravel;
 
+use Blade;
 use Illuminate\Support\ServiceProvider;
 use AdamWathan\BootForms\BootFormsServiceProvider;
 
@@ -38,6 +39,11 @@ class CaravelServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/Views/fields' => base_path('resources/views/vendor/caravel/fields'),
         ], 'caravel-fields');
+
+        Blade::directive('field', function($expression) {
+            $fieldName = substr($expression, 0, 1) == '(' ? substr($expression, 1, -1) : $expression;
+            return "<?php echo \$__env->make('caravel::fields.' . \$fields[$fieldName]->type, ['field' => \$fields[$fieldName]], array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>";
+        });
     }
 
     /**

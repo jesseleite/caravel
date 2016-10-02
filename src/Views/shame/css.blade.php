@@ -19,18 +19,8 @@
     .version {
         color: #ccc;
     }
-    th.actions,
-    td.actions {
-        text-align: right;
-    }
-    td.actions > a {
-        /*margin-bottom: 7px; Fix this when collapsed for small screens. */
-    }
     .help-block {
         color: #ccc;
-    }
-    #confirm-delete {
-        display: inline-block;
     }
     input[type=file] {
         display: block;
@@ -45,5 +35,17 @@
     .has-error textarea,
     .has-error input:focus {
         border-color: rgb(217, 83, 79) !important;
+    }
+    .pagination {
+        margin: 0;
+    }
+    .list-toolbar {
+        padding: 0.5rem .75rem;
+    }
+    .list-toolbar input, button, a.btn {
+        padding: 0.5rem .75rem !important;
+    }
+    .list-toolbar a.btn-close {
+        color: #d9534f;
     }
 </style>

@@ -11,13 +11,11 @@
     <div class="row">
         <div class="col-md-12">
             {!! $bootForm->open()->action($action)->multipart()->addClass('caravel-form') !!}
-                @if (isset($model->id))
-                    {!! $bootForm->bind($model) !!}
+                @if ($model->getKey())
+                    {!! $bootForm->bind($bindable) !!}
                     {!! $bootForm->hidden('_method')->value('PUT') !!}
                 @endif
-                @foreach ($fields as $field)
-                    @include('caravel::fields.' . $field->type, ['field' => $field])
-                @endforeach
+                @include('caravel::forms.' . $formPartial)
                 {!! $bootForm->submit('Save')->addClass('btn-primary m-t-1') !!}
             {!! $bootForm->close() !!}
         </div>
