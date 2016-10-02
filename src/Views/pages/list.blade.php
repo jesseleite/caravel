@@ -54,7 +54,7 @@
                                 @endforeach
                                 <th class="text-xs-right text-nowrap">
                                     @if ($drawbridge::allows('create', $newInstance))
-                                        <a href="{{ route('caravel::' . $resource . '.create') }}" class="btn btn-outline-sm btn-primary pull-right"><i class="fa fa-file-o"></i></a>
+                                        <a href="{{ route('caravel::' . $resource . '.create') }}" class="btn btn-outline-primary btn-sm pull-right"><i class="fa fa-file-o"></i></a>
                                     @endif
                                 </th>
                             </tr>
