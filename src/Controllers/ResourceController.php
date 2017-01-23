@@ -90,7 +90,7 @@ class ResourceController extends Controller
 
         $data = $this->prepareInputData($request);
 
-        $this->resource->createWithRelations($request);
+        $created = $this->resource->createWithRelations($request);
 
         $this->uploadFiles($request, $created);
 
