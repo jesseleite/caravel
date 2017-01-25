@@ -1,10 +1,8 @@
 # Caravel
 
-**DISCLAIMER: This is a work in progress! Use at your own risk! When I am mostly happy with implementation, I will tag a version. Suggestions welcome :)**
+**DISCLAIMER: This is a work in progress! Use at your own risk!**
 
-A lightweight CMS built on Laravel.  Yes, another CMS :/
-
-The goal of this CMS is to be super light and easy to implement, while giving you full control of Laravel's toolset.  It can be added to an existing Laravel app, or installed into a fresh Laravel installation for standalone use.  It hooks into your Eloquent Models and automatically generates resourceful routes and views for basic CRUD management.  Bring your own authentication, view customizations, field types, etc.  [View a quick demo here.](http://recordit.co/hxPb7nh3RD)
+A lightweight CRUD layer built on Laravel, for when a CMS is overkill.  Great for prototyping, but highly extendable.  It hooks into your Eloquent Models and automatically generates restful resource routes and views for basic CRUD management.  Bring your own authentication, view customizations, field types, etc.  [View a quick demo here.](http://recordit.co/hxPb7nh3RD)
 
 - [Installation](#installation)
 - [Field Configuration](#field-configuration)
@@ -55,7 +53,7 @@ php artisan route:list
 ```
 If you are configuring Caravel as a standalone installation, or you are routing through a subdomain, you might prefer setting a custom route `prefix` in `/config/caravel.php`.  Can be set `null`.
 
-*That's it!  You now have a basic working CMS.*
+*That's it!  You now have a functional CRUD layer.*
 
 ## Field Configuration
 
