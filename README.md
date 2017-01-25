@@ -75,6 +75,7 @@ class Author extends Model
             'modifiers' => 'unlist',
             'rules'     => 'required|min:10',
             'label'     => 'Author Biography',
+            'default'   => 'I am a default value.',
             'help'      => 'Help block text goes here.',
         ],
     ];
@@ -84,7 +85,7 @@ Your model's `$caravel` property allows you to define fillable fields, field mod
 
 1. Shorthand string configuration, which allows you to quickly specify field type (eg. `type:simplemde`), field modifiers (eg. `unlist`), as well as [Laravel Validation](https://laravel.com/docs/validation#available-validation-rules) rules.  Specify multiple modifiers and/or rules using pipe `|` separators.
 
-2. Nested array configuration, which allows you to nest array elements for `type`, `modifiers`, `rules`, `label`, `help`, and `relation`.
+2. Nested array configuration, which allows you to nest array elements for `type`, `modifiers`, `rules`, `label`, `default`, `help`, and `relation`.
 
 ## Available Field Types
 

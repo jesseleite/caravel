@@ -12,6 +12,7 @@ class Field
     public $listable = true;
     public $listAccessor = null;
     public $required = false;
+    public $default = null;
     public $help = null;
     public $modifiers = null;
     public $rules = null;
@@ -26,6 +27,7 @@ class Field
         $this->setOptions($options);
         $this->setEdgeCases();
         $this->setLabel();
+        $this->setDefault();
         $this->setHelp();
     }
 
@@ -76,6 +78,13 @@ class Field
             $this->label = $this->options['label'];
         } else {
             $this->label = ucwords(str_replace('_', ' ', $this->name));
+        }
+    }
+
+    public function setDefault()
+    {
+        if (isset($this->options['default'])) {
+            $this->default = $this->options['default'];
         }
     }
 

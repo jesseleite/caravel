@@ -12,9 +12,9 @@
         <div class="col-md-12">
             {!! $bootForm->open()->action($action)->multipart()->addClass('caravel-form') !!}
                 @if ($model->getKey())
-                    {!! $bootForm->bind($bindable) !!}
                     {!! $bootForm->hidden('_method')->value('PUT') !!}
                 @endif
+                {!! $bootForm->bind($bindable) !!}
                 @include('caravel::forms.' . $formPartial)
                 {!! $bootForm->submit('Save')->addClass('btn-primary m-t-1') !!}
             {!! $bootForm->close() !!}

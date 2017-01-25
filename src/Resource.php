@@ -186,17 +186,29 @@ class Resource
         return $this->query = $query->withTrashed()->orderByRaw($orderByDeletedFirst);
     }
 
-    public function bindable($model)
+    public function bindable($model = null)
     {
+        if (! $model) {
+            $model = $this->newInstance;
+        }
+
         foreach ($this->relations as $field => $relation) {
             if ($model->{$relation}() instanceof BelongsTo) {
-                $bindable[$field] = $model->{$relation}->{$model->getKeyName()};
+                $bindable[$field->name] = $model->{$relation}->{$model->getKeyName()};
             } elseif ($model->{$relation}() instanceof BelongsToMany) {
-                $bindable[$field] = $model->{$relation}->pluck($model->getKeyName())->toArray();
+                $bindable[$field->name] = $model->{$relation}->pluck($model->getKeyName())->toArray();
             }
         }
 
-        return isset($bindable) ? array_merge($model->getAttributes(), $bindable) : $model;
+        foreach ($this->fields as $field) {
+            if (! $model->getKey() && $field->default) {
+                $bindable[$field->name] = $field->default;
+            }
+        }
+
+        return isset($bindable)
+            ? array_merge($model->getAttributes(), $bindable)
+            : $model->getAttributes();
     }
 
     public function createWithRelations($request)

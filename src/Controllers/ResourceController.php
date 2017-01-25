@@ -71,7 +71,7 @@ class ResourceController extends Controller
         $data = array_merge($this->resource->commonViewData(), [
             'action' => route('caravel::' . $this->resource->name . '.store'),
             'model' => $this->resource->newInstance,
-            'bindable' => $this->resource->newInstance,
+            'bindable' => $this->resource->bindable(),
         ]);
 
         return view('caravel::pages.form', $data);
