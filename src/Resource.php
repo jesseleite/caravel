@@ -192,11 +192,11 @@ class Resource
             $model = $this->newInstance;
         }
 
-        foreach ($this->relations as $field => $relation) {
+        foreach ($this->relations as $fieldName => $relation) {
             if ($model->{$relation}() instanceof BelongsTo) {
-                $bindable[$field->name] = $model->{$relation}->{$model->getKeyName()};
+                $bindable[$fieldName] = $model->{$relation}->{$model->getKeyName()};
             } elseif ($model->{$relation}() instanceof BelongsToMany) {
-                $bindable[$field->name] = $model->{$relation}->pluck($model->getKeyName())->toArray();
+                $bindable[$fieldName] = $model->{$relation}->pluck($model->getKeyName())->toArray();
             }
         }
 
